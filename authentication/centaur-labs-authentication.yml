@@ -1,0 +1,36 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.centaurlabs.com/reference/security + OpenAPI securitySchemes embedded in docs.centaurlabs.com/reference/*
+api: Centaur Public API
+docs: https://docs.centaurlabs.com/reference/security
+server: https://api.centaurlabs.com
+summary: >-
+  The Centaur public API authenticates with an API Key sent in the X-API-KEY
+  header. Session-based endpoints additionally issue a short-lived bearer token
+  obtained by exchanging the API Key and API Password at the login endpoint.
+  Credentials (one API Key + one API Password per account) are generated in the
+  Centaur Portal under Organization Settings > API Integration.
+schemes:
+- id: APIKeyHeader
+  type: apiKey
+  in: header
+  name: X-API-KEY
+  description: Your Centaur API key, sent on every request.
+- id: BearerToken
+  type: http
+  scheme: bearer
+  description: >-
+    Bearer token obtained from the authentication endpoint
+    (POST /auth/public/v1/login) by supplying the API Key and API Password.
+    Tokens can be verified (POST /auth/public/v1/testToken), rotated
+    (POST /auth/public/v1/refreshToken) and revoked (POST /auth/public/v1/logout).
+credentials:
+- name: API Key
+  provisioning: Portal > Organization Settings > API Integration > Generate API Key
+  note: Displayed once; store securely.
+- name: API Password
+  provisioning: Portal > Organization Settings > API Integration > Generate New Password
+  note: One password per account; regenerating invalidates the previous one.
+oauth2: false
+openidconnect: false
+mutualtls: false
