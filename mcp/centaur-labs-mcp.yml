@@ -1,0 +1,101 @@
+generated: '2026-07-18'
+method: derived
+status: candidate
+source: >-
+  Derived from the Centaur public API operation catalog in
+  llms/centaur-labs-llms.txt (docs.centaurlabs.com/reference). No official
+  hosted/remote MCP server was found for Centaur Labs as of this date.
+api: Centaur Public API
+server: https://api.centaurlabs.com
+auth:
+  header: X-API-KEY
+  bearer: POST /auth/public/v1/login
+notes: >-
+  Candidate tool surface a Centaur MCP server could expose, mapped 1:1 to real
+  public API operationIds. Not an official Centaur product.
+tools:
+- name: list_projects
+  operationId: list_projects_projects_public_v1_list_get
+  method: get
+  path: /projects/public/v1/list
+  description: List available labeling projects, optionally filtered.
+- name: create_project
+  operationId: create_project_public_projects_public_v1_add_post
+  method: post
+  path: /projects/public/v1/add
+  description: Create a new project in an organization.
+- name: get_project
+  operationId: get_project_projects_public_v1_get_get
+  method: get
+  path: /projects/public/v1/get
+  description: Get details about a project by ID.
+- name: list_tasks
+  operationId: task_list_tasks_public_v1_list_get
+  method: get
+  path: /tasks/public/v1/list
+  description: List labeling tasks, filterable by project/org/search term.
+- name: create_task
+  operationId: task_add_public_tasks_public_v1_add_post
+  method: post
+  path: /tasks/public/v1/add
+  description: Create a labeling task with type, prompt, and answer classes.
+- name: create_task_v2
+  operationId: task_add_public_tasks_public_v2_add_post
+  method: post
+  path: /tasks/public/v2/add
+  description: Create a task supporting label class groups and free-text questions.
+- name: get_task
+  operationId: task_get_tasks_public_v1_get_get
+  method: get
+  path: /tasks/public/v1/get
+  description: Retrieve information about a specific task.
+- name: add_label_classes
+  operationId: handler_add_answer_labelclasses_public_v1_add_post
+  method: post
+  path: /labelClasses/public/v1/add
+  description: Add one or more answer classes to a task.
+- name: initiate_import
+  operationId: add_import_imports_public_v1_add_post
+  method: post
+  path: /imports/public/v1/add
+  description: Initiate a cloud-storage import for a project.
+- name: import_from_urls
+  operationId: add_assets_from_urls_imports_public_v1_addassetsfromurls_post
+  method: post
+  path: /imports/public/v1/addAssetsFromUrls
+  description: Import assets from a list of HTTPS URLs into a Centaur-hosted project.
+- name: list_imports
+  operationId: list_import_imports_public_v1_list_get
+  method: get
+  path: /imports/public/v1/list
+  description: List imports for a project or organization.
+- name: list_assets
+  operationId: public_list_assets_assets_public_v1_list_get
+  method: get
+  path: /assets/public/v1/list
+  description: List assets for a project.
+- name: set_gold_standards
+  operationId: set_gold_standards_override_cases_goldstandards_public_v1_set_patch
+  method: patch
+  path: /cases/goldStandards/public/v1/set
+  description: Set gold standard answers for cases in a task.
+- name: add_tag
+  operationId: public_add_tag_tags_public_v1_add_post
+  method: post
+  path: /tags/public/v1/add
+  description: Add a tag to one or more cases in a task.
+- name: get_result
+  operationId: get_results-public-v1-get
+  method: get
+  path: /results/public/v1/get
+  description: Retrieve a labeling result for a single case.
+- name: list_results
+  operationId: get_results-public-v2-list
+  method: get
+  path: /results/public/v2/list
+  description: Retrieve a page of labeling results for cases in a task.
+- name: get_results_archive_url
+  operationId: get_results-public-v2-getresultsarchiveurl
+  method: get
+  path: /results/public/v2/getResultsArchiveUrl
+  description: Get a signed URL to an archive of results files.

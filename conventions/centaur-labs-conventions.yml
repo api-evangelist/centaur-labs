@@ -1,0 +1,52 @@
+generated: '2026-07-18'
+method: derived
+source: >-
+  docs.centaurlabs.com/reference/* OpenAPI fragments + docs.centaurlabs.com/reference/security
+  + docs.centaurlabs.com/docs/getting-started-1
+api: Centaur Public API
+server: https://api.centaurlabs.com
+auth:
+  style: api-key + issued bearer token
+  header: X-API-KEY
+  token_endpoint: POST /auth/public/v1/login
+  see: authentication/centaur-labs-authentication.yml
+versioning:
+  style: path
+  scheme: /{app}/public/v{N}/{action}
+  observed_versions: [v1, v2]
+  notes: >-
+    Each backend app (auth, imports, tasks, labelClasses, cases, reads, results,
+    tags, projects, masks, manifests) versions independently in the path. v2
+    exists for tasks, assets, and results alongside v1.
+pagination:
+  style: page-based
+  observed_params: [search_term]
+  notes: >-
+    List endpoints (tasks, projects, imports, assets, tags, results) are
+    documented as paginated and accept optional filters (project,
+    organization, search_term). Exact page/limit param names vary per app and
+    were not fully enumerated from the fragment specs.
+idempotency:
+  supported: false
+  notes: >-
+    No Idempotency-Key header documented. Many mutations are naturally
+    idempotent by design (set/unset gold standards, set prelabels, add/remove
+    tags, upsert-style task updates).
+error_envelope:
+  format: json
+  notes: >-
+    FastAPI-style JSON errors; 422 responses carry a validation error body.
+    Not RFC 9457 problem+json.
+request_tracing:
+  request_id_header: null
+  notes: Not documented.
+rate_limiting:
+  documented: false
+  notes: No published rate-limit headers or quotas found in the docs.
+naming:
+  case: snake_case
+  operation_ids: snake_case with app/path/method suffixes (FastAPI-generated)
+cross_references:
+  authentication: authentication/centaur-labs-authentication.yml
+  lifecycle: lifecycle/centaur-labs-lifecycle.yml
+  conformance: conformance/centaur-labs-conformance.yml

@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: probed
+source: live HTTP probes of /.well-known/* and /llms.txt on Centaur hosts
+host: https://www.centaurlabs.com
+probes:
+- path: /.well-known/security.txt
+  status: 404
+  file: null
+- path: /.well-known/openid-configuration
+  status: 404
+  file: null
+- path: /.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- path: /.well-known/api-catalog
+  status: 404
+  file: null
+- path: /.well-known/ai-plugin.json
+  status: 404
+  file: null
+notes: >-
+  No .well-known documents published on the marketing host. A machine-readable
+  docs index IS published at https://docs.centaurlabs.com/llms.txt (captured
+  verbatim in llms/centaur-labs-llms.txt).

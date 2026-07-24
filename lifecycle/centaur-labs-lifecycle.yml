@@ -1,0 +1,38 @@
+generated: '2026-07-18'
+method: derived
+source: >-
+  docs.centaurlabs.com/reference/* (path versions + deprecation notices) +
+  docs.centaurlabs.com/changelog
+api: Centaur Public API
+versioning:
+  style: path-based per app (/{app}/public/v{N}/...)
+  current: v1 across most apps; v2 available for tasks, assets, results
+  policy_documented: false
+deprecation:
+  policy_documented: false
+  sunset_header: not documented
+  deprecated_operations:
+  - operationId: handler_delete_answer_legacy_answers_public_v1_delete_delete
+    path: /answers/public/v1/delete
+    replacement: /labelClasses/public/v1/delete
+    evidence: 'Docs summary: "Deprecated: use /labelClasses/public/v1/delete instead."'
+  - operationId: handler_add_answer_legacy_answers_public_v1_add_post
+    path: /answers/public/v1/add
+    replacement: /labelClasses/public/v1/add
+    evidence: 'Docs summary: "Deprecated: use /labelClasses/public/v1/add instead."'
+  - operationId: update_label_classes_answers_public_v1_update_patch
+    path: /answers/public/v1/update
+    replacement: /labelClasses/public/v1/update
+    evidence: Superseded by the labelClasses family of endpoints.
+changelog:
+  url: https://docs.centaurlabs.com/changelog/welcome-to-centaur
+  scheme: readme.io changelog (Public API Changelog + Centaur Portal release notes)
+  dated_entries: false
+  notes: >-
+    A changelog surface exists but publishes no dated entries; not captured as a
+    ChangeLog artifact to avoid fabricating history.
+status_page:
+  url: null
+  notes: No public status page found (status.centaurlabs.com does not resolve).
+sla:
+  documented: false

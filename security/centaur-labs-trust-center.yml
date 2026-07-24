@@ -1,0 +1,25 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.centaurlabs.com/docs/security-1 + https://centaur.ai
+summary: >-
+  Centaur Labs publishes a security overview describing its information security
+  program, infrastructure, and compliance posture for handling sensitive
+  healthcare data. There is no self-service trust portal; the SOC 2 report is
+  provided to customers and prospects on request.
+docs: https://docs.centaurlabs.com/docs/security-1
+certifications:
+- name: SOC 2 Type II
+  status: completed
+  evidence: Completed SOC 2 Type 2 audit; report available upon request.
+- name: HIPAA
+  status: compliant
+  evidence: HIPAA-compliant handling of protected health information.
+practices:
+- Annual risk assessments
+- Documented security policies reviewed and agreed to by employees annually
+- Security and privacy training on hire and annually
+- Employee confidentiality agreements
+- AWS-hosted infrastructure with AWS security tooling
+- TLS 1.2/1.3 in transit; AES-256 at rest on S3/EBS; keys via AWS KMS
+- Optional customer-hosted (bring-your-own) cloud storage for source data
+report_access: On request to customers and prospects (not publicly downloadable)

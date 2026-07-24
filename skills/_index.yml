@@ -1,0 +1,15 @@
+generated: '2026-07-18'
+method: generated
+source: >-
+  Grounded in the Centaur public API operation catalog in
+  llms/centaur-labs-llms.txt (docs.centaurlabs.com/reference). No provider-published
+  Agent Skills / AGENTS.md were found.
+api: Centaur Public API
+server: https://api.centaurlabs.com
+skills:
+- name: import-data-for-labeling
+  file: centaur-labs-import-data-for-labeling.md
+  description: Create a project and import data, then stand up a labeling task.
+- name: download-labeling-results
+  file: centaur-labs-download-labeling-results.md
+  description: Locate a task and retrieve aggregated labeling results.

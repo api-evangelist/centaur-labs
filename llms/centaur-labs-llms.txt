@@ -1,0 +1,175 @@
+# Centaur Labs Reference Documents Documentation
+
+> Documentation for Centaur Labs Reference Documents
+
+## Guides
+- [Labeling interfaces](https://docs.centaurlabs.com/docs/labeling-interfaces.md)
+- [Quick start guide](https://docs.centaurlabs.com/docs/getting-started-1.md)
+- [Key definitions](https://docs.centaurlabs.com/docs/key-definitions.md)
+- [Billing](https://docs.centaurlabs.com/docs/billing.md)
+- [Setup and invitations](https://docs.centaurlabs.com/docs/setup-and-invitations.md)
+- [Get support](https://docs.centaurlabs.com/docs/get-support.md)
+- [Security](https://docs.centaurlabs.com/docs/security-1.md)
+- [Workspace](https://docs.centaurlabs.com/docs/workspace.md)
+- [Create project and import data](https://docs.centaurlabs.com/docs/share-your-data-with-us.md): Follow these instructions to create your project
+- [Import Data](https://docs.centaurlabs.com/docs/import-data.md): Follow these instructions to share your data to be annotated with us
+- [Import data with S3](https://docs.centaurlabs.com/docs/import-data-with-s3-1.md)
+- [Self-host data on the cloud](https://docs.centaurlabs.com/docs/self-host-data.md)
+- [Import Data from Presigned URL](https://docs.centaurlabs.com/docs/import-data-from-presigned-url.md)
+- [Define project views](https://docs.centaurlabs.com/docs/define-project-views.md)
+- [Create files manifest](https://docs.centaurlabs.com/docs/files-manifest.md)
+- [Supported data types](https://docs.centaurlabs.com/docs/file-processing-and-custom-set-up.md)
+- [Format HTML data](https://docs.centaurlabs.com/docs/html-formatting.md)
+- [DICOM Best Practices](https://docs.centaurlabs.com/docs/dicom-best-practices.md)
+- [Manage dataset](https://docs.centaurlabs.com/docs/manage-dataset.md)
+- [Use tags](https://docs.centaurlabs.com/docs/use-tags.md)
+- [Organize data using tags via API](https://docs.centaurlabs.com/docs/organize-data-using-tags.md)
+- [Define labeling task](https://docs.centaurlabs.com/docs/create-your-labeling-task.md)
+- [Manage task](https://docs.centaurlabs.com/docs/task-view.md)
+- [Create Prelabels](https://docs.centaurlabs.com/docs/create-prelabels.md)
+- [Create Gold Standards](https://docs.centaurlabs.com/docs/creating-gold-standards.md)
+- [Create instructions](https://docs.centaurlabs.com/docs/create-instructions-for-your-task.md)
+- [Example 1](https://docs.centaurlabs.com/docs/classification-instructions-example.md)
+- [Example 2](https://docs.centaurlabs.com/docs/segmentation-instructions-example.md)
+- [Labeling](https://docs.centaurlabs.com/docs/labeling.md)
+- [DiagnosUs](https://docs.centaurlabs.com/docs/diagnosus-labeling.md)
+- [Web Labeling](https://docs.centaurlabs.com/docs/web-labeling.md)
+- [Centaur DICOM Viewer 101](https://docs.centaurlabs.com/docs/centaur-dicom-viewer-101.md)
+- [Troubleshooting DICOM Viewer](https://docs.centaurlabs.com/docs/troubleshooting-ohif.md)
+- [Slice-to-Slice Annotation Duplication](https://docs.centaurlabs.com/docs/slice-to-slice-annotation-duplication.md)
+- [Download and analyze results](https://docs.centaurlabs.com/docs/analyze-results.md)
+- [Download results](https://docs.centaurlabs.com/docs/download-results.md)
+- [How to review results](https://docs.centaurlabs.com/docs/review-tips.md)
+- [Improve future results](https://docs.centaurlabs.com/docs/improve-future-results.md)
+- [Audio Clip Annotation](https://docs.centaurlabs.com/docs/audio-clip-annotation.md)
+- [Label assignment](https://docs.centaurlabs.com/docs/labeling-state-assignment.md)
+- [Performance measurement](https://docs.centaurlabs.com/docs/performance-measurement.md)
+- [Label collection](https://docs.centaurlabs.com/docs/label-collection.md)
+- [Qualified Reads](https://docs.centaurlabs.com/docs/qualified-reads.md)
+- [Label aggregation](https://docs.centaurlabs.com/docs/aggregation.md)
+- [Classification](https://docs.centaurlabs.com/docs/classification-label-aggregation.md)
+- [Polygons and Pixel](https://docs.centaurlabs.com/docs/segmentation-reads-aggregation.md)
+- [Boxes, lines, circles](https://docs.centaurlabs.com/docs/box-line-circle-label-aggregation.md)
+- [Range Selection](https://docs.centaurlabs.com/docs/named-entity-recognition-1.md)
+- [2D Point Segmentation](https://docs.centaurlabs.com/docs/2d-point-segmentation-aggregation.md)
+- [Case level metrics](https://docs.centaurlabs.com/docs/case-level-metrics.md)
+- [Classification](https://docs.centaurlabs.com/docs/classification.md)
+- [Polygons and Pixel](https://docs.centaurlabs.com/docs/polygon-segmentation.md)
+- [Boxes, lines, circles](https://docs.centaurlabs.com/docs/box-line-segmentation.md)
+- [Range Selection](https://docs.centaurlabs.com/docs/named-entity-recognition-2.md)
+- [Task level metrics](https://docs.centaurlabs.com/docs/task-level-metrics.md)
+- [Classification](https://docs.centaurlabs.com/docs/classification-1.md)
+- [Segmentation](https://docs.centaurlabs.com/docs/segmentation-1.md)
+- [Range Selection](https://docs.centaurlabs.com/docs/named-entity-recognition.md)
+- [Multi-Class Confusion Matrices](https://docs.centaurlabs.com/docs/multi-class-confusion-matrices.md)
+- [Label export glossaries](https://docs.centaurlabs.com/docs/glossaries.md)
+- [Classification](https://docs.centaurlabs.com/docs/classification-2.md)
+- [Polygons](https://docs.centaurlabs.com/docs/polygons.md)
+- [Pixel](https://docs.centaurlabs.com/docs/pixel.md)
+- [Cuboid](https://docs.centaurlabs.com/docs/pixel-copy-1.md)
+- [Boxes, lines, circles](https://docs.centaurlabs.com/docs/boxes-lines-circles.md)
+- [Ranges](https://docs.centaurlabs.com/docs/ranges.md)
+- [WKT Format](https://docs.centaurlabs.com/docs/wkt-format.md): Well-known text (WKT) is a text markup language for representing vector geometry objects. Centaur Labs accepts WKT format to define segmentation labels, and exports results in WKT format.
+- [API JSON Results](https://docs.centaurlabs.com/docs/api-json-results-1.md)
+- [Payments](https://docs.centaurlabs.com/docs/offboarding.md): Centaur works with consultants across the globe. Depending on your setup, payments may be processed through different tools. Please read carefully to understand which process applies to you.
+
+## API Reference
+- [API credentials](https://docs.centaurlabs.com/reference/security.md)
+- [Import data for labeling](https://docs.centaurlabs.com/reference/import-data-for-labeling.md)
+- [Manage gold standards](https://docs.centaurlabs.com/reference/manage-gold-standards.md)
+- [Download labeling results](https://docs.centaurlabs.com/reference/overview.md)
+- [/auth/public/v1/login](https://docs.centaurlabs.com/reference/post_auth-public-v1-login.md): Login into portal API session
+- [/auth/public/v1/logout](https://docs.centaurlabs.com/reference/post_auth-public-v1-logout.md): Logout will invalidate the API session
+- [/auth/public/v1/refreshToken](https://docs.centaurlabs.com/reference/post_auth-public-v1-refreshtoken.md): Will invalidate currently active token, and create and return a new one.
+- [/auth/public/v1/testToken](https://docs.centaurlabs.com/reference/post_auth-public-v1-testtoken.md): Will verify currently active token.
+- [/auth/public/v1/version](https://docs.centaurlabs.com/reference/get_auth-public-v1-version.md): version will return release version of the Authorizer app
+- [Get Version](https://docs.centaurlabs.com/reference/get_version_imports_public_api_v1_version_get.md): Returns the current version of the Ingest API.
+- [Handler Delete Answer](https://docs.centaurlabs.com/reference/handler_delete_answer_labelclasses_public_v1_delete_delete.md): Removes a specific answer class from a task by task ID and answer value.
+- [Update Label Classes](https://docs.centaurlabs.com/reference/update_label_classes_labelclasses_public_v1_update_patch.md): Updates the name of an existing answer class on a task.
+- [Handler Add Answer](https://docs.centaurlabs.com/reference/handler_add_answer_labelclasses_public_v1_add_post.md): Adds one or more answer classes to a task, optionally replacing existing ones.
+- [Create a new task](https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v1_add_post.md): Creates a new task in the specified project with the given type, prompt, and answer classes.
+- [Update an existing task](https://docs.centaurlabs.com/reference/task_update_public_tasks_public_v1_set_patch.md): Updates properties of an existing task such as name, prompt, answer classes, and labeling stage.
+- [Retrieve information about a specific task](https://docs.centaurlabs.com/reference/task_get_tasks_public_v1_get_get.md): Returns detailed information about a task by its ID.
+- [List your available tasks](https://docs.centaurlabs.com/reference/task_list_tasks_public_v1_list_get.md): Returns a paginated list of tasks, optionally filtered by project, organization, or search term.
+- [Duplicate an existing task](https://docs.centaurlabs.com/reference/task_duplicate_tasks_public_v1_duplicate_post.md): Creates a copy of an existing task, optionally copying gold standards, labels, and tags.
+- [Add a single asset to a task](https://docs.centaurlabs.com/reference/add_asset_to_task_tasks_assets_public_v1_add_post.md): Creates a case for a single asset in a task, identified by content ID or origin.
+- [Add imports to a task](https://docs.centaurlabs.com/reference/add_imports_to_task_public_tasks_imports_public_v1_add_post.md): Adds one or more imports to a task, creating cases for all assets in those imports.
+- [Handler Delete Answer Legacy](https://docs.centaurlabs.com/reference/handler_delete_answer_legacy_answers_public_v1_delete_delete.md): Deprecated: use /labelClasses/public/v1/delete instead. Removes an answer class from a task.
+- [Update Label Classes](https://docs.centaurlabs.com/reference/update_label_classes_answers_public_v1_update_patch.md): Updates the name of an existing answer class on a task.
+- [Create a new task](https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v2_add_post.md): Creates a new task in the project, supporting label class groups and free-text question types.
+- [Reorder the answers for a task](https://docs.centaurlabs.com/reference/handler_reorder_answers_labelclasses_public_v1_reorder_put.md): Reorders the answer classes for a task by providing the desired order of answer IDs.
+- [Add a new label class group](https://docs.centaurlabs.com/reference/handler_add_label_class_group_labelclasses_public_v1_groups_post.md): Creates a new label class group for a task with a prompt and initial answer class IDs.
+- [List all label class groups for a task](https://docs.centaurlabs.com/reference/handler_list_label_class_groups_labelclasses_public_v1_groups_get.md): Returns all label class groups associated with a specific task.
+- [Delete a label class group](https://docs.centaurlabs.com/reference/handler_delete_label_class_group_labelclasses_public_v1_groups__label_class_group_id__delete.md): All answers in the label class group will be ungrouped
+- [Update a label class group](https://docs.centaurlabs.com/reference/handler_update_label_class_group_labelclasses_public_v1_groups__label_class_group_id__patch.md): Updates the prompt or multi-answer setting of an existing label class group.
+- [Get a label class group](https://docs.centaurlabs.com/reference/handler_get_label_class_group_labelclasses_public_v1_groups__label_class_group_id__get.md): Returns details of a specific label class group, optionally including its answer classes.
+- [Add existing answers to a label class group](https://docs.centaurlabs.com/reference/handler_add_existing_answers_to_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_post.md): Adds existing answer classes to a label class group by their IDs.
+- [Delete answers from a label class group](https://docs.centaurlabs.com/reference/handler_delete_answers_from_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_delete.md): Answers will be ungrouped from the label class group but will not be deleted from the task
+- [Reorder the label class groups for a task](https://docs.centaurlabs.com/reference/handler_reorder_label_class_groups_labelclasses_public_v1_groups_reorder_put.md): Reorders the label class groups for a task by providing the desired order of group IDs.
+- [Handler Add Answer Legacy](https://docs.centaurlabs.com/reference/handler_add_answer_legacy_answers_public_v1_add_post.md): Deprecated: use /labelClasses/public/v1/add instead. Adds answer classes to a task.
+- [Set instructions for a task](https://docs.centaurlabs.com/reference/task_set_instructions_tasks_public_v1_instructions_post.md): Create instruction slides for a task
+- [Unset all gold standards from a task](https://docs.centaurlabs.com/reference/unset_gs_from_task_tasks_goldstandards_public_v1_unset_delete.md): Removes all gold standard answers from every case in a task, optionally preserving opinions.
+- [Set gold standard answers for a specific topic](https://docs.centaurlabs.com/reference/set_gold_standards_override_cases_goldstandards_public_v1_set_patch.md): Sets gold standard answers for one or more cases in a task.
+- [Unset gold standards in a set of cases](https://docs.centaurlabs.com/reference/unset_gs_from_problems_cases_goldstandards_public_v1_unset_delete.md): Removes gold standard answers from specified cases in a task, optionally preserving opinions.
+- [Set prelabels for a specific topic](https://docs.centaurlabs.com/reference/handler_set_prelabels_override_cases_prelabels_public_v1_set_put.md): Sets prelabel annotations for one or more cases in a task for segmentation and range task types.
+- [Unset prelabels in a set of cases](https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete.md): Removes prelabel annotations from a specified set of cases in a task.
+- [Unset all prelabels from a task](https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete.md): Removes all prelabel annotations from every case in a task.
+- [Add Files Manifest](https://docs.centaurlabs.com/reference/add_files_manifest_manifests_public_v1_add_post.md): Updates series metadata (series ID, series index, view, notes) for a list of assets in a project.
+- [Get Manifest](https://docs.centaurlabs.com/reference/get_manifest_manifests_public_v1_get_get.md): Returns the files manifest (series metadata) for a project or import.
+- [Fetch a specific import](https://docs.centaurlabs.com/reference/get_import_public_imports_public_v1_get_get.md): Returns details of a specific import by its ID, including status and file counts.
+- [List imports](https://docs.centaurlabs.com/reference/list_import_imports_public_v1_list_get.md): Returns a list of imports, optionally filtered by project, organization, or content type.
+- [Initiate an import](https://docs.centaurlabs.com/reference/add_import_imports_public_v1_add_post.md): Initiates a cloud storage import for a project by providing the source URI and target task IDs.
+- [Delete an import, including its associated assets and cases](https://docs.centaurlabs.com/reference/import_delete_imports_public_v1_delete_delete.md): Soft-deletes an import and all its associated assets and cases from a project.
+- [Initiate import from URLs](https://docs.centaurlabs.com/reference/add_assets_from_urls_imports_public_v1_addassetsfromurls_post.md): Initiates an import of assets from a list of HTTPS URLs into a Centaur-hosted project.
+- [Public List Assets](https://docs.centaurlabs.com/reference/public_list_assets_assets_public_v1_list_get.md): List the existing assets for a specific project
+- [Shared List Assets V2](https://docs.centaurlabs.com/reference/shared_list_assets_v2_assets_public_v2_list_post.md): List and filter the existing assets for a specific project
+- [Shared List Series](https://docs.centaurlabs.com/reference/shared_list_series_assets_public_v1_listseries_post.md): List series and study UUIDs for a specific project
+- [Shared Get Asset](https://docs.centaurlabs.com/reference/shared_get_asset_assets_public_v1_get_get.md): Get a specific asset from a project
+- [Shared Add Asset Override](https://docs.centaurlabs.com/reference/shared_add_asset_override_assets_public_v1_add_post.md): Create text asset
+- [Create Asset & Case From Image File](https://docs.centaurlabs.com/reference/add_asset_and_case_from_file_cases_public_v1_addimagefromfile_post.md): Uploads an image file directly, creating an asset and a case in the specified task in one step.
+- [Validate Access](https://docs.centaurlabs.com/reference/validate_access_imports_public_v1_validateaccess_get.md): Verifies that the requested data source is accessible to the Centaur Importer
+- [Get Import Policy](https://docs.centaurlabs.com/reference/get_import_policy_imports_public_v1_policy_get_get.md): Get the required policy for the Centaur Importer to access the source data
+- [Public List Tags](https://docs.centaurlabs.com/reference/public_list_tags_tags_public_v1_list_get.md): Returns a paginated list of tags for the organization, optionally filtered by project or task.
+- [Public Add Tag](https://docs.centaurlabs.com/reference/public_add_tag_tags_public_v1_add_post.md): Adds a tag to one or more cases in a task, optionally filtered by import or explicit case IDs.
+- [Public Remove Tag](https://docs.centaurlabs.com/reference/public_remove_tag_tags_public_v1_delete_delete.md): Removes a tag from one or more cases in a task, optionally filtered by import or explicit case IDs.
+- [Get project information](https://docs.centaurlabs.com/reference/get_project_projects_public_v1_get_get.md): Returns detailed information about a project by its ID
+- [List your available projects](https://docs.centaurlabs.com/reference/list_projects_projects_public_v1_list_get.md): Returns a paginated list of projects, optionally filtered by organization or search term.
+- [Create new project](https://docs.centaurlabs.com/reference/create_project_public_projects_public_v1_add_post.md): Creates a new project in the specified organization
+- [Update project](https://docs.centaurlabs.com/reference/update_project_public_projects_public_v1_set_patch.md): Updates project information
+- [Delete project](https://docs.centaurlabs.com/reference/delete_project_projects_public_v1_delete_delete.md): Deletes a project by its ID
+- [Duplicate one or more cases from a task](https://docs.centaurlabs.com/reference/handler_duplicate_case_cases_public_v1_duplicate_post.md): Duplicates cases from a source task into a target task, optionally copying gold standards and labels.
+- [Delete a case from a task](https://docs.centaurlabs.com/reference/delete_case_cases_public_v1_delete_delete.md): Deletes a specific case from a task by task ID and case ID.
+- [Update Case](https://docs.centaurlabs.com/reference/update_problem_cases_custom_v1_update_patch.md): Updates properties of an existing case, including answers, notes, explanations, and frame assets.
+- [/reads/public/v1/lookup](https://docs.centaurlabs.com/reference/post_reads-public-v1-lookup.md): Retrieves a list of specific reads (opinions) within a task.
+- [/reads/public/v1/version](https://docs.centaurlabs.com/reference/get_reads-public-v1-version.md): Returns release version of the public reads API app
+- [/results/public/v1/version](https://docs.centaurlabs.com/reference/get_results-public-v1-version.md): Returns release version of the public results API app
+- [/results/public/v2/version](https://docs.centaurlabs.com/reference/get_results-public-v2-version.md): Returns release version of the public results API app
+- [/results/public/v1/get](https://docs.centaurlabs.com/reference/get_results-public-v1-get.md): Retrieves a labeling result for a single case.
+- [/results/public/v2/get](https://docs.centaurlabs.com/reference/get_results-public-v2-get.md): Retrieves a labeling result for a single case.
+- [/results/public/v1/list](https://docs.centaurlabs.com/reference/get_results-public-v1-list.md): Retrieves a page of labeling results for multiple cases within a task.
+- [/results/public/v2/getResultsArchiveUrl](https://docs.centaurlabs.com/reference/get_results-public-v2-getresultsarchiveurl.md): Retrieves a signed URL to an archive which contains results files.
+- [/results/public/v2/list](https://docs.centaurlabs.com/reference/get_results-public-v2-list.md): Retrieves a page of labeling results for multiple cases within a task.
+- [Generate pre-signed mask upload URLs (public API)](https://docs.centaurlabs.com/reference/public_generate_presigned_urls_route_masks_public_v1_generate_presigned_urls_post.md): Request pre-signed URLs for direct upload of DICOMSEG or TIFF masks (public API).
+- [Commit uploaded masks (public API)](https://docs.centaurlabs.com/reference/public_commit_masks_route_masks_public_v1_commit_post.md): Validate and copy uploaded masks to the permanent bucket (public API); the batch is capped at 20 masks.
+
+## Recipes
+- [Add Tracking Line to Plot](https://docs.centaurlabs.com/recipes/add-tracking-line-to-plot.md)
+- [Circle Geometry Center Finder](https://docs.centaurlabs.com/recipes/circle-geometry-center-finder.md)
+- [Convert audio to mel spectrogram](https://docs.centaurlabs.com/recipes/convert-audio-to-mel-spectrogram.md)
+- [Convert audio to video](https://docs.centaurlabs.com/recipes/convert-audio-to-video.md)
+- [Convert between absolute and relative WKT Coordinates](https://docs.centaurlabs.com/recipes/convert-between-absolute-and-relative-wkt-coordinates.md)
+- [Convert DICOM to Video](https://docs.centaurlabs.com/recipes/convert-dicom-to-video.md)
+- [Convert multi-paragraph text to HTML](https://docs.centaurlabs.com/recipes/convert-multi-paragraph-text-to-html-1.md)
+- [Convert Pixel Coordinates to WKT](https://docs.centaurlabs.com/recipes/convert-pixel-coordinates-to-wkt.md)
+- [Convert plain text to highlighted HTML](https://docs.centaurlabs.com/recipes/convert-plain-text-to-highlighted-html.md)
+- [Convert segmentation mask to WKT](https://docs.centaurlabs.com/recipes/convert-segmentation-mask-to-wkt.md)
+- [Convert Video to Images](https://docs.centaurlabs.com/recipes/convert-video-to-images.md)
+- [Convert WKT to DICOM Seg](https://docs.centaurlabs.com/recipes/convert-wkt-to-dicom-seg.md)
+- [Convert WKT to mask](https://docs.centaurlabs.com/recipes/convert-wkt-to-mask.md)
+- [Download all labeling results from a project](https://docs.centaurlabs.com/recipes/download-all-labeling-results-from-a-project.md)
+- [Import Express Recipe](https://docs.centaurlabs.com/recipes/import-express-recipe.md)
+- [Set up your dev environment](https://docs.centaurlabs.com/recipes/set-up-your-dev-environment.md)
+
+## Changelog
+- [Centaur Portal release notes](https://docs.centaurlabs.com/changelog/centaur-portal-release-notes.md)
+- [Public API Changelog](https://docs.centaurlabs.com/changelog/welcome-to-centaur.md)

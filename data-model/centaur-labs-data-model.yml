@@ -1,0 +1,94 @@
+generated: '2026-07-18'
+method: derived
+source: >-
+  Derived from the Centaur public API operation catalog / path structure in
+  llms/centaur-labs-llms.txt (docs.centaurlabs.com/reference).
+api: Centaur Public API
+entities:
+- name: Project
+  description: A collection of data assets to be labeled, owned by an organization.
+- name: Task
+  description: A labeling task within a project (type, prompt, answer classes, stage).
+- name: Case
+  description: A unit of work pairing an asset with a task; carries answers/opinions.
+- name: Asset
+  description: A single piece of imported content (image, text, audio, video, DICOM).
+- name: Series
+  description: A grouping of related assets (e.g. DICOM series / study).
+- name: Import
+  description: A batch ingestion of assets from cloud storage or URLs.
+- name: Manifest
+  description: Series metadata (series ID/index, view, notes) for a project's assets.
+- name: LabelClass
+  description: 'An answer class (choice) available on a task. Legacy alias: Answer.'
+- name: LabelClassGroup
+  description: A named grouping of label classes on a task.
+- name: GoldStandard
+  description: Reference-truth answers set on cases for quality measurement.
+- name: Prelabel
+  description: Pre-populated segmentation/range annotations on cases.
+- name: Tag
+  description: A label applied to cases for organization/filtering.
+- name: Read
+  description: An individual opinion (annotation) submitted on a case.
+- name: Result
+  description: Aggregated labeling output for a case.
+- name: Mask
+  description: Uploaded DICOMSEG/TIFF segmentation mask attached to a case.
+relationships:
+- from: Task
+  type: belongs_to
+  to: Project
+  via: project_id
+- from: Task
+  type: has_many
+  to: LabelClass
+  via: task_id
+- from: LabelClass
+  type: belongs_to
+  to: LabelClassGroup
+  via: label_class_group_id
+- from: Case
+  type: belongs_to
+  to: Task
+  via: task_id
+- from: Case
+  type: has_one
+  to: Asset
+  via: content_id
+- from: Asset
+  type: belongs_to
+  to: Series
+  via: series_id
+- from: Asset
+  type: belongs_to
+  to: Import
+  via: import_id
+- from: Import
+  type: belongs_to
+  to: Project
+  via: project_id
+- from: GoldStandard
+  type: belongs_to
+  to: Case
+  via: case_id
+- from: Prelabel
+  type: belongs_to
+  to: Case
+  via: case_id
+- from: Read
+  type: belongs_to
+  to: Case
+  via: case_id
+- from: Result
+  type: has_one
+  to: Case
+  via: case_id
+- from: Mask
+  type: belongs_to
+  to: Case
+  via: case_id
+- from: Tag
+  type: has_many
+  to: Case
+  via: case_id

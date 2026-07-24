@@ -1,23 +1,84 @@
 aid: centaur-labs
 name: Centaur Labs
-description: 'Centaur Labs is a company surfaced as a portfolio company of accel, matrix-partners and
-  added to the API Evangelist network as a stub for enrichment. Sector: ai. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  Centaur Labs (centaur.ai) provides expert data annotation and labeling for
+  healthcare and scientific AI. Its platform combines large crowds of vetted
+  human experts with AI models in a competitive "collective intelligence" model
+  to produce high-quality, aggregated training labels across images, text,
+  audio, video, waveform and DICOM medical imaging. Centaur exposes a public
+  REST API (api.centaurlabs.com) for importing data, creating and managing
+  labeling projects, tasks, cases, gold standards, tags and prelabels, and for
+  downloading aggregated results. The company is SOC 2 Type II audited and
+  HIPAA compliant, was founded by Erik Duhaime out of the MIT Center for
+  Collective Intelligence, and is backed by Accel and Matrix Partners.
 url: https://raw.githubusercontent.com/api-evangelist/centaur-labs/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - accel
 - matrix-partners
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: public-api-found
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
+image: https://files.readme.io/90ad1dc-small-Centaur_Labs_black3x.png
 tags:
 - Company
 - Ai
-apis: []
+- Data Annotation
+- Data Labeling
+- Machine Learning
+- Healthcare
+- Medical Imaging
+- Training Data
+apis:
+- name: Centaur Public API
+  description: >-
+    Public REST API for importing data and managing labeling projects, tasks,
+    cases, assets, gold standards, prelabels, tags and for downloading
+    aggregated labeling results. Split across several versioned apps (auth,
+    imports, tasks, labelClasses, cases, reads, results, tags, projects,
+    manifests, masks) served under a single host.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  properties:
+  - type: Documentation
+    url: https://docs.centaurlabs.com/
+  - type: APIReference
+    url: https://docs.centaurlabs.com/reference
+  - type: GettingStarted
+    url: https://docs.centaurlabs.com/docs/getting-started-1
+  - type: LLMsTxt
+    url: llms/centaur-labs-llms.txt
+  - type: Authentication
+    url: authentication/centaur-labs-authentication.yml
+  - type: Conventions
+    url: conventions/centaur-labs-conventions.yml
+  - type: Lifecycle
+    url: lifecycle/centaur-labs-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/centaur-labs-lifecycle.yml
+  - type: Conformance
+    url: conformance/centaur-labs-conformance.yml
+  - type: DataModel
+    url: data-model/centaur-labs-data-model.yml
+  - type: MCPServer
+    url: mcp/centaur-labs-mcp.yml
+  - type: AgentSkill
+    url: skills/_index.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -26,3 +87,36 @@ maintainers:
 common:
 - type: Website
   url: https://www.centaurlabs.com/
+- type: DeveloperPortal
+  url: https://go.centaurlabs.com/
+- type: Documentation
+  url: https://docs.centaurlabs.com/
+- type: APIReference
+  url: https://docs.centaurlabs.com/reference
+- type: GettingStarted
+  url: https://docs.centaurlabs.com/docs/getting-started-1
+- type: Blog
+  url: https://centaur.ai/blog
+- type: Support
+  url: https://docs.centaurlabs.com/docs/get-support
+- type: SignUp
+  url: https://go.centaurlabs.com/signup
+- type: Login
+  url: https://go.centaurlabs.com/login
+- type: PrivacyPolicy
+  url: https://centaur.ai/privacy-policy
+- type: ChangeLog
+  url: https://docs.centaurlabs.com/changelog/welcome-to-centaur
+- type: Compliance
+  url: conformance/centaur-labs-conformance.yml
+- type: TrustCenter
+  url: security/centaur-labs-trust-center.yml
+- type: DomainSecurity
+  url: security/centaur-labs-domain-security.yml
+- type: WellKnown
+  url: well-known/centaur-labs-well-known.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

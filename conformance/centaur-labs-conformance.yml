@@ -1,0 +1,48 @@
+generated: '2026-07-18'
+method: searched
+source: https://docs.centaurlabs.com/docs/security-1 + https://centaur.ai (compliance badges) + OpenAPI securitySchemes
+api: Centaur Public API
+standards:
+- id: soc2-type-2
+  name: SOC 2 Type II
+  conforms: true
+  evidence: >-
+    "Centaur Labs has successfully completed a SOC 2 Type 2 audit." Report
+    available to customers and prospects upon request (docs security overview;
+    SOC-for-Service-Organizations badge on centaur.ai).
+- id: hipaa
+  name: HIPAA
+  conforms: true
+  evidence: >-
+    "HIPAA COMPLIANT" badge on centaur.ai; security program describes
+    safeguards for protected health information used in medical data labeling.
+- id: tls-1.2-plus
+  name: TLS 1.2/1.3 encryption in transit
+  conforms: true
+  evidence: >-
+    "All of your data is encrypted in transit using HTTPS (TLS 1.2 or 1.3)."
+    Live probe of the marketing host negotiated TLSv1.3 with HSTS.
+- id: aes-256-at-rest
+  name: AES-256 encryption at rest
+  conforms: true
+  evidence: >-
+    "All persistent data is stored on highly-available AWS S3 or Elastic Block
+    Store which have AES-256 encryption built in"; keys managed via AWS KMS.
+- id: bearer-auth
+  name: HTTP Bearer authentication
+  conforms: true
+  evidence: BearerToken (type http, scheme bearer) securityScheme in the OpenAPI.
+- id: apikey-auth
+  name: API key authentication
+  conforms: true
+  evidence: APIKeyHeader (X-API-KEY) securityScheme in the OpenAPI.
+- id: oauth2
+  name: OAuth 2.0
+  conforms: false
+  evidence: No oauth2 securityScheme; auth is API key + issued bearer token.
+- id: rfc9457
+  name: RFC 9457 Problem Details
+  conforms: false
+  evidence: >-
+    No application/problem+json declared; FastAPI-style JSON error envelopes
+    observed (e.g. 422 validation errors).
