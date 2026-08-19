@@ -1,18 +1,15 @@
 generated: '2026-07-18'
 method: derived
 status: candidate
-source: >-
-  Derived from the Centaur public API operation catalog in
-  llms/centaur-labs-llms.txt (docs.centaurlabs.com/reference). No official
-  hosted/remote MCP server was found for Centaur Labs as of this date.
+source: Derived from the Centaur public API operation catalog in llms/centaur-labs-llms.txt (docs.centaurlabs.com/reference).
+  No official hosted/remote MCP server was found for Centaur Labs as of this date.
 api: Centaur Public API
 server: https://api.centaurlabs.com
 auth:
   header: X-API-KEY
   bearer: POST /auth/public/v1/login
-notes: >-
-  Candidate tool surface a Centaur MCP server could expose, mapped 1:1 to real
-  public API operationIds. Not an official Centaur product.
+notes: Candidate tool surface a Centaur MCP server could expose, mapped 1:1 to real public API operationIds.
+  Not an official Centaur product.
 tools:
 - name: list_projects
   operationId: list_projects_projects_public_v1_list_get
@@ -99,3 +96,9 @@ tools:
   method: get
   path: /results/public/v2/getResultsArchiveUrl
   description: Get a signed URL to an archive of results files.
+deployment:
+  mode: none
+  verified: derived
+  tools: 17
+  checked: '2026-08-12'
+  source: catalog MCP census
