@@ -56,7 +56,7 @@ tags:
 - Artificial Intelligence
 - Data Annotation
 - Data Labeling
-- Machine-Learning
+- Machine Learning
 - Healthcare
 - Medical Imaging
 - Training Data
@@ -69,6 +69,7 @@ tags_raw:
 - Healthcare
 - Medical Imaging
 - Training Data
+- Machine-Learning
 apis:
 - name: Centaur Public API
   description: >-
