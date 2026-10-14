@@ -1,0 +1,902 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Centaur Label APIs
+servers:
+- url: https://api.centaurlabs.com/
+  description: Centaur Label APIs Production
+paths:
+  /reads/public/v1/lookup:
+    post:
+      tags:
+      - Reads (Opinions) Lookup
+      description: Retrieves a list of specific reads (opinions) within a task.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReadsLookupRequest'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReadsLookup'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              examples:
+                missing_task_id:
+                  value:
+                    message: No task_id provided.
+                invalid_task_id:
+                  value:
+                    message: Invalid task_id 'abc'.
+                missing_read_ids:
+                  value:
+                    message: No read_ids provided.
+                invalid_read_ids:
+                  value:
+                    message: Invalid read_ids 'abc'.
+                read_lookup_limit_exceeded:
+                  value:
+                    message: Read lookup limit exceeded. Maximum allowed read_ids is 1000.
+                invalid_verbose_param:
+                  value:
+                    message: Verbose parameter must be true or false.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+  /reads/public/v1/version:
+    get:
+      tags:
+      - Get API Version
+      description: Returns release version of the public reads API app
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Internal Server Error
+  /results/public/v1/get:
+    get:
+      tags:
+      - Get Case Results
+      description: Retrieves a labeling result for a single case.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/case_id_param'
+      - $ref: '#/components/parameters/verbose_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultV1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                message: Not Found
+        '426':
+          description: Unsupported API version
+          content:
+            application/json:
+              example: Task type not supported by this API version, please use /results/public/v2/get.
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+  /results/public/v1/list:
+    get:
+      tags:
+      - Get Task Results
+      description: Retrieves a page of labeling results for multiple cases within a task.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/labeling_state_param'
+      - $ref: '#/components/parameters/updated_after_param'
+      - $ref: '#/components/parameters/last_sequence_id_param'
+      - $ref: '#/components/parameters/limit_param'
+      - $ref: '#/components/parameters/verbose_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultListV1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '426':
+          description: Unsupported API version
+          content:
+            application/json:
+              example: Task type not supported by this API version, please use /results/public/v2/list.
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+  /results/public/v1/version:
+    get:
+      tags:
+      - Get API Version
+      description: Returns release version of the public results API app
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Internal Server Error
+  /results/public/v2/get:
+    get:
+      tags:
+      - Get Case Results
+      description: Retrieves a labeling result for a single case.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/case_id_param'
+      - $ref: '#/components/parameters/verbose_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                message: Not Found
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+  /results/public/v2/getResultsArchiveUrl:
+    get:
+      tags:
+      - Get Task Results
+      description: Retrieves a signed URL to an archive which contains results files.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/include_opinions_csv_param'
+      - $ref: '#/components/parameters/include_coco_json_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultsArchiveUrlResponse'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+  /results/public/v2/list:
+    get:
+      tags:
+      - Get Task Results
+      description: Retrieves a page of labeling results for multiple cases within a task.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/labeling_state_param'
+      - $ref: '#/components/parameters/updated_after_param'
+      - $ref: '#/components/parameters/last_sequence_id_param'
+      - $ref: '#/components/parameters/limit_param'
+      - $ref: '#/components/parameters/verbose_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseResultList'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+  /results/public/v2/version:
+    get:
+      tags:
+      - Get API Version
+      description: Returns release version of the public results API app
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Internal Server Error
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+  schemas:
+    ContentMetadata:
+      type: object
+      properties:
+        content_id:
+          type: integer
+          description: An identifier for the content.
+        origin:
+          type: string
+          description: An identifier for the file origin of the content.
+        created_at:
+          type: string
+          description: Timestamp that content was created.
+        series:
+          type: string
+          nullable: true
+          description: An identifier for the series that the content belongs to.
+        series_index:
+          type: integer
+          nullable: true
+          description: The index of the content within the series (if any) that it belongs to.
+        dicom_study_uid:
+          type: string
+          nullable: true
+          description: The DICOM study UID of the content.
+        dicom_series_uid:
+          type: string
+          nullable: true
+          description: The DICOM series UID of the content.
+        dicom_instance_uid:
+          type: string
+          nullable: true
+          description: The DICOM instance UID of the content.
+    ClassAnswer:
+      type: object
+      properties:
+        answer_class:
+          type: string
+          description: The label class within the answer (correct annotation, combined opinion, or labeler opinion).
+        is_correct:
+          type: boolean
+          description: Whether the answer includes the class. Included for classification tasks only.
+        geometries:
+          type: array
+          nullable: true
+          description: The segmentation for the answer class in WKT format. Included for contour segmentation tasks only.
+          items:
+            type: string
+        mask:
+          type: string
+          nullable: true
+          description: A pre-signed URL to the segmentation for the answer class in mask (TIFF binary array) format. Included for mask segmentation tasks only.
+        ranges:
+          type: array
+          nullable: true
+          description: The integer ranges for the answer class. Included for range tasks only.
+          items:
+            type: array
+            items:
+              type: integer
+            minItems: 2
+            maxItems: 2
+        entities:
+          type: array
+          nullable: true
+          description: The entities for the answer class. Included for NER tasks only.
+          items:
+            type: string
+        freetexts:
+          type: array
+          nullable: true
+          description: An array of freetexts with one entry (array or null) per finding.
+          items:
+            type: array
+            nullable: true
+            description: An array of freetexts for one specific finding. May contain 0, 1, or multiple text entries.
+            items:
+              type: string
+    Read:
+      type: object
+      properties:
+        read_id:
+          type: integer
+          description: An identifier for the read (opinion).
+        user_id:
+          type: integer
+          description: An identifier for the user.
+        case_id:
+          type: integer
+          description: An identifier for the case.
+        qscore:
+          type: number
+          description: The confidence level of the user read (opinion).
+        frames:
+          type: array
+          description: 'The frames of the read (opinion): the primary target frame, plus one entry per context document (multi-document annotation topics only) carrying a class-agnostic finding instead of a per-label-class user_opinion.'
+          items:
+            type: object
+            properties:
+              content_id:
+                type: integer
+                description: An identifier for the content associated with the frame.
+              user_opinion:
+                type: array
+                description: The portion of the read (opinion) annotation for the frame. Present on the target frame's entry only.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              categories:
+                type: array
+                description: The category tags assigned to this document's asset. Present on context-document entries only.
+                items:
+                  type: string
+              freetexts:
+                type: array
+                description: The finding freetext recorded on this context document. Present on context-document entries only.
+                items:
+                  type: array
+                  nullable: true
+                  items:
+                    type: string
+                    nullable: true
+    ReadsLookup:
+      type: object
+      properties:
+        content_metadata:
+          type: array
+          description: The metadata for the content associated with the requested reads (opinions).
+          items:
+            $ref: '#/components/schemas/ContentMetadata'
+        reads:
+          type: array
+          description: The list of reads (opinions).
+          items:
+            $ref: '#/components/schemas/Read'
+        read_ids_not_found:
+          type: array
+          description: The list of read (opinion) IDs that were not found.
+          items:
+            type: integer
+    ReadsLookupRequest:
+      type: object
+      required:
+      - task_id
+      - read_ids
+      properties:
+        task_id:
+          type: integer
+          description: The identifier for the task associated with the reads to be requested.
+        read_ids:
+          type: array
+          description: The list of read (opinion) IDs to look up (maximum 1000).
+          items:
+            type: integer
+        verbose:
+          type: boolean
+          description: Whether to include verbose output in the response.
+    VersionResponse:
+      type: object
+      properties:
+        version:
+          type: string
+          example: 12345
+    ResultV1:
+      type: object
+      properties:
+        task_id:
+          type: integer
+          description: The task ID.
+        task_name:
+          type: string
+          description: The task name.
+        project_id:
+          type: integer
+          description: The project ID.
+        project_name:
+          type: string
+          description: The project name.
+        case_id:
+          type: integer
+          description: The case ID.
+        task_type:
+          type: string
+          description: The labeling task (e.g. choice, box, circle, etc.)
+        patch:
+          type: string
+          nullable: true
+          description: An identifier for the patch within the image to be labeled.
+        labeling_state:
+          type: string
+          description: The labeling state of the case (e.g. Labeled, Gold Standard, etc.)
+        qualified_reads:
+          type: integer
+          description: The number of qualified reads collected for the case.
+        content_metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentMetadata'
+        portal_url:
+          type: string
+          description: URL to access view case in the Centaur portal.
+        internal_notes:
+          type: string
+          nullable: true
+          description: Internal notes for the case.
+        explanation:
+          type: string
+          nullable: true
+          description: Explanation for the case.
+        comments:
+          type: array
+          description: Comments submitted by users on the case.
+          items:
+            type: string
+        flags:
+          type: array
+          description: Messages submitted by users who flagged the case.
+          items:
+            type: string
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              content_id:
+                type: integer
+                description: An identifier for the content to which these results apply. If the case involves multiple content IDs, the lowest content ID is given.
+              correct_label:
+                type: array
+                nullable: true
+                description: The correct label for the case.  If the case is a segmentation task, then the contained strings will be in WKT format.
+                items:
+                  type: string
+              majority_label:
+                type: array
+                nullable: true
+                description: The majority label for the case based on user opinions.  If the case is a segmentation task, then the contained strings will be in WKT format.
+                items:
+                  type: string
+              agreement:
+                type: number
+                nullable: true
+                description: The agreement between user opinions on the case.
+              difficulty:
+                type: number
+                nullable: true
+                description: The difficulty of the case.
+              read_stats:
+                type: object
+                description: Read statistics for user opinions on the case.  Only included for classification tasks.
+                properties:
+                  counts:
+                    type: object
+                    description: Vote count breakdown by label category for user opinions on the case.
+                  weights:
+                    type: object
+                    description: Confidence level by label category for user opinions on the case.
+              top_reads:
+                type: array
+                description: The list of top user opinions used to create the majority label for the case.  Only included for segmentation tasks.
+                items:
+                  type: object
+                  properties:
+                    read_id:
+                      type: integer
+                      description: An identifier for the user opinion.
+                    user_id:
+                      type: integer
+                      description: The ID of the user who submitted the opinion.
+                    accuracy:
+                      type: number
+                      description: The confidence level of the user opinion.
+    AnswerClassStats:
+      type: object
+      properties:
+        answer_class:
+          type: string
+          description: The answer class for the case.
+        n_qualified_opinions:
+          type: integer
+          description: The number of qualified opinions supporting the answer class (i.e. classification opinions including it, or segmentation/range opinions including a finding of the answer class).
+        sum_confidence_scores:
+          type: number
+          description: The sum of confidence scores (each between 0 and 1) of the supporting opinions for the answer class.
+        agreement:
+          type: number
+          nullable: true
+          description: The agreement between labeler opinions on the answer class.
+        difficulty:
+          type: number
+          nullable: true
+          description: The difficulty of the answer class on the content element being labeled.
+    CaseResult:
+      type: object
+      properties:
+        task_id:
+          type: integer
+          description: The task ID.
+        task_name:
+          type: string
+          description: The task name.
+        project_id:
+          type: integer
+          description: The project ID.
+        project_name:
+          type: string
+          description: The project name.
+        case_id:
+          type: integer
+          description: The case ID.
+        task_type:
+          type: string
+          description: The labeling task (e.g. choice, box, circle, etc.)
+        content_type:
+          type: string
+          description: The content type of the task (e.g. image, video, etc.)
+        labeling_state:
+          type: string
+          description: The labeling state of the case (e.g. Labeled, Gold Standard, etc.)
+        n_qualified_opinions:
+          type: integer
+          description: The number of qualified opinions collected for the case.
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              content_metadata:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContentMetadata'
+              prelabel:
+                type: array
+                description: The pre-label for the content element.  Included for non-classification tasks only.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              correct_annotation:
+                type: array
+                description: The correct annotation for the content element being labeled.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              combined_opinion:
+                type: array
+                description: The combined opinion for the content element based on labeler opinions.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              correct_annotation_classes:
+                type: array
+                nullable: true
+                description: The correct answer classes for the content element being labeled.  Included for classification tasks only.
+                items:
+                  type: string
+              combined_opinion_classes:
+                type: array
+                nullable: true
+                description: The answer classes for the combined opinion for the content element.  Included for classification tasks only.
+                items:
+                  type: string
+              agreement:
+                type: number
+                nullable: true
+                description: The agreement between labeler opinions on the content element within the case.
+              difficulty:
+                type: number
+                nullable: true
+                description: The difficulty of the content element within the case.
+              answer_class_stats:
+                type: array
+                description: The opinion statistics for each answer class in the case.
+                items:
+                  $ref: '#/components/schemas/AnswerClassStats'
+        top_reads:
+          type: array
+          description: The list of top labeler opinions used to create the combined opinion for the case. Included for non-cuboid task types.
+          maxItems: 500
+          items:
+            type: object
+            properties:
+              read_id:
+                type: integer
+                description: An identifier for the labeler opinion.
+              user_id:
+                type: integer
+                description: The ID of the labeler who submitted the opinion.
+              qscore:
+                type: number
+                description: The confidence level of the user opinion.
+        patch:
+          type: string
+          nullable: true
+          description: An identifier for the patch within the image.
+        internal_notes:
+          type: string
+          nullable: true
+          description: Internal notes for the case.
+        explanation:
+          type: string
+          nullable: true
+          description: Explanation for the case.
+        pre_answer_explainer:
+          type: string
+          nullable: true
+          description: Pre-answer explainer for the case.
+        tags:
+          type: array
+          description: Tags associated with the case.
+          items:
+            type: string
+        comments:
+          type: array
+          description: Comments submitted by users on the case.
+          items:
+            type: string
+        flags:
+          type: array
+          description: Messages submitted by users who flagged the case.
+          items:
+            type: string
+        static_highlight_ranges:
+          type: array
+          description: Range and text for static highlighted ranges
+          items:
+            type: object
+            properties:
+              range:
+                type: array
+                description: The range for static highlights
+                items:
+                  type: array
+                  items:
+                    type: integer
+                  minItems: 2
+                  maxItems: 2
+              text:
+                type: string
+                description: The text for the static highlighted range
+    ResultListV1:
+      type: object
+      properties:
+        payload:
+          type: array
+          description: The list of labeling results.
+          items:
+            $ref: '#/components/schemas/ResultV1'
+        has_next:
+          type: boolean
+          description: Whether or not the list of labeling results has reached the end.
+        last_sequence_id:
+          type: integer
+          description: If has_next is true, the last_sequence_id is the token that should accompany the next request to get the following page of results.
+        limit:
+          type: integer
+          description: The maximum number of labeling results to retrieve per page.
+    ResultsArchiveUrlResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: processing
+        message:
+          type: string
+          example: Task is being processed in the background
+        s3_url:
+          type: string
+          example: https://s3.amazonaws.com/bucket_name/file_name.zip
+    CaseResultList:
+      type: object
+      properties:
+        payload:
+          type: array
+          description: The list of case results.
+          items:
+            $ref: '#/components/schemas/CaseResult'
+        has_next:
+          type: boolean
+          description: Whether or not the list of case results has reached the end.
+        last_sequence_id:
+          type: integer
+          description: If has_next is true, the last_sequence_id is the token that should accompany the next request to get the following page of results.
+        limit:
+          type: integer
+          description: The maximum number of case results to retrieve per page.
+  parameters:
+    task_id_param:
+      name: task_id
+      in: query
+      description: The task ID for the case labeling result to be retrieved.
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    case_id_param:
+      name: case_id
+      in: query
+      description: The case ID of the case labeling result.
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    verbose_param:
+      name: verbose
+      in: query
+      description: Controls verbosity of the results returned.
+      required: false
+      schema:
+        type: boolean
+    labeling_state_param:
+      name: labeling_state
+      in: query
+      description: The labeling state of the cases to filter by. Allowed values are "Ready", "In_Progress", "Labeled", "Gold_Standard", "Flagged", and "Canceled".
+      required: false
+      schema:
+        type: string
+    updated_after_param:
+      name: updated_after
+      in: query
+      description: The update timestamp (in ISO-8601 format) after which cases should be filtered. For example "2021-05-14", "2022-01-01T14:00:00", or "2022-03-04T07:23:48.928470+09:00."
+      required: false
+      schema:
+        type: string
+    last_sequence_id_param:
+      name: last_sequence_id
+      in: query
+      description: The paging token containing the last sequence ID from the previous page.
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+    limit_param:
+      name: limit
+      in: query
+      description: The maximum number of results per page. Default 100.
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+    include_opinions_csv_param:
+      name: include_opinions_csv
+      in: query
+      description: Flag to determine if all opinion results should be included. Defaults to false if not provided.
+      required: false
+      schema:
+        type: boolean
+        default: false
+    include_coco_json_param:
+      name: include_coco_json
+      in: query
+      description: Flag to determine if COCO JSON results should be included. Defaults to false if not provided.
+      required: false
+      schema:
+        type: boolean
+        default: false
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/get_reads-public-v1-version.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-get.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-list.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-version.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-get.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-getresultsarchiveurl.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-list.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-version.md
+  - https://docs.centaurlabs.com/reference/post_reads-public-v1-lookup.md
+  merge:
+    pages: 9
+    deduped: 33
+    conflicts_kept_first: 0

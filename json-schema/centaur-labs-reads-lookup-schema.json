@@ -1,0 +1,223 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-reads-lookup-schema.json",
+  "title": "ReadsLookup",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-label-apis-openapi.yml#/components/schemas/ReadsLookup",
+  "type": "object",
+  "properties": {
+    "content_metadata": {
+      "type": "array",
+      "description": "The metadata for the content associated with the requested reads (opinions).",
+      "items": {
+        "$ref": "#/$defs/ContentMetadata"
+      }
+    },
+    "reads": {
+      "type": "array",
+      "description": "The list of reads (opinions).",
+      "items": {
+        "$ref": "#/$defs/Read"
+      }
+    },
+    "read_ids_not_found": {
+      "type": "array",
+      "description": "The list of read (opinion) IDs that were not found.",
+      "items": {
+        "type": "integer"
+      }
+    }
+  },
+  "$defs": {
+    "ClassAnswer": {
+      "type": "object",
+      "properties": {
+        "answer_class": {
+          "type": "string",
+          "description": "The label class within the answer (correct annotation, combined opinion, or labeler opinion)."
+        },
+        "is_correct": {
+          "type": "boolean",
+          "description": "Whether the answer includes the class. Included for classification tasks only."
+        },
+        "geometries": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The segmentation for the answer class in WKT format. Included for contour segmentation tasks only.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "mask": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "A pre-signed URL to the segmentation for the answer class in mask (TIFF binary array) format. Included for mask segmentation tasks only."
+        },
+        "ranges": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The integer ranges for the answer class. Included for range tasks only.",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "entities": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "The entities for the answer class. Included for NER tasks only.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "freetexts": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "description": "An array of freetexts with one entry (array or null) per finding.",
+          "items": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "An array of freetexts for one specific finding. May contain 0, 1, or multiple text entries.",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ContentMetadata": {
+      "type": "object",
+      "properties": {
+        "content_id": {
+          "type": "integer",
+          "description": "An identifier for the content."
+        },
+        "origin": {
+          "type": "string",
+          "description": "An identifier for the file origin of the content."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp that content was created."
+        },
+        "series": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "An identifier for the series that the content belongs to."
+        },
+        "series_index": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The index of the content within the series (if any) that it belongs to."
+        },
+        "dicom_study_uid": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The DICOM study UID of the content."
+        },
+        "dicom_series_uid": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The DICOM series UID of the content."
+        },
+        "dicom_instance_uid": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The DICOM instance UID of the content."
+        }
+      }
+    },
+    "Read": {
+      "type": "object",
+      "properties": {
+        "read_id": {
+          "type": "integer",
+          "description": "An identifier for the read (opinion)."
+        },
+        "user_id": {
+          "type": "integer",
+          "description": "An identifier for the user."
+        },
+        "case_id": {
+          "type": "integer",
+          "description": "An identifier for the case."
+        },
+        "qscore": {
+          "type": "number",
+          "description": "The confidence level of the user read (opinion)."
+        },
+        "frames": {
+          "type": "array",
+          "description": "The frames of the read (opinion): the primary target frame, plus one entry per context document (multi-document annotation topics only) carrying a class-agnostic finding instead of a per-label-class user_opinion.",
+          "items": {
+            "type": "object",
+            "properties": {
+              "content_id": {
+                "type": "integer",
+                "description": "An identifier for the content associated with the frame."
+              },
+              "user_opinion": {
+                "type": "array",
+                "description": "The portion of the read (opinion) annotation for the frame. Present on the target frame's entry only.",
+                "items": {
+                  "$ref": "#/$defs/ClassAnswer"
+                }
+              },
+              "categories": {
+                "type": "array",
+                "description": "The category tags assigned to this document's asset. Present on context-document entries only.",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "freetexts": {
+                "type": "array",
+                "description": "The finding freetext recorded on this context document. Present on context-document entries only.",
+                "items": {
+                  "type": [
+                    "array",
+                    "null"
+                  ],
+                  "items": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

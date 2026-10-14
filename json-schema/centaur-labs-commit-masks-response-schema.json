@@ -1,0 +1,229 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-commit-masks-response-schema.json",
+  "title": "CommitMasksResponse",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-public-api-openapi.yml#/components/schemas/CommitMasksResponse",
+  "properties": {
+    "masks": {
+      "items": {
+        "anyOf": [
+          {
+            "$ref": "#/$defs/CommitMaskResponseSuccess"
+          },
+          {
+            "$ref": "#/$defs/CommitMaskResponseError"
+          }
+        ]
+      },
+      "type": "array",
+      "title": "Masks"
+    },
+    "all_masks_success": {
+      "type": "boolean",
+      "title": "All Masks Success"
+    }
+  },
+  "type": "object",
+  "required": [
+    "masks",
+    "all_masks_success"
+  ],
+  "$defs": {
+    "CommitMaskRequestMask": {
+      "properties": {
+        "presigned_url": {
+          "type": "string",
+          "title": "Presigned Url"
+        },
+        "problem_id": {
+          "type": "integer",
+          "title": "Problem Id"
+        },
+        "label_class_id": {
+          "type": "integer",
+          "title": "Label Class Id"
+        },
+        "category": {
+          "$ref": "#/$defs/MaskCategory"
+        },
+        "frame_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frame Id",
+          "description": "Must provide a frame_id for 2D masks"
+        },
+        "frame_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frame Uuid"
+        },
+        "user_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "User Id"
+        },
+        "series_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Series Uuid",
+          "description": "Must provide a series_uuid for 3D masks"
+        }
+      },
+      "type": "object",
+      "required": [
+        "presigned_url",
+        "problem_id",
+        "label_class_id",
+        "category"
+      ],
+      "title": "CommitMaskRequestMask"
+    },
+    "CommitMaskResponseError": {
+      "properties": {
+        "mask_request_info": {
+          "$ref": "#/$defs/CommitMaskRequestMask"
+        },
+        "success": {
+          "type": "boolean",
+          "const": false,
+          "title": "Success"
+        },
+        "error_message": {
+          "type": "string",
+          "title": "Error Message"
+        }
+      },
+      "type": "object",
+      "required": [
+        "mask_request_info",
+        "success",
+        "error_message"
+      ],
+      "title": "CommitMaskResponseError"
+    },
+    "CommitMaskResponseSuccess": {
+      "properties": {
+        "mask_request_info": {
+          "$ref": "#/$defs/CommitMaskRequestMask"
+        },
+        "success": {
+          "type": "boolean",
+          "const": true,
+          "title": "Success"
+        },
+        "frame_data": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/FrameInfo"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frame Data"
+        },
+        "tiff_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tiff Url"
+        },
+        "mask_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mask Uuid"
+        }
+      },
+      "type": "object",
+      "required": [
+        "mask_request_info",
+        "success",
+        "frame_data"
+      ],
+      "title": "CommitMaskResponseSuccess"
+    },
+    "FrameInfo": {
+      "properties": {
+        "tiff_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Tiff Url"
+        },
+        "mask_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Mask Uuid"
+        }
+      },
+      "type": "object",
+      "required": [
+        "tiff_url",
+        "mask_uuid"
+      ],
+      "title": "FrameInfo"
+    },
+    "MaskCategory": {
+      "type": "string",
+      "enum": [
+        "opinions",
+        "correct_answers",
+        "majority_opinions",
+        "pre_labels"
+      ],
+      "title": "MaskCategory"
+    }
+  }
+}

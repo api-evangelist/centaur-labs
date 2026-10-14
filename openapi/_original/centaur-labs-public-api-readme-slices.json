@@ -1,0 +1,772 @@
+[
+ {
+  "page": "https://docs.centaurlabs.com/reference/public_generate_presigned_urls_route_masks_public_v1_generate_presigned_urls_post.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Public API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/masks/public/v1/generate-presigned-urls": {
+     "post": {
+      "tags": [
+       "masks-public"
+      ],
+      "summary": "Generate pre-signed mask upload URLs (public API)",
+      "description": "Request pre-signed URLs for direct upload of DICOMSEG or TIFF masks (public API).",
+      "operationId": "public_generate_presigned_urls_route_masks_public_v1_generate_presigned_urls_post",
+      "requestBody": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/GeneratePresignedURLsRequest"
+         }
+        }
+       },
+       "required": true
+      },
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/GeneratePresignedURLsResponse"
+          }
+         }
+        }
+       },
+       "422": {
+        "description": "Validation Error",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/HTTPValidationError"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "GeneratePresignedURLsRequest": {
+      "properties": {
+       "project_id": {
+        "type": "integer",
+        "title": "Project Id"
+       },
+       "task_id": {
+        "type": "integer",
+        "title": "Task Id"
+       },
+       "masks": {
+        "anyOf": [
+         {
+          "items": {
+           "$ref": "#/components/schemas/PixelMaskTiffInfo"
+          },
+          "type": "array"
+         },
+         {
+          "items": {
+           "$ref": "#/components/schemas/PixelMaskDicomSegInfo"
+          },
+          "type": "array"
+         }
+        ],
+        "minLength": 1,
+        "title": "Masks"
+       }
+      },
+      "type": "object",
+      "required": [
+       "project_id",
+       "task_id",
+       "masks"
+      ],
+      "title": "GeneratePresignedURLsRequest"
+     },
+     "GeneratePresignedURLsResponse": {
+      "properties": {
+       "project_id": {
+        "type": "integer",
+        "title": "Project Id"
+       },
+       "task_id": {
+        "type": "integer",
+        "title": "Task Id"
+       },
+       "masks": {
+        "items": {
+         "$ref": "#/components/schemas/PixelMaskResponseInfo"
+        },
+        "type": "array",
+        "title": "Masks"
+       }
+      },
+      "type": "object",
+      "required": [
+       "project_id",
+       "task_id",
+       "masks"
+      ],
+      "title": "GeneratePresignedURLsResponse"
+     },
+     "HTTPValidationError": {
+      "properties": {
+       "detail": {
+        "items": {
+         "$ref": "#/components/schemas/ValidationError"
+        },
+        "type": "array",
+        "title": "Detail"
+       }
+      },
+      "type": "object",
+      "title": "HTTPValidationError"
+     },
+     "MaskCategory": {
+      "type": "string",
+      "enum": [
+       "opinions",
+       "correct_answers",
+       "majority_opinions",
+       "pre_labels"
+      ],
+      "title": "MaskCategory"
+     },
+     "PixelMaskDicomSegInfo": {
+      "properties": {
+       "problem_id": {
+        "type": "integer",
+        "title": "Problem Id"
+       },
+       "label_class_ids": {
+        "items": {
+         "type": "integer"
+        },
+        "type": "array",
+        "minItems": 1,
+        "title": "Label Class Ids"
+       },
+       "category": {
+        "$ref": "#/components/schemas/MaskCategory"
+       },
+       "mask_type": {
+        "type": "string",
+        "const": "dicom_seg",
+        "title": "Mask Type",
+        "default": "dicom_seg"
+       },
+       "study_uuid": {
+        "type": "string",
+        "title": "Study Uuid"
+       },
+       "series_uuid": {
+        "type": "string",
+        "title": "Series Uuid"
+       }
+      },
+      "type": "object",
+      "required": [
+       "problem_id",
+       "label_class_ids",
+       "category",
+       "study_uuid",
+       "series_uuid"
+      ],
+      "title": "PixelMaskDicomSegInfo"
+     },
+     "PixelMaskResponseInfo": {
+      "properties": {
+       "uuid": {
+        "type": "string",
+        "title": "Uuid"
+       },
+       "presigned_urls": {
+        "items": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/PresignedURLsTIFFInfo"
+          },
+          {
+           "$ref": "#/components/schemas/PresignedURLsDicomSegInfo"
+          }
+         ]
+        },
+        "type": "array",
+        "title": "Presigned Urls"
+       }
+      },
+      "type": "object",
+      "required": [
+       "uuid",
+       "presigned_urls"
+      ],
+      "title": "PixelMaskResponseInfo"
+     },
+     "PixelMaskTiffInfo": {
+      "properties": {
+       "problem_id": {
+        "type": "integer",
+        "title": "Problem Id"
+       },
+       "label_class_ids": {
+        "items": {
+         "type": "integer"
+        },
+        "type": "array",
+        "minItems": 1,
+        "title": "Label Class Ids"
+       },
+       "category": {
+        "$ref": "#/components/schemas/MaskCategory"
+       },
+       "mask_type": {
+        "type": "string",
+        "const": "tiff",
+        "title": "Mask Type",
+        "default": "tiff"
+       },
+       "frame_id": {
+        "type": "integer",
+        "title": "Frame Id"
+       }
+      },
+      "type": "object",
+      "required": [
+       "problem_id",
+       "label_class_ids",
+       "category",
+       "frame_id"
+      ],
+      "title": "PixelMaskTiffInfo"
+     },
+     "PresignedURLsDicomSegInfo": {
+      "properties": {
+       "file_url": {
+        "type": "string",
+        "title": "File Url"
+       },
+       "label_class_id": {
+        "type": "integer",
+        "title": "Label Class Id"
+       },
+       "mask_type": {
+        "type": "string",
+        "const": "dicom_seg",
+        "title": "Mask Type"
+       },
+       "study_uuid": {
+        "type": "string",
+        "title": "Study Uuid"
+       },
+       "series_uuid": {
+        "type": "string",
+        "title": "Series Uuid"
+       }
+      },
+      "type": "object",
+      "required": [
+       "file_url",
+       "label_class_id",
+       "mask_type",
+       "study_uuid",
+       "series_uuid"
+      ],
+      "title": "PresignedURLsDicomSegInfo"
+     },
+     "PresignedURLsTIFFInfo": {
+      "properties": {
+       "file_url": {
+        "type": "string",
+        "title": "File Url"
+       },
+       "label_class_id": {
+        "type": "integer",
+        "title": "Label Class Id"
+       },
+       "mask_type": {
+        "type": "string",
+        "const": "tiff",
+        "title": "Mask Type"
+       },
+       "frame_id": {
+        "type": "integer",
+        "title": "Frame Id"
+       }
+      },
+      "type": "object",
+      "required": [
+       "file_url",
+       "label_class_id",
+       "mask_type",
+       "frame_id"
+      ],
+      "title": "PresignedURLsTIFFInfo"
+     },
+     "ValidationError": {
+      "properties": {
+       "loc": {
+        "items": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "integer"
+          }
+         ]
+        },
+        "type": "array",
+        "title": "Location"
+       },
+       "msg": {
+        "type": "string",
+        "title": "Message"
+       },
+       "type": {
+        "type": "string",
+        "title": "Error Type"
+       },
+       "input": {
+        "title": "Input"
+       },
+       "ctx": {
+        "type": "object",
+        "title": "Context"
+       }
+      },
+      "type": "object",
+      "required": [
+       "loc",
+       "msg",
+       "type"
+      ],
+      "title": "ValidationError"
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ },
+ {
+  "page": "https://docs.centaurlabs.com/reference/public_commit_masks_route_masks_public_v1_commit_post.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Public API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/masks/public/v1/commit": {
+     "post": {
+      "tags": [
+       "masks-public"
+      ],
+      "summary": "Commit uploaded masks (public API)",
+      "description": "Validate and copy uploaded masks to the permanent bucket (public API); the batch is\ncapped at 20 masks.",
+      "operationId": "public_commit_masks_route_masks_public_v1_commit_post",
+      "requestBody": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/CommitMasksRequestPublicApi"
+         }
+        }
+       },
+       "required": true
+      },
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/CommitMasksResponse"
+          }
+         }
+        }
+       },
+       "207": {
+        "description": "Some masks were not submitted successfully",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/CommitMasksResponse"
+          }
+         }
+        }
+       },
+       "422": {
+        "description": "Validation Error",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/HTTPValidationError"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "CommitMaskRequestMask": {
+      "properties": {
+       "presigned_url": {
+        "type": "string",
+        "title": "Presigned Url"
+       },
+       "problem_id": {
+        "type": "integer",
+        "title": "Problem Id"
+       },
+       "label_class_id": {
+        "type": "integer",
+        "title": "Label Class Id"
+       },
+       "category": {
+        "$ref": "#/components/schemas/MaskCategory"
+       },
+       "frame_id": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Frame Id",
+        "description": "Must provide a frame_id for 2D masks"
+       },
+       "frame_uuid": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Frame Uuid"
+       },
+       "user_id": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "User Id"
+       },
+       "series_uuid": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Series Uuid",
+        "description": "Must provide a series_uuid for 3D masks"
+       }
+      },
+      "type": "object",
+      "required": [
+       "presigned_url",
+       "problem_id",
+       "label_class_id",
+       "category"
+      ],
+      "title": "CommitMaskRequestMask"
+     },
+     "CommitMaskResponseError": {
+      "properties": {
+       "mask_request_info": {
+        "$ref": "#/components/schemas/CommitMaskRequestMask"
+       },
+       "success": {
+        "type": "boolean",
+        "const": false,
+        "title": "Success"
+       },
+       "error_message": {
+        "type": "string",
+        "title": "Error Message"
+       }
+      },
+      "type": "object",
+      "required": [
+       "mask_request_info",
+       "success",
+       "error_message"
+      ],
+      "title": "CommitMaskResponseError"
+     },
+     "CommitMaskResponseSuccess": {
+      "properties": {
+       "mask_request_info": {
+        "$ref": "#/components/schemas/CommitMaskRequestMask"
+       },
+       "success": {
+        "type": "boolean",
+        "const": true,
+        "title": "Success"
+       },
+       "frame_data": {
+        "anyOf": [
+         {
+          "items": {
+           "$ref": "#/components/schemas/FrameInfo"
+          },
+          "type": "array"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Frame Data"
+       },
+       "tiff_url": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Tiff Url"
+       },
+       "mask_uuid": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Mask Uuid"
+       }
+      },
+      "type": "object",
+      "required": [
+       "mask_request_info",
+       "success",
+       "frame_data"
+      ],
+      "title": "CommitMaskResponseSuccess"
+     },
+     "CommitMasksRequestPublicApi": {
+      "properties": {
+       "task_id": {
+        "type": "integer",
+        "title": "Task Id"
+       },
+       "masks": {
+        "items": {
+         "$ref": "#/components/schemas/CommitMaskRequestMask"
+        },
+        "type": "array",
+        "maxItems": 20,
+        "title": "Masks"
+       }
+      },
+      "type": "object",
+      "required": [
+       "task_id",
+       "masks"
+      ],
+      "title": "CommitMasksRequestPublicApi"
+     },
+     "CommitMasksResponse": {
+      "properties": {
+       "masks": {
+        "items": {
+         "anyOf": [
+          {
+           "$ref": "#/components/schemas/CommitMaskResponseSuccess"
+          },
+          {
+           "$ref": "#/components/schemas/CommitMaskResponseError"
+          }
+         ]
+        },
+        "type": "array",
+        "title": "Masks"
+       },
+       "all_masks_success": {
+        "type": "boolean",
+        "title": "All Masks Success"
+       }
+      },
+      "type": "object",
+      "required": [
+       "masks",
+       "all_masks_success"
+      ],
+      "title": "CommitMasksResponse"
+     },
+     "FrameInfo": {
+      "properties": {
+       "tiff_url": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Tiff Url"
+       },
+       "mask_uuid": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Mask Uuid"
+       }
+      },
+      "type": "object",
+      "required": [
+       "tiff_url",
+       "mask_uuid"
+      ],
+      "title": "FrameInfo"
+     },
+     "HTTPValidationError": {
+      "properties": {
+       "detail": {
+        "items": {
+         "$ref": "#/components/schemas/ValidationError"
+        },
+        "type": "array",
+        "title": "Detail"
+       }
+      },
+      "type": "object",
+      "title": "HTTPValidationError"
+     },
+     "MaskCategory": {
+      "type": "string",
+      "enum": [
+       "opinions",
+       "correct_answers",
+       "majority_opinions",
+       "pre_labels"
+      ],
+      "title": "MaskCategory"
+     },
+     "ValidationError": {
+      "properties": {
+       "loc": {
+        "items": {
+         "anyOf": [
+          {
+           "type": "string"
+          },
+          {
+           "type": "integer"
+          }
+         ]
+        },
+        "type": "array",
+        "title": "Location"
+       },
+       "msg": {
+        "type": "string",
+        "title": "Message"
+       },
+       "type": {
+        "type": "string",
+        "title": "Error Type"
+       },
+       "input": {
+        "title": "Input"
+       },
+       "ctx": {
+        "type": "object",
+        "title": "Context"
+       }
+      },
+      "type": "object",
+      "required": [
+       "loc",
+       "msg",
+       "type"
+      ],
+      "title": "ValidationError"
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ }
+]

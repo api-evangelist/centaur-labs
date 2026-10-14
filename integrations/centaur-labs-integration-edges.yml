@@ -1,0 +1,16 @@
+generated: '2026-10-14'
+method: none
+source:
+- https://zapier.com/apps/centaur-labs/integrations
+- https://n8n.io/integrations/centaur-labs/
+- https://composio.dev/toolkits/centaur-labs
+- https://monid.ai/tools/centaur-labs
+checked:
+- https://composio.dev/toolkits/centaur-labs
+- https://monid.ai/tools/centaur-labs
+- https://n8n.io/integrations/centaur-labs/
+- https://zapier.com/apps/centaur-labs/integrations
+summary: null
+marketplace_apps: []
+edges: []
+templates: []

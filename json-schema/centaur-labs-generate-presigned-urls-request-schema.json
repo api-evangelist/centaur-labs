@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-generate-presigned-urls-request-schema.json",
+  "title": "GeneratePresignedURLsRequest",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-public-api-openapi.yml#/components/schemas/GeneratePresignedURLsRequest",
+  "properties": {
+    "project_id": {
+      "type": "integer",
+      "title": "Project Id"
+    },
+    "task_id": {
+      "type": "integer",
+      "title": "Task Id"
+    },
+    "masks": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/PixelMaskTiffInfo"
+          },
+          "type": "array"
+        },
+        {
+          "items": {
+            "$ref": "#/$defs/PixelMaskDicomSegInfo"
+          },
+          "type": "array"
+        }
+      ],
+      "minLength": 1,
+      "title": "Masks"
+    }
+  },
+  "type": "object",
+  "required": [
+    "project_id",
+    "task_id",
+    "masks"
+  ],
+  "$defs": {
+    "MaskCategory": {
+      "type": "string",
+      "enum": [
+        "opinions",
+        "correct_answers",
+        "majority_opinions",
+        "pre_labels"
+      ],
+      "title": "MaskCategory"
+    },
+    "PixelMaskDicomSegInfo": {
+      "properties": {
+        "problem_id": {
+          "type": "integer",
+          "title": "Problem Id"
+        },
+        "label_class_ids": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array",
+          "minItems": 1,
+          "title": "Label Class Ids"
+        },
+        "category": {
+          "$ref": "#/$defs/MaskCategory"
+        },
+        "mask_type": {
+          "type": "string",
+          "const": "dicom_seg",
+          "title": "Mask Type",
+          "default": "dicom_seg"
+        },
+        "study_uuid": {
+          "type": "string",
+          "title": "Study Uuid"
+        },
+        "series_uuid": {
+          "type": "string",
+          "title": "Series Uuid"
+        }
+      },
+      "type": "object",
+      "required": [
+        "problem_id",
+        "label_class_ids",
+        "category",
+        "study_uuid",
+        "series_uuid"
+      ],
+      "title": "PixelMaskDicomSegInfo"
+    },
+    "PixelMaskTiffInfo": {
+      "properties": {
+        "problem_id": {
+          "type": "integer",
+          "title": "Problem Id"
+        },
+        "label_class_ids": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array",
+          "minItems": 1,
+          "title": "Label Class Ids"
+        },
+        "category": {
+          "$ref": "#/$defs/MaskCategory"
+        },
+        "mask_type": {
+          "type": "string",
+          "const": "tiff",
+          "title": "Mask Type",
+          "default": "tiff"
+        },
+        "frame_id": {
+          "type": "integer",
+          "title": "Frame Id"
+        }
+      },
+      "type": "object",
+      "required": [
+        "problem_id",
+        "label_class_ids",
+        "category",
+        "frame_id"
+      ],
+      "title": "PixelMaskTiffInfo"
+    }
+  }
+}

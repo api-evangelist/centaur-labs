@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-commit-masks-request-public-api-schema.json",
+  "title": "CommitMasksRequestPublicApi",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-public-api-openapi.yml#/components/schemas/CommitMasksRequestPublicApi",
+  "properties": {
+    "task_id": {
+      "type": "integer",
+      "title": "Task Id"
+    },
+    "masks": {
+      "items": {
+        "$ref": "#/$defs/CommitMaskRequestMask"
+      },
+      "type": "array",
+      "maxItems": 20,
+      "title": "Masks"
+    }
+  },
+  "type": "object",
+  "required": [
+    "task_id",
+    "masks"
+  ],
+  "$defs": {
+    "CommitMaskRequestMask": {
+      "properties": {
+        "presigned_url": {
+          "type": "string",
+          "title": "Presigned Url"
+        },
+        "problem_id": {
+          "type": "integer",
+          "title": "Problem Id"
+        },
+        "label_class_id": {
+          "type": "integer",
+          "title": "Label Class Id"
+        },
+        "category": {
+          "$ref": "#/$defs/MaskCategory"
+        },
+        "frame_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frame Id",
+          "description": "Must provide a frame_id for 2D masks"
+        },
+        "frame_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Frame Uuid"
+        },
+        "user_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "User Id"
+        },
+        "series_uuid": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Series Uuid",
+          "description": "Must provide a series_uuid for 3D masks"
+        }
+      },
+      "type": "object",
+      "required": [
+        "presigned_url",
+        "problem_id",
+        "label_class_id",
+        "category"
+      ],
+      "title": "CommitMaskRequestMask"
+    },
+    "MaskCategory": {
+      "type": "string",
+      "enum": [
+        "opinions",
+        "correct_answers",
+        "majority_opinions",
+        "pre_labels"
+      ],
+      "title": "MaskCategory"
+    }
+  }
+}

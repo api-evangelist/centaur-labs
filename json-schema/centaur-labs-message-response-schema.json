@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-message-response-schema.json",
+  "title": "MessageResponse",
+  "description": "A one-line answer: a refusal, a greeting, or a closed session.",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-authorization-api-openapi.yml#/components/schemas/MessageResponse",
+  "properties": {
+    "message": {
+      "type": "string",
+      "title": "Message"
+    }
+  },
+  "type": "object",
+  "required": [
+    "message"
+  ]
+}

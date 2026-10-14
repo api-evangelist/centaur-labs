@@ -1,0 +1,224 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-result-v1-schema.json",
+  "title": "ResultV1",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-label-apis-openapi.yml#/components/schemas/ResultV1",
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "integer",
+      "description": "The task ID."
+    },
+    "task_name": {
+      "type": "string",
+      "description": "The task name."
+    },
+    "project_id": {
+      "type": "integer",
+      "description": "The project ID."
+    },
+    "project_name": {
+      "type": "string",
+      "description": "The project name."
+    },
+    "case_id": {
+      "type": "integer",
+      "description": "The case ID."
+    },
+    "task_type": {
+      "type": "string",
+      "description": "The labeling task (e.g. choice, box, circle, etc.)"
+    },
+    "patch": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "An identifier for the patch within the image to be labeled."
+    },
+    "labeling_state": {
+      "type": "string",
+      "description": "The labeling state of the case (e.g. Labeled, Gold Standard, etc.)"
+    },
+    "qualified_reads": {
+      "type": "integer",
+      "description": "The number of qualified reads collected for the case."
+    },
+    "content_metadata": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ContentMetadata"
+      }
+    },
+    "portal_url": {
+      "type": "string",
+      "description": "URL to access view case in the Centaur portal."
+    },
+    "internal_notes": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Internal notes for the case."
+    },
+    "explanation": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Explanation for the case."
+    },
+    "comments": {
+      "type": "array",
+      "description": "Comments submitted by users on the case.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "flags": {
+      "type": "array",
+      "description": "Messages submitted by users who flagged the case.",
+      "items": {
+        "type": "string"
+      }
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "content_id": {
+            "type": "integer",
+            "description": "An identifier for the content to which these results apply. If the case involves multiple content IDs, the lowest content ID is given."
+          },
+          "correct_label": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "The correct label for the case.  If the case is a segmentation task, then the contained strings will be in WKT format.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "majority_label": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "description": "The majority label for the case based on user opinions.  If the case is a segmentation task, then the contained strings will be in WKT format.",
+            "items": {
+              "type": "string"
+            }
+          },
+          "agreement": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "The agreement between user opinions on the case."
+          },
+          "difficulty": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "The difficulty of the case."
+          },
+          "read_stats": {
+            "type": "object",
+            "description": "Read statistics for user opinions on the case.  Only included for classification tasks.",
+            "properties": {
+              "counts": {
+                "type": "object",
+                "description": "Vote count breakdown by label category for user opinions on the case."
+              },
+              "weights": {
+                "type": "object",
+                "description": "Confidence level by label category for user opinions on the case."
+              }
+            }
+          },
+          "top_reads": {
+            "type": "array",
+            "description": "The list of top user opinions used to create the majority label for the case.  Only included for segmentation tasks.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "read_id": {
+                  "type": "integer",
+                  "description": "An identifier for the user opinion."
+                },
+                "user_id": {
+                  "type": "integer",
+                  "description": "The ID of the user who submitted the opinion."
+                },
+                "accuracy": {
+                  "type": "number",
+                  "description": "The confidence level of the user opinion."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "ContentMetadata": {
+      "type": "object",
+      "properties": {
+        "content_id": {
+          "type": "integer",
+          "description": "An identifier for the content."
+        },
+        "origin": {
+          "type": "string",
+          "description": "An identifier for the file origin of the content."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "Timestamp that content was created."
+        },
+        "series": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "An identifier for the series that the content belongs to."
+        },
+        "series_index": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "description": "The index of the content within the series (if any) that it belongs to."
+        },
+        "dicom_study_uid": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The DICOM study UID of the content."
+        },
+        "dicom_series_uid": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The DICOM series UID of the content."
+        },
+        "dicom_instance_uid": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The DICOM instance UID of the content."
+        }
+      }
+    }
+  }
+}

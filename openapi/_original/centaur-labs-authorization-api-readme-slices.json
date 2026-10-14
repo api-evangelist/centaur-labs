@@ -1,0 +1,682 @@
+[
+ {
+  "page": "https://docs.centaurlabs.com/reference/login_auth_public_v1_login_post.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Authorization API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/auth/public/v1/login": {
+     "post": {
+      "tags": [
+       "Login"
+      ],
+      "summary": "Log in with an API key and password, and open an API session",
+      "description": "Log in to a public API session.",
+      "operationId": "login_auth_public_v1_login_post",
+      "requestBody": {
+       "content": {
+        "application/json": {
+         "schema": {
+          "$ref": "#/components/schemas/PublicLoginRequest"
+         }
+        }
+       },
+       "required": true
+      },
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/PublicLoginResponse"
+          }
+         }
+        }
+       },
+       "400": {
+        "description": "Bad Request",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       },
+       "401": {
+        "description": "Unauthorized",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       },
+       "403": {
+        "description": "Country not served",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/GeoRestrictedResponse"
+          }
+         }
+        }
+       }
+      },
+      "security": [
+       {
+        "ApiKeyAuth": []
+       }
+      ]
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "GeoRestrictedResponse": {
+      "properties": {
+       "message": {
+        "type": "string",
+        "title": "Message",
+        "examples": [
+         "Centaur isn't available in your country. Based on your location, we're unable to provide access. Questions about eligibility? Email support@centaurlabs.com"
+        ]
+       },
+       "code": {
+        "type": "string",
+        "title": "Code",
+        "examples": [
+         "restricted_country"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "message",
+       "code"
+      ],
+      "title": "GeoRestrictedResponse",
+      "description": "The refusal a caller gets from a country the service does not serve.\n\nThe `code` is a stable marker, so a client tells this apart from any other refusal\nwithout a match on prose."
+     },
+     "MessageResponse": {
+      "properties": {
+       "message": {
+        "type": "string",
+        "title": "Message",
+        "examples": [
+         "Hello!"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "message"
+      ],
+      "title": "MessageResponse",
+      "description": "A one-line answer: a refusal, a greeting, or a closed session."
+     },
+     "PublicLoginRequest": {
+      "properties": {
+       "username": {
+        "type": "string",
+        "title": "Username",
+        "examples": [
+         "johndoe@domain.com"
+        ]
+       },
+       "api_password": {
+        "type": "string",
+        "title": "Api Password",
+        "examples": [
+         "abcd1234"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "username",
+       "api_password"
+      ],
+      "title": "PublicLoginRequest",
+      "description": "The credentials of a public login."
+     },
+     "PublicLoginResponse": {
+      "properties": {
+       "token": {
+        "type": "string",
+        "title": "Token",
+        "examples": [
+         "344545656gffgfgfgfg"
+        ]
+       },
+       "id": {
+        "type": "integer",
+        "title": "Id",
+        "examples": [
+         1
+        ]
+       },
+       "email": {
+        "type": "string",
+        "title": "Email",
+        "examples": [
+         "jsmith@email.com"
+        ]
+       },
+       "role": {
+        "type": "string",
+        "title": "Role",
+        "examples": [
+         "customer"
+        ]
+       },
+       "name": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Name",
+        "examples": [
+         "Jon Smith"
+        ]
+       },
+       "organization_id": {
+        "anyOf": [
+         {
+          "type": "integer"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Organization Id",
+        "examples": [
+         2
+        ]
+       },
+       "organization": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Organization",
+        "examples": [
+         "Company A"
+        ]
+       },
+       "created_at": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Created At"
+       }
+      },
+      "additionalProperties": true,
+      "type": "object",
+      "required": [
+       "token",
+       "id",
+       "email",
+       "role"
+      ],
+      "title": "PublicLoginResponse",
+      "description": "The customer row a successful login returns, plus the new API token."
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ },
+ {
+  "page": "https://docs.centaurlabs.com/reference/logout_auth_public_v1_logout_post.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Authorization API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/auth/public/v1/logout": {
+     "post": {
+      "tags": [
+       "Logout"
+      ],
+      "summary": "Invalidate the current API session",
+      "description": "Invalidate the API session of the token in the request.",
+      "operationId": "logout_auth_public_v1_logout_post",
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       },
+       "401": {
+        "description": "Unauthorized",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "MessageResponse": {
+      "properties": {
+       "message": {
+        "type": "string",
+        "title": "Message",
+        "examples": [
+         "Hello!"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "message"
+      ],
+      "title": "MessageResponse",
+      "description": "A one-line answer: a refusal, a greeting, or a closed session."
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ },
+ {
+  "page": "https://docs.centaurlabs.com/reference/refresh_token_auth_public_v1_refreshtoken_post.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Authorization API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/auth/public/v1/refreshToken": {
+     "post": {
+      "tags": [
+       "Refresh Token"
+      ],
+      "summary": "Invalidate the current token and return a new one",
+      "description": "Invalidate the active token, then create and return a new one.",
+      "operationId": "refresh_token_auth_public_v1_refreshToken_post",
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/RefreshTokenResponse"
+          }
+         }
+        }
+       },
+       "401": {
+        "description": "Unauthorized",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       },
+       "403": {
+        "description": "Country not served",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/GeoRestrictedResponse"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "GeoRestrictedResponse": {
+      "properties": {
+       "message": {
+        "type": "string",
+        "title": "Message",
+        "examples": [
+         "Centaur isn't available in your country. Based on your location, we're unable to provide access. Questions about eligibility? Email support@centaurlabs.com"
+        ]
+       },
+       "code": {
+        "type": "string",
+        "title": "Code",
+        "examples": [
+         "restricted_country"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "message",
+       "code"
+      ],
+      "title": "GeoRestrictedResponse",
+      "description": "The refusal a caller gets from a country the service does not serve.\n\nThe `code` is a stable marker, so a client tells this apart from any other refusal\nwithout a match on prose."
+     },
+     "MessageResponse": {
+      "properties": {
+       "message": {
+        "type": "string",
+        "title": "Message",
+        "examples": [
+         "Hello!"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "message"
+      ],
+      "title": "MessageResponse",
+      "description": "A one-line answer: a refusal, a greeting, or a closed session."
+     },
+     "RefreshTokenResponse": {
+      "properties": {
+       "token": {
+        "type": "string",
+        "title": "Token",
+        "examples": [
+         "344545656gffgfgfgfg"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "token"
+      ],
+      "title": "RefreshTokenResponse"
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ },
+ {
+  "page": "https://docs.centaurlabs.com/reference/test_token_auth_public_v1_testtoken_post.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Authorization API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/auth/public/v1/testToken": {
+     "post": {
+      "tags": [
+       "Test Token"
+      ],
+      "summary": "Check that the current token is valid",
+      "description": "Verify the active token.",
+      "operationId": "test_token_auth_public_v1_testToken_post",
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       },
+       "401": {
+        "description": "Unauthorized",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/MessageResponse"
+          }
+         }
+        }
+       }
+      }
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "MessageResponse": {
+      "properties": {
+       "message": {
+        "type": "string",
+        "title": "Message",
+        "examples": [
+         "Hello!"
+        ]
+       }
+      },
+      "type": "object",
+      "required": [
+       "message"
+      ],
+      "title": "MessageResponse",
+      "description": "A one-line answer: a refusal, a greeting, or a closed session."
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ },
+ {
+  "page": "https://docs.centaurlabs.com/reference/version_auth_public_v1_version_get.md",
+  "definition": {
+   "openapi": "3.1.0",
+   "info": {
+    "title": "Centaur Authorization API",
+    "version": "1.0.0"
+   },
+   "servers": [
+    {
+     "url": "https://api.centaurlabs.com",
+     "description": "Public API"
+    }
+   ],
+   "paths": {
+    "/auth/public/v1/version": {
+     "get": {
+      "tags": [
+       "Get API Version"
+      ],
+      "summary": "Return the release version of the authorizer app",
+      "description": "Return the release version of the authorizer app.",
+      "operationId": "version_auth_public_v1_version_get",
+      "responses": {
+       "200": {
+        "description": "Successful Response",
+        "content": {
+         "application/json": {
+          "schema": {
+           "$ref": "#/components/schemas/VersionResponse"
+          }
+         }
+        }
+       }
+      },
+      "security": []
+     }
+    }
+   },
+   "components": {
+    "schemas": {
+     "VersionResponse": {
+      "properties": {
+       "version": {
+        "anyOf": [
+         {
+          "type": "string"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Version",
+        "examples": [
+         "12345"
+        ]
+       }
+      },
+      "type": "object",
+      "title": "VersionResponse"
+     }
+    },
+    "securitySchemes": {
+     "bearerAuth": {
+      "type": "http",
+      "scheme": "bearer"
+     },
+     "ApiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-KEY"
+     }
+    }
+   },
+   "security": [
+    {
+     "bearerAuth": [],
+     "ApiKeyAuth": []
+    }
+   ],
+   "x-readme": {
+    "apply-tag-changes": true
+   }
+  }
+ }
+]

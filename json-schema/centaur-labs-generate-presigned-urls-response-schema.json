@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-generate-presigned-urls-response-schema.json",
+  "title": "GeneratePresignedURLsResponse",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-public-api-openapi.yml#/components/schemas/GeneratePresignedURLsResponse",
+  "properties": {
+    "project_id": {
+      "type": "integer",
+      "title": "Project Id"
+    },
+    "task_id": {
+      "type": "integer",
+      "title": "Task Id"
+    },
+    "masks": {
+      "items": {
+        "$ref": "#/$defs/PixelMaskResponseInfo"
+      },
+      "type": "array",
+      "title": "Masks"
+    }
+  },
+  "type": "object",
+  "required": [
+    "project_id",
+    "task_id",
+    "masks"
+  ],
+  "$defs": {
+    "PixelMaskResponseInfo": {
+      "properties": {
+        "uuid": {
+          "type": "string",
+          "title": "Uuid"
+        },
+        "presigned_urls": {
+          "items": {
+            "anyOf": [
+              {
+                "$ref": "#/$defs/PresignedURLsTIFFInfo"
+              },
+              {
+                "$ref": "#/$defs/PresignedURLsDicomSegInfo"
+              }
+            ]
+          },
+          "type": "array",
+          "title": "Presigned Urls"
+        }
+      },
+      "type": "object",
+      "required": [
+        "uuid",
+        "presigned_urls"
+      ],
+      "title": "PixelMaskResponseInfo"
+    },
+    "PresignedURLsDicomSegInfo": {
+      "properties": {
+        "file_url": {
+          "type": "string",
+          "title": "File Url"
+        },
+        "label_class_id": {
+          "type": "integer",
+          "title": "Label Class Id"
+        },
+        "mask_type": {
+          "type": "string",
+          "const": "dicom_seg",
+          "title": "Mask Type"
+        },
+        "study_uuid": {
+          "type": "string",
+          "title": "Study Uuid"
+        },
+        "series_uuid": {
+          "type": "string",
+          "title": "Series Uuid"
+        }
+      },
+      "type": "object",
+      "required": [
+        "file_url",
+        "label_class_id",
+        "mask_type",
+        "study_uuid",
+        "series_uuid"
+      ],
+      "title": "PresignedURLsDicomSegInfo"
+    },
+    "PresignedURLsTIFFInfo": {
+      "properties": {
+        "file_url": {
+          "type": "string",
+          "title": "File Url"
+        },
+        "label_class_id": {
+          "type": "integer",
+          "title": "Label Class Id"
+        },
+        "mask_type": {
+          "type": "string",
+          "const": "tiff",
+          "title": "Mask Type"
+        },
+        "frame_id": {
+          "type": "integer",
+          "title": "Frame Id"
+        }
+      },
+      "type": "object",
+      "required": [
+        "file_url",
+        "label_class_id",
+        "mask_type",
+        "frame_id"
+      ],
+      "title": "PresignedURLsTIFFInfo"
+    }
+  }
+}

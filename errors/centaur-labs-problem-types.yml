@@ -1,0 +1,65 @@
+generated: '2026-10-14'
+method: derived
+generator: derive-problem-types.py
+source:
+- openapi/centaur-labs-authorization-api-openapi.yml
+- openapi/centaur-labs-ingest-api-openapi.yml
+- openapi/centaur-labs-label-apis-openapi.yml
+- openapi/centaur-labs-public-api-openapi.yml
+format: custom
+envelope:
+  media_type: application/json
+  schema: HTTPValidationError
+coverage:
+  operations: 76
+  statuses_declared: 7
+problems:
+- status: 400
+  title: Bad Request
+  description: Bad Request
+  operations: 7
+  media_types:
+  - application/json
+  schema: MessageResponse
+- status: 401
+  title: Unauthorized
+  description: Unauthorized
+  operations: 10
+  media_types:
+  - application/json
+  schema: MessageResponse
+- status: 403
+  title: Forbidden
+  description: Country not served
+  operations: 2
+  media_types:
+  - application/json
+  schema: GeoRestrictedResponse
+- status: 404
+  title: Not Found
+  description: Not Found
+  operations: 2
+  media_types:
+  - application/json
+  schema: null
+- status: 422
+  title: Unprocessable Content
+  description: Validation Error
+  operations: 61
+  media_types:
+  - application/json
+  schema: HTTPValidationError
+- status: 426
+  title: Upgrade Required
+  description: Unsupported API version
+  operations: 2
+  media_types:
+  - application/json
+  schema: null
+- status: 500
+  title: Internal Server Error
+  description: Internal server error
+  operations: 9
+  media_types:
+  - text/plain
+  schema: null

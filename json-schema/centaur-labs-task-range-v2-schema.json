@@ -1,0 +1,311 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-task-range-v2-schema.json",
+  "title": "TaskRange_V2",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-ingest-api-openapi.yml#/components/schemas/TaskRange_V2",
+  "properties": {
+    "label_class_groups": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/AnswerClassGroupParams"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Label Class Groups",
+      "description": "The label class groups for the task"
+    },
+    "freetext_types": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/FreetextTypeRequest"
+          },
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Freetext Types",
+      "description": "Free-text questions to attach to the task"
+    },
+    "task_type": {
+      "$ref": "#/$defs/TaskTypeRange"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "title": "Title"
+    },
+    "prompt": {
+      "type": "string",
+      "maxLength": 52,
+      "minLength": 1,
+      "title": "Prompt"
+    },
+    "answers": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "minItems": 1,
+      "title": "Answers",
+      "unique_items": true
+    },
+    "is_variable_answer_choice": {
+      "type": "boolean",
+      "const": false,
+      "title": "Is Variable Answer Choice",
+      "default": false
+    },
+    "description": {
+      "anyOf": [
+        {
+          "type": "string",
+          "maxLength": 1024,
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Description"
+    },
+    "n_contexts_per_problem": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "integer",
+          "multipleOf": 2,
+          "minimum": 0
+        }
+      ],
+      "title": "N Contexts Per Problem",
+      "default": 0
+    },
+    "n_targets_per_problem": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        }
+      ],
+      "title": "N Targets Per Problem",
+      "default": 1
+    },
+    "view_mapping": {
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/ViewMapping"
+          },
+          "type": "array",
+          "maxLength": 10,
+          "minLength": 1,
+          "unique_items": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "View Mapping"
+    },
+    "organization_id": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Organization Id"
+    },
+    "project_id": {
+      "type": "integer",
+      "exclusiveMinimum": 0,
+      "title": "Project Id"
+    },
+    "platforms": {
+      "items": {
+        "$ref": "#/$defs/TaskPlatform"
+      },
+      "type": "array",
+      "title": "Platforms"
+    },
+    "audiences": {
+      "items": {
+        "$ref": "#/$defs/TaskAudience"
+      },
+      "type": "array",
+      "title": "Audiences"
+    },
+    "is_multi_answer": {
+      "type": "boolean",
+      "const": true,
+      "title": "Is Multi Answer",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "required": [
+    "task_type",
+    "title",
+    "prompt",
+    "answers",
+    "project_id"
+  ],
+  "$defs": {
+    "AnswerClassGroupParams": {
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "title": "Prompt",
+          "description": "Prompt for the label class group"
+        },
+        "multi_answer": {
+          "type": "boolean",
+          "title": "Multi Answer",
+          "description": "Whether the label class group allows multiple answers",
+          "default": false
+        },
+        "answer_classes": {
+          "items": {
+            "type": "string",
+            "maxLength": 60,
+            "minLength": 1
+          },
+          "type": "array",
+          "title": "Answer Classes",
+          "description": "The answers for the label class group",
+          "unique_items": true
+        }
+      },
+      "type": "object",
+      "required": [
+        "prompt",
+        "answer_classes"
+      ],
+      "title": "AnswerClassGroupParams"
+    },
+    "FreetextTypeRequest": {
+      "properties": {
+        "freetext_type": {
+          "type": "string",
+          "enum": [
+            "frame_class_freetext",
+            "frame_class_object_freetext"
+          ],
+          "title": "Freetext Type",
+          "description": "The type of free-text question"
+        },
+        "user_prompt": {
+          "type": "string",
+          "title": "User Prompt",
+          "description": "The question shown to the labeler"
+        },
+        "requirement_status": {
+          "type": "string",
+          "enum": [
+            "mandatory",
+            "optional",
+            "disallowed"
+          ],
+          "title": "Requirement Status",
+          "description": "Whether the labeler must, may, or cannot answer this question"
+        },
+        "prefilled_value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Prefilled Value",
+          "description": "Optional default text"
+        },
+        "answer_class_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Answer Class Name",
+          "description": "If set, this question only shows when this answer class is selected. Resolved to label_class_id after task creation."
+        }
+      },
+      "type": "object",
+      "required": [
+        "freetext_type",
+        "user_prompt",
+        "requirement_status"
+      ],
+      "title": "FreetextTypeRequest"
+    },
+    "TaskAudience": {
+      "type": "string",
+      "enum": [
+        "crowd",
+        "expert"
+      ],
+      "title": "TaskAudience"
+    },
+    "TaskPlatform": {
+      "type": "string",
+      "enum": [
+        "web",
+        "ios"
+      ],
+      "title": "TaskPlatform"
+    },
+    "TaskTypeRange": {
+      "type": "string",
+      "enum": [
+        "range",
+        "named_entity_recognition",
+        "range_selection_time"
+      ],
+      "title": "TaskTypeRange"
+    },
+    "ViewMapping": {
+      "properties": {
+        "view": {
+          "type": "string",
+          "maxLength": 20,
+          "minLength": 1,
+          "title": "View"
+        },
+        "index": {
+          "type": "integer",
+          "title": "Index"
+        }
+      },
+      "type": "object",
+      "required": [
+        "view",
+        "index"
+      ],
+      "title": "ViewMapping"
+    }
+  }
+}

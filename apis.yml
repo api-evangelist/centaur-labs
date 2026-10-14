@@ -1,24 +1,28 @@
 aid: centaur-labs
+
 name: Centaur Labs
-description: >-
-  Centaur Labs (centaur.ai) provides expert data annotation and labeling for
-  healthcare and scientific AI. Its platform combines large crowds of vetted
-  human experts with AI models in a competitive "collective intelligence" model
-  to produce high-quality, aggregated training labels across images, text,
-  audio, video, waveform and DICOM medical imaging. Centaur exposes a public
-  REST API (api.centaurlabs.com) for importing data, creating and managing
-  labeling projects, tasks, cases, gold standards, tags and prelabels, and for
-  downloading aggregated results. The company is SOC 2 Type II audited and
-  HIPAA compliant, was founded by Erik Duhaime out of the MIT Center for
-  Collective Intelligence, and is backed by Accel and Matrix Partners.
+
+description: Centaur Labs (centaur.ai) provides expert data annotation and labeling for healthcare and scientific AI. Its platform combines large
+  crowds of vetted human experts with AI models in a competitive "collective intelligence" model to produce high-quality, aggregated training
+  labels across images, text, audio, video, waveform and DICOM medical imaging. Centaur exposes a public REST API (api.centaurlabs.com) for importing
+  data, creating and managing labeling projects, tasks, cases, gold standards, tags and prelabels, and for downloading aggregated results. The
+  company is SOC 2 Type II audited and HIPAA compliant, was founded by Erik Duhaime out of the MIT Center for Collective Intelligence, and is
+  backed by Accel and Matrix Partners.
+
 url: https://raw.githubusercontent.com/api-evangelist/centaur-labs/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: vc-portfolio
+
 x-backed-by:
 - accel
 - matrix-partners
+
 x-tier: enriched
+
 x-tier-reason: public-api-found
+
 deliveryModel:
   model: saas
   open_source: false
@@ -30,6 +34,7 @@ deliveryModel:
   - pricing
   generated: '2026-08-28'
   method: derived
+
 accessModel:
   pricing: unknown
   onboarding: unknown
@@ -41,16 +46,27 @@ accessModel:
   source:
   - authentication
   - security
-  - {url: 'https://www.centaurlabs.com/', status: 301, note: 'declared website redirects to https://centaur.ai/ — a different registrable domain (centaurlabs.com -> centaur.ai), possible rename or acquisition (probed 2026-09-03, roadmap#169)'}
+  - url: https://www.centaurlabs.com/
+    status: 301
+    note: declared website redirects to https://centaur.ai/ — a different registrable domain (centaurlabs.com -> centaur.ai), possible rename
+      or acquisition (probed 2026-09-03, roadmap#169)
   generated: '2026-09-03'
   method: derived
+
 specificationVersion: '0.23'
+
 created: '2026-07-17'
+
 modified: '2026-07-18'
+
 image: https://files.readme.io/90ad1dc-small-Centaur_Labs_black3x.png
+
 x-docs-platform: readme
+
 x-docs-platform-confidence: high
+
 x-docs-platform-checked: 2026-09-21
+
 tags:
 - Company
 - Artificial Intelligence
@@ -60,6 +76,7 @@ tags:
 - Healthcare
 - Medical Imaging
 - Training Data
+
 tags_raw:
 - Company
 - Ai
@@ -70,48 +87,32 @@ tags_raw:
 - Medical Imaging
 - Training Data
 - Machine-Learning
-apis:
-- name: Centaur Public API
-  description: >-
-    Public REST API for importing data and managing labeling projects, tasks,
-    cases, assets, gold standards, prelabels, tags and for downloading
-    aggregated labeling results. Split across several versioned apps (auth,
-    imports, tasks, labelClasses, cases, reads, results, tags, projects,
-    manifests, masks) served under a single host.
-  humanURL: https://docs.centaurlabs.com/reference
-  baseURL: https://api.centaurlabs.com
-  properties:
-  - type: Documentation
-    url: https://docs.centaurlabs.com/
-  - type: APIReference
-    url: https://docs.centaurlabs.com/reference
-  - type: GettingStarted
-    url: https://docs.centaurlabs.com/docs/getting-started-1
-  - type: LLMsTxt
-    url: llms/centaur-labs-llms.txt
-  - type: Authentication
-    url: authentication/centaur-labs-authentication.yml
-  - type: Conventions
-    url: conventions/centaur-labs-conventions.yml
-  - type: Lifecycle
-    url: lifecycle/centaur-labs-lifecycle.yml
-  - type: Deprecation
-    url: lifecycle/centaur-labs-lifecycle.yml
-  - type: Conformance
-    url: conformance/centaur-labs-conformance.yml
-  - type: DataModel
-    url: data-model/centaur-labs-data-model.yml
-  - type: X-MCPServerCandidate
-    url: mcp/centaur-labs-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
-  - type: AgentSkill
-    url: skills/_index.yml
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/centaur-labs-agentic-access.yml
+- type: Spectral
+  url: rules/centaur-labs-rules.yml
+- type: JSONLD
+  url: json-ld/centaur-labs-context.jsonld
+- type: Vocabulary
+  url: vocabulary/centaur-labs-vocabulary.yml
+- type: ErrorCatalog
+  url: errors/centaur-labs-problem-types.yml
+- type: Hosts
+  url: hosts/centaur-labs-hosts.yml
+- type: Vendors
+  url: vendors/centaur-labs-vendors.yml
+- type: Sandbox
+  url: https://go.centaurlabs.com/playground
+- type: Newsroom
+  url: https://centaur.ai/news
 - type: Website
   url: https://www.centaurlabs.com/
 - type: DeveloperPortal
@@ -142,8 +143,134 @@ common:
   url: security/centaur-labs-domain-security.yml
 - type: WellKnown
   url: well-known/centaur-labs-well-known.yml
+
+apis:
+- name: Centaur Public API
+  description: Public REST API for importing data and managing labeling projects, tasks, cases, assets, gold standards, prelabels, tags and for
+    downloading aggregated labeling results. Split across several versioned apps (auth, imports, tasks, labelClasses, cases, reads, results, tags,
+    projects, manifests, masks) served under a single host.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  properties:
+  - type: Documentation
+    url: https://docs.centaurlabs.com/
+  - type: APIReference
+    url: https://docs.centaurlabs.com/reference
+  - type: GettingStarted
+    url: https://docs.centaurlabs.com/docs/getting-started-1
+  - type: LLMsTxt
+    url: llms/centaur-labs-llms.txt
+  - type: Authentication
+    url: authentication/centaur-labs-authentication.yml
+  - type: Conventions
+    url: conventions/centaur-labs-conventions.yml
+  - type: Lifecycle
+    url: lifecycle/centaur-labs-lifecycle.yml
+  - type: Deprecation
+    url: lifecycle/centaur-labs-lifecycle.yml
+  - type: Conformance
+    url: conformance/centaur-labs-conformance.yml
+  - type: DataModel
+    url: data-model/centaur-labs-data-model.yml
+  - type: X-MCPServerCandidate
+    url: mcp/centaur-labs-mcp.yml
+    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
+      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
+      the artifact-type surfaces with a server that does not exist.'
+  - type: AgentSkill
+    url: skills/_index.yml
+  aid: centaur-labs:centaur-public-api
+- aid: centaur-labs:centaur-labs-authorization-api
+  name: Centaur Labs Labs Authorization API
+  description: The Labs Authorization API from Centaur Labs — 5 operation(s) for labs authorization.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Labs Authorization
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-authorization-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+- aid: centaur-labs:centaur-labs-ingest-api
+  name: Centaur Labs Add and Manage Labels API
+  description: Set and remove gold standard answers and prelabels on the cases in a task.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Add and Manage Labels
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-ingest-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+- aid: centaur-labs:centaur-labs-label-apis
+  name: Centaur Labs Labs Label Apis Openapi.Yml API
+  description: The Labs Label Apis Openapi.Yml API from Centaur Labs — 9 operation(s) for labs label apis openapi.yml.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Labs Label Apis Openapi.Yml
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-label-apis-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+- aid: centaur-labs:centaur-labs-public-api
+  name: Centaur Labs Labs Public API
+  description: The Labs Public API from Centaur Labs — 2 operation(s) for labs public.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Labs Public
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-public-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+
 x-enrichment:
   date: '2026-07-19'
   status: backfilled
   pass: local-v1
   note: backfilled from .gitignore signal + verified work evidence
+
+x-readme-harvest:
+  date: '2026-10-14'
+  ops: 76
+  tool: harvest-readme-openapi.py
+  portal: https://docs.centaurlabs.com

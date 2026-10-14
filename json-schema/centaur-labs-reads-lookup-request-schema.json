@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-reads-lookup-request-schema.json",
+  "title": "ReadsLookupRequest",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-label-apis-openapi.yml#/components/schemas/ReadsLookupRequest",
+  "type": "object",
+  "required": [
+    "task_id",
+    "read_ids"
+  ],
+  "properties": {
+    "task_id": {
+      "type": "integer",
+      "description": "The identifier for the task associated with the reads to be requested."
+    },
+    "read_ids": {
+      "type": "array",
+      "description": "The list of read (opinion) IDs to look up (maximum 1000).",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "verbose": {
+      "type": "boolean",
+      "description": "Whether to include verbose output in the response."
+    }
+  }
+}

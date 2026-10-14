@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-public-login-response-schema.json",
+  "title": "PublicLoginResponse",
+  "description": "The customer row a successful login returns, plus the new API token.",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-authorization-api-openapi.yml#/components/schemas/PublicLoginResponse",
+  "properties": {
+    "token": {
+      "type": "string",
+      "title": "Token"
+    },
+    "id": {
+      "type": "integer",
+      "title": "Id"
+    },
+    "email": {
+      "type": "string",
+      "title": "Email"
+    },
+    "role": {
+      "type": "string",
+      "title": "Role"
+    },
+    "name": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Name"
+    },
+    "organization_id": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Organization Id"
+    },
+    "organization": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Organization"
+    },
+    "created_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Created At"
+    }
+  },
+  "additionalProperties": true,
+  "type": "object",
+  "required": [
+    "token",
+    "id",
+    "email",
+    "role"
+  ]
+}

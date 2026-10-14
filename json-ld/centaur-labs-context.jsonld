@@ -1,0 +1,859 @@
+{
+  "@context": {
+    "@vocab": "https://centaurlabs.com/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "centaur": "https://centaurlabs.com/schema#",
+    "GeoRestrictedResponse": "centaur:GeoRestrictedResponse",
+    "message": {
+      "@id": "centaur:message",
+      "@type": "xsd:string"
+    },
+    "code": {
+      "@id": "centaur:code",
+      "@type": "xsd:string"
+    },
+    "MessageResponse": "centaur:MessageResponse",
+    "PublicLoginRequest": "centaur:PublicLoginRequest",
+    "username": {
+      "@id": "centaur:username",
+      "@type": "xsd:string"
+    },
+    "api_password": {
+      "@id": "centaur:api_password",
+      "@type": "xsd:string"
+    },
+    "PublicLoginResponse": "centaur:PublicLoginResponse",
+    "token": {
+      "@id": "centaur:token",
+      "@type": "xsd:string"
+    },
+    "id": {
+      "@id": "centaur:id",
+      "@type": "xsd:integer"
+    },
+    "email": {
+      "@id": "centaur:email",
+      "@type": "xsd:string"
+    },
+    "role": {
+      "@id": "centaur:role",
+      "@type": "xsd:string"
+    },
+    "name": {
+      "@id": "centaur:name"
+    },
+    "organization_id": {
+      "@id": "centaur:organization_id"
+    },
+    "organization": {
+      "@id": "centaur:organization"
+    },
+    "created_at": {
+      "@id": "centaur:created_at"
+    },
+    "RefreshTokenResponse": "centaur:RefreshTokenResponse",
+    "VersionResponse": "centaur:VersionResponse",
+    "version": {
+      "@id": "centaur:version"
+    },
+    "HTTPValidationError": "centaur:HTTPValidationError",
+    "detail": {
+      "@id": "centaur:detail",
+      "@container": "@list"
+    },
+    "ProblemLabelingState": "centaur:ProblemLabelingState",
+    "ReadsAction": "centaur:ReadsAction",
+    "ValidationError": "centaur:ValidationError",
+    "loc": {
+      "@id": "centaur:loc",
+      "@container": "@list"
+    },
+    "msg": {
+      "@id": "centaur:msg",
+      "@type": "xsd:string"
+    },
+    "type": {
+      "@id": "centaur:type",
+      "@type": "xsd:string"
+    },
+    "input": {
+      "@id": "centaur:input"
+    },
+    "ctx": {
+      "@id": "centaur:ctx"
+    },
+    "GoldStandardClassification": "centaur:GoldStandardClassification",
+    "notes": {
+      "@id": "centaur:notes"
+    },
+    "case_id": {
+      "@id": "centaur:case_id"
+    },
+    "content_id": {
+      "@id": "centaur:content_id"
+    },
+    "origin": {
+      "@id": "centaur:origin"
+    },
+    "answer": {
+      "@id": "centaur:answer",
+      "@container": "@list"
+    },
+    "GoldStandardRange": "centaur:GoldStandardRange",
+    "GoldStandardSegmentation": "centaur:GoldStandardSegmentation",
+    "GoldStandardUUID": "centaur:GoldStandardUUID",
+    "OpinionComponentSource": "centaur:OpinionComponentSource",
+    "RangeAnswer": "centaur:RangeAnswer",
+    "answer_class": {
+      "@id": "centaur:answer_class",
+      "@type": "xsd:string"
+    },
+    "ranges": {
+      "@id": "centaur:ranges",
+      "@container": "@list"
+    },
+    "freetexts": {
+      "@id": "centaur:freetexts"
+    },
+    "SegmentationAnswer": "centaur:SegmentationAnswer",
+    "geometries": {
+      "@id": "centaur:geometries",
+      "@container": "@list"
+    },
+    "SetGoldStandardRequest": "centaur:SetGoldStandardRequest",
+    "gold_standards": {
+      "@id": "centaur:gold_standards",
+      "@container": "@list"
+    },
+    "SetGoldStandardResponse": "centaur:SetGoldStandardResponse",
+    "UUIDAnswer": "centaur:UUIDAnswer",
+    "mask_uuid": {
+      "@id": "centaur:mask_uuid",
+      "@type": "xsd:string"
+    },
+    "LabelRange": "centaur:LabelRange",
+    "LabelSegmentation": "centaur:LabelSegmentation",
+    "LabelUUID": "centaur:LabelUUID",
+    "ResponseDetails": "centaur:ResponseDetails",
+    "messages": {
+      "@id": "centaur:messages",
+      "@container": "@list"
+    },
+    "path": {
+      "@id": "centaur:path"
+    },
+    "data": {
+      "@id": "centaur:data"
+    },
+    "ResponseSummary": "centaur:ResponseSummary",
+    "details": {
+      "@id": "centaur:details"
+    },
+    "SetPreLabelRequest": "centaur:SetPreLabelRequest",
+    "labels": {
+      "@id": "centaur:labels",
+      "@container": "@list"
+    },
+    "ContentType": "centaur:ContentType",
+    "CreateProjectParams": "centaur:CreateProjectParams",
+    "description": {
+      "@id": "centaur:description"
+    },
+    "copy_files": {
+      "@id": "centaur:copy_files"
+    },
+    "content_type": {
+      "@id": "centaur:content_type",
+      "@type": "@id"
+    },
+    "contains_image_series": {
+      "@id": "centaur:contains_image_series",
+      "@type": "xsd:boolean"
+    },
+    "views": {
+      "@id": "centaur:views"
+    },
+    "DatasetTypes": "centaur:DatasetTypes",
+    "ProjectResponse": "centaur:ProjectResponse",
+    "org_id": {
+      "@id": "centaur:org_id"
+    },
+    "project_id": {
+      "@id": "centaur:project_id",
+      "@type": "xsd:integer"
+    },
+    "task_types": {
+      "@id": "centaur:task_types",
+      "@container": "@list"
+    },
+    "dataset_type": {
+      "@id": "centaur:dataset_type"
+    },
+    "UpdateProjectParams": "centaur:UpdateProjectParams",
+    "ProjectListResponse": "centaur:ProjectListResponse",
+    "payload": {
+      "@id": "centaur:payload",
+      "@container": "@list"
+    },
+    "has_next": {
+      "@id": "centaur:has_next",
+      "@type": "xsd:boolean"
+    },
+    "last_sequence_id": {
+      "@id": "centaur:last_sequence_id"
+    },
+    "limit": {
+      "@id": "centaur:limit"
+    },
+    "AddAnswerRequest": "centaur:AddAnswerRequest",
+    "task_id": {
+      "@id": "centaur:task_id",
+      "@type": "xsd:integer"
+    },
+    "new_answers": {
+      "@id": "centaur:new_answers",
+      "@container": "@list"
+    },
+    "force": {
+      "@id": "centaur:force",
+      "@type": "xsd:boolean"
+    },
+    "label_class_group_id": {
+      "@id": "centaur:label_class_group_id"
+    },
+    "LabelClassValue": "centaur:LabelClassValue",
+    "value": {
+      "@id": "centaur:value",
+      "@type": "xsd:string"
+    },
+    "UpdateAnswerBody": "centaur:UpdateAnswerBody",
+    "new_answer": {
+      "@id": "centaur:new_answer",
+      "@type": "xsd:string"
+    },
+    "UpdateLabelClassResponse": "centaur:UpdateLabelClassResponse",
+    "ReorderAnswersBody": "centaur:ReorderAnswersBody",
+    "new_answers_ids_order": {
+      "@id": "centaur:new_answers_ids_order",
+      "@container": "@list"
+    },
+    "AddLabelClassGroupRequest": "centaur:AddLabelClassGroupRequest",
+    "prompt": {
+      "@id": "centaur:prompt",
+      "@type": "xsd:string"
+    },
+    "multi_answer": {
+      "@id": "centaur:multi_answer",
+      "@type": "xsd:boolean"
+    },
+    "label_class_ids": {
+      "@id": "centaur:label_class_ids"
+    },
+    "AddLabelClassGroupResponse": "centaur:AddLabelClassGroupResponse",
+    "GetLabelClassGroupResponse": "centaur:GetLabelClassGroupResponse",
+    "group_order": {
+      "@id": "centaur:group_order",
+      "@type": "xsd:integer"
+    },
+    "answer_classes": {
+      "@id": "centaur:answer_classes",
+      "@container": "@list"
+    },
+    "UpdateLabelClassGroupRequest": "centaur:UpdateLabelClassGroupRequest",
+    "ReorderLabelClassGroupsBody": "centaur:ReorderLabelClassGroupsBody",
+    "new_label_class_groups_order": {
+      "@id": "centaur:new_label_class_groups_order",
+      "@container": "@list"
+    },
+    "ExistingTaskClassification": "centaur:ExistingTaskClassification",
+    "task_type": {
+      "@id": "centaur:task_type",
+      "@type": "@id"
+    },
+    "title": {
+      "@id": "centaur:title",
+      "@type": "xsd:string"
+    },
+    "answers": {
+      "@id": "centaur:answers",
+      "@container": "@list"
+    },
+    "is_variable_answer_choice": {
+      "@id": "centaur:is_variable_answer_choice",
+      "@type": "xsd:boolean"
+    },
+    "n_contexts_per_problem": {
+      "@id": "centaur:n_contexts_per_problem"
+    },
+    "n_targets_per_problem": {
+      "@id": "centaur:n_targets_per_problem"
+    },
+    "view_mapping": {
+      "@id": "centaur:view_mapping"
+    },
+    "platforms": {
+      "@id": "centaur:platforms",
+      "@container": "@list"
+    },
+    "audiences": {
+      "@id": "centaur:audiences",
+      "@container": "@list"
+    },
+    "updated_at": {
+      "@id": "centaur:updated_at",
+      "@type": "xsd:string"
+    },
+    "is_multi_answer": {
+      "@id": "centaur:is_multi_answer",
+      "@type": "xsd:boolean"
+    },
+    "n_levels_per_problem": {
+      "@id": "centaur:n_levels_per_problem",
+      "@type": "xsd:integer"
+    },
+    "is_multiple_assets": {
+      "@id": "centaur:is_multiple_assets",
+      "@type": "xsd:boolean"
+    },
+    "ExistingTaskRange": "centaur:ExistingTaskRange",
+    "ExistingTaskSegmentation": "centaur:ExistingTaskSegmentation",
+    "TaskAudience": "centaur:TaskAudience",
+    "TaskClassification": "centaur:TaskClassification",
+    "TaskPlatform": "centaur:TaskPlatform",
+    "TaskRange": "centaur:TaskRange",
+    "TaskSegmentation": "centaur:TaskSegmentation",
+    "TaskTypeClassification": "centaur:TaskTypeClassification",
+    "TaskTypeRange": "centaur:TaskTypeRange",
+    "TaskTypeSegmentation": "centaur:TaskTypeSegmentation",
+    "ViewMapping": "centaur:ViewMapping",
+    "view": {
+      "@id": "centaur:view",
+      "@type": "xsd:string"
+    },
+    "index": {
+      "@id": "centaur:index",
+      "@type": "xsd:integer"
+    },
+    "TaskLabelingStage": "centaur:TaskLabelingStage",
+    "UpdateTask": "centaur:UpdateTask",
+    "task_name": {
+      "@id": "centaur:task_name"
+    },
+    "task_prompt": {
+      "@id": "centaur:task_prompt"
+    },
+    "task_description": {
+      "@id": "centaur:task_description"
+    },
+    "task_labeling_stage": {
+      "@id": "centaur:task_labeling_stage"
+    },
+    "task_labeling_stage_note": {
+      "@id": "centaur:task_labeling_stage_note"
+    },
+    "UpdateTaskClassification": "centaur:UpdateTaskClassification",
+    "DuplicateTaskFields": "centaur:DuplicateTaskFields",
+    "copy_pre_answer_explainers": {
+      "@id": "centaur:copy_pre_answer_explainers"
+    },
+    "copy_patches": {
+      "@id": "centaur:copy_patches"
+    },
+    "copy_gold_standards": {
+      "@id": "centaur:copy_gold_standards"
+    },
+    "copy_internal_notes": {
+      "@id": "centaur:copy_internal_notes"
+    },
+    "copy_explanations": {
+      "@id": "centaur:copy_explanations"
+    },
+    "copy_tags": {
+      "@id": "centaur:copy_tags"
+    },
+    "copy_label_class_groups": {
+      "@id": "centaur:copy_label_class_groups",
+      "@type": "xsd:boolean"
+    },
+    "DuplicateTaskResult": "centaur:DuplicateTaskResult",
+    "SetInstructionsRequest": "centaur:SetInstructionsRequest",
+    "slides": {
+      "@id": "centaur:slides",
+      "@container": "@list"
+    },
+    "is_major_version": {
+      "@id": "centaur:is_major_version",
+      "@type": "xsd:boolean"
+    },
+    "AnswerClassGroupParams": "centaur:AnswerClassGroupParams",
+    "CaseFreetextRequest": "centaur:CaseFreetextRequest",
+    "freetext_type": {
+      "@id": "centaur:freetext_type",
+      "@type": "xsd:string"
+    },
+    "user_prompt": {
+      "@id": "centaur:user_prompt",
+      "@type": "xsd:string"
+    },
+    "requirement_status": {
+      "@id": "centaur:requirement_status",
+      "@type": "xsd:string"
+    },
+    "prefilled_value": {
+      "@id": "centaur:prefilled_value"
+    },
+    "answer_class_name": {
+      "@id": "centaur:answer_class_name"
+    },
+    "ExistingTaskClassification_V2": "centaur:ExistingTaskClassification_V2",
+    "label_class_group_ids": {
+      "@id": "centaur:label_class_group_ids",
+      "@container": "@list"
+    },
+    "FreetextTypeRequest": "centaur:FreetextTypeRequest",
+    "TaskClassification_V2": "centaur:TaskClassification_V2",
+    "label_class_groups": {
+      "@id": "centaur:label_class_groups"
+    },
+    "freetext_types": {
+      "@id": "centaur:freetext_types"
+    },
+    "TaskRange_V2": "centaur:TaskRange_V2",
+    "TaskSegmentation_V2": "centaur:TaskSegmentation_V2",
+    "TaskListResponse": "centaur:TaskListResponse",
+    "LabelClassValueLegacy": "centaur:LabelClassValueLegacy",
+    "AddAssetToTaskBody": "centaur:AddAssetToTaskBody",
+    "AddAssetToTaskResponse": "centaur:AddAssetToTaskResponse",
+    "AddImportsToTaskBody": "centaur:AddImportsToTaskBody",
+    "import_ids": {
+      "@id": "centaur:import_ids",
+      "@container": "@list"
+    },
+    "ignore_gaps": {
+      "@id": "centaur:ignore_gaps",
+      "@type": "xsd:boolean"
+    },
+    "DuplicateCaseFields": "centaur:DuplicateCaseFields",
+    "source_task_id": {
+      "@id": "centaur:source_task_id",
+      "@type": "xsd:integer"
+    },
+    "target_task_id": {
+      "@id": "centaur:target_task_id",
+      "@type": "xsd:integer"
+    },
+    "case_ids": {
+      "@id": "centaur:case_ids",
+      "@container": "@list"
+    },
+    "copy_slicing_recipes": {
+      "@id": "centaur:copy_slicing_recipes",
+      "@type": "xsd:boolean"
+    },
+    "AssetTags": "centaur:AssetTags",
+    "tag_text": {
+      "@id": "centaur:tag_text",
+      "@type": "xsd:string"
+    },
+    "customer_data_tag_id": {
+      "@id": "centaur:customer_data_tag_id"
+    },
+    "asset_tag_created_by_customer_id": {
+      "@id": "centaur:asset_tag_created_by_customer_id",
+      "@type": "xsd:integer"
+    },
+    "tag_created_by_customer_id": {
+      "@id": "centaur:tag_created_by_customer_id"
+    },
+    "DatabaseAssetSlice": "centaur:DatabaseAssetSlice",
+    "slicing_recipe_id": {
+      "@id": "centaur:slicing_recipe_id",
+      "@type": "xsd:integer"
+    },
+    "slice_boundaries": {
+      "@id": "centaur:slice_boundaries",
+      "@container": "@list"
+    },
+    "slice_id": {
+      "@id": "centaur:slice_id"
+    },
+    "DatabaseExistingProblem": "centaur:DatabaseExistingProblem",
+    "problem_parent": {
+      "@id": "centaur:problem_parent"
+    },
+    "problem_properties": {
+      "@id": "centaur:problem_properties",
+      "@type": "@id"
+    },
+    "frames": {
+      "@id": "centaur:frames",
+      "@container": "@list"
+    },
+    "problem_tags": {
+      "@id": "centaur:problem_tags"
+    },
+    "topic_id": {
+      "@id": "centaur:topic_id",
+      "@type": "xsd:integer"
+    },
+    "problem_id": {
+      "@id": "centaur:problem_id",
+      "@type": "xsd:integer"
+    },
+    "DatabaseFrame": "centaur:DatabaseFrame",
+    "is_target": {
+      "@id": "centaur:is_target"
+    },
+    "frame_asset": {
+      "@id": "centaur:frame_asset",
+      "@container": "@list"
+    },
+    "frame_id": {
+      "@id": "centaur:frame_id",
+      "@type": "xsd:integer"
+    },
+    "DatabaseProblemAsset": "centaur:DatabaseProblemAsset",
+    "asset_id": {
+      "@id": "centaur:asset_id",
+      "@type": "xsd:integer"
+    },
+    "text_highlight": {
+      "@id": "centaur:text_highlight"
+    },
+    "slice": {
+      "@id": "centaur:slice"
+    },
+    "asset_tags": {
+      "@id": "centaur:asset_tags"
+    },
+    "view_order": {
+      "@id": "centaur:view_order",
+      "@type": "xsd:integer"
+    },
+    "DatabaseProblemProperties": "centaur:DatabaseProblemProperties",
+    "pre_answer_explainer": {
+      "@id": "centaur:pre_answer_explainer"
+    },
+    "internal_notes": {
+      "@id": "centaur:internal_notes"
+    },
+    "patch": {
+      "@id": "centaur:patch"
+    },
+    "problem_explanation": {
+      "@id": "centaur:problem_explanation"
+    },
+    "labeling_state": {
+      "@id": "centaur:labeling_state",
+      "@type": "@id"
+    },
+    "ProblemExplanation": "centaur:ProblemExplanation",
+    "explanation": {
+      "@id": "centaur:explanation",
+      "@type": "xsd:string"
+    },
+    "created_by_customer_id": {
+      "@id": "centaur:created_by_customer_id",
+      "@type": "xsd:integer"
+    },
+    "ProblemParent": "centaur:ProblemParent",
+    "parent_topic_id": {
+      "@id": "centaur:parent_topic_id",
+      "@type": "xsd:integer"
+    },
+    "parent_problem_id": {
+      "@id": "centaur:parent_problem_id",
+      "@type": "xsd:integer"
+    },
+    "ProblemTags": "centaur:ProblemTags",
+    "problem_tag_created_by_customer_id": {
+      "@id": "centaur:problem_tag_created_by_customer_id",
+      "@type": "xsd:integer"
+    },
+    "UpdateProblemRequest": "centaur:UpdateProblemRequest",
+    "force_action": {
+      "@id": "centaur:force_action"
+    },
+    "FilesManifestObject": "centaur:FilesManifestObject",
+    "series": {
+      "@id": "centaur:series",
+      "@type": "xsd:string"
+    },
+    "series_index": {
+      "@id": "centaur:series_index",
+      "@type": "xsd:integer"
+    },
+    "FilesManifestUpload": "centaur:FilesManifestUpload",
+    "files_manifest": {
+      "@id": "centaur:files_manifest",
+      "@container": "@list"
+    },
+    "ManifestInfo": "centaur:ManifestInfo",
+    "DataImport": "centaur:DataImport",
+    "import_id": {
+      "@id": "centaur:import_id",
+      "@type": "xsd:integer"
+    },
+    "source_type": {
+      "@id": "centaur:source_type",
+      "@type": "xsd:string"
+    },
+    "source": {
+      "@id": "centaur:source",
+      "@type": "xsd:string"
+    },
+    "status": {
+      "@id": "centaur:status",
+      "@type": "xsd:string"
+    },
+    "copy_failure_report": {
+      "@id": "centaur:copy_failure_report"
+    },
+    "validation_report": {
+      "@id": "centaur:validation_report"
+    },
+    "target_task_ids": {
+      "@id": "centaur:target_task_ids",
+      "@container": "@list"
+    },
+    "AWSRegion": "centaur:AWSRegion",
+    "AddImportRequest": "centaur:AddImportRequest",
+    "source_region": {
+      "@id": "centaur:source_region"
+    },
+    "s3_uri": {
+      "@id": "centaur:s3_uri",
+      "@type": "xsd:string"
+    },
+    "source_files": {
+      "@id": "centaur:source_files"
+    },
+    "AzureRegion": "centaur:AzureRegion",
+    "AddAssetsFromURLsRequest": "centaur:AddAssetsFromURLsRequest",
+    "urls": {
+      "@id": "centaur:urls",
+      "@container": "@list"
+    },
+    "ListAssetsResponse": "centaur:ListAssetsResponse",
+    "ResponseAssetDICOM": "centaur:ResponseAssetDICOM",
+    "file_size": {
+      "@id": "centaur:file_size"
+    },
+    "imported_at": {
+      "@id": "centaur:imported_at",
+      "@type": "xsd:string"
+    },
+    "related_tasks": {
+      "@id": "centaur:related_tasks",
+      "@container": "@list"
+    },
+    "related_cases": {
+      "@id": "centaur:related_cases",
+      "@container": "@list"
+    },
+    "tags": {
+      "@id": "centaur:tags",
+      "@container": "@list"
+    },
+    "image_width": {
+      "@id": "centaur:image_width"
+    },
+    "image_height": {
+      "@id": "centaur:image_height"
+    },
+    "study_uid": {
+      "@id": "centaur:study_uid"
+    },
+    "series_uid": {
+      "@id": "centaur:series_uid"
+    },
+    "ResponseAssetImage": "centaur:ResponseAssetImage",
+    "ResponseAssetPDF": "centaur:ResponseAssetPDF",
+    "page_number": {
+      "@id": "centaur:page_number"
+    },
+    "media_box": {
+      "@id": "centaur:media_box"
+    },
+    "crop_box": {
+      "@id": "centaur:crop_box"
+    },
+    "contains_native_text": {
+      "@id": "centaur:contains_native_text"
+    },
+    "rotation": {
+      "@id": "centaur:rotation"
+    },
+    "ResponseAssetText": "centaur:ResponseAssetText",
+    "content": {
+      "@id": "centaur:content"
+    },
+    "char_count": {
+      "@id": "centaur:char_count"
+    },
+    "ResponseAssetVideoAudio": "centaur:ResponseAssetVideoAudio",
+    "length_seconds": {
+      "@id": "centaur:length_seconds"
+    },
+    "Tag": "centaur:Tag",
+    "tag_id": {
+      "@id": "centaur:tag_id",
+      "@type": "xsd:integer"
+    },
+    "tag": {
+      "@id": "centaur:tag",
+      "@type": "xsd:string"
+    },
+    "DatetimeFilter": "centaur:DatetimeFilter",
+    "before": {
+      "@id": "centaur:before"
+    },
+    "after": {
+      "@id": "centaur:after"
+    },
+    "IntFilter": "centaur:IntFilter",
+    "lt": {
+      "@id": "centaur:lt"
+    },
+    "le": {
+      "@id": "centaur:le"
+    },
+    "gt": {
+      "@id": "centaur:gt"
+    },
+    "ge": {
+      "@id": "centaur:ge"
+    },
+    "eq": {
+      "@id": "centaur:eq"
+    },
+    "ne": {
+      "@id": "centaur:ne"
+    },
+    "any_of": {
+      "@id": "centaur:any_of"
+    },
+    "none_of": {
+      "@id": "centaur:none_of"
+    },
+    "ListAssetsFiltersV2": "centaur:ListAssetsFiltersV2",
+    "upload_id": {
+      "@id": "centaur:upload_id"
+    },
+    "StrFilter": "centaur:StrFilter",
+    "contains": {
+      "@id": "centaur:contains"
+    },
+    "icontains": {
+      "@id": "centaur:icontains"
+    },
+    "ListAssetsFilters": "centaur:ListAssetsFilters",
+    "ResponseSeriesDICOM": "centaur:ResponseSeriesDICOM",
+    "series_uids": {
+      "@id": "centaur:series_uids",
+      "@container": "@list"
+    },
+    "study_uids": {
+      "@id": "centaur:study_uids",
+      "@container": "@list"
+    },
+    "ResponseSeriesImage": "centaur:ResponseSeriesImage",
+    "AssetTextResponse": "centaur:AssetTextResponse",
+    "TextAsset": "centaur:TextAsset",
+    "TextAssetRequestBase": "centaur:TextAssetRequestBase",
+    "text_assets": {
+      "@id": "centaur:text_assets",
+      "@container": "@list"
+    },
+    "dry_run": {
+      "@id": "centaur:dry_run",
+      "@type": "xsd:boolean"
+    },
+    "AddAssetAndProblemCreationResponse": "centaur:AddAssetAndProblemCreationResponse",
+    "callback_uuid": {
+      "@id": "centaur:callback_uuid"
+    },
+    "Body_add_asset_and_case_from_file_cases_public_v1_addImageFromFile_post": "centaur:Body_add_asset_and_case_from_file_cases_public_v1_addImageFromFile_post",
+    "file": {
+      "@id": "centaur:file",
+      "@type": "xsd:string"
+    },
+    "CloudStoragePlatform": "centaur:CloudStoragePlatform",
+    "ValidateAccessResponse": "centaur:ValidateAccessResponse",
+    "CliCommandPolicy": "centaur:CliCommandPolicy",
+    "command": {
+      "@id": "centaur:command",
+      "@type": "xsd:string"
+    },
+    "CombinedPolicy": "centaur:CombinedPolicy",
+    "account": {
+      "@id": "centaur:account",
+      "@type": "xsd:string"
+    },
+    "link": {
+      "@id": "centaur:link",
+      "@type": "@id"
+    },
+    "json": {
+      "@id": "centaur:json"
+    },
+    "GCSBinding": "centaur:GCSBinding",
+    "members": {
+      "@id": "centaur:members",
+      "@container": "@list"
+    },
+    "condition": {
+      "@id": "centaur:condition"
+    },
+    "GCSCondition": "centaur:GCSCondition",
+    "expression": {
+      "@id": "centaur:expression",
+      "@type": "xsd:string"
+    },
+    "GCSJsonPolicy": "centaur:GCSJsonPolicy",
+    "bindings": {
+      "@id": "centaur:bindings",
+      "@container": "@list"
+    },
+    "PolicyFormat": "centaur:PolicyFormat",
+    "S3JsonPolicy": "centaur:S3JsonPolicy",
+    "Version": {
+      "@id": "centaur:Version",
+      "@type": "xsd:string"
+    },
+    "Statement": {
+      "@id": "centaur:Statement",
+      "@container": "@list"
+    },
+    "S3StatementItem": "centaur:S3StatementItem",
+    "Effect": {
+      "@id": "centaur:Effect",
+      "@type": "xsd:string"
+    },
+    "Principal": {
+      "@id": "centaur:Principal"
+    },
+    "Action": {
+      "@id": "centaur:Action"
+    },
+    "Resource": {
+      "@id": "centaur:Resource",
+      "@type": "xsd:string"
+    },
+    "Condition": {
+      "@id": "centaur:Condition"
+    }
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Centaur Labs API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Centaur Labs's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-14) from openapi/centaur-labs-authorization-api-openapi.yml, openapi/centaur-labs-ingest-api-openapi.yml, openapi/centaur-labs-label-apis-openapi.yml.",
+  "dcterms:created": "2026-10-14",
+  "dcterms:source": [
+    "openapi/centaur-labs-authorization-api-openapi.yml",
+    "openapi/centaur-labs-ingest-api-openapi.yml",
+    "openapi/centaur-labs-label-apis-openapi.yml",
+    "openapi/centaur-labs-public-api-openapi.yml"
+  ]
+}

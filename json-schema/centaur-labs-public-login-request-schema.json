@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/centaur-labs/main/json-schema/centaur-labs-public-login-request-schema.json",
+  "title": "PublicLoginRequest",
+  "description": "The credentials of a public login.",
+  "x-generated": "2026-10-14",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/centaur-labs-authorization-api-openapi.yml#/components/schemas/PublicLoginRequest",
+  "properties": {
+    "username": {
+      "type": "string",
+      "title": "Username"
+    },
+    "api_password": {
+      "type": "string",
+      "title": "Api Password"
+    }
+  },
+  "type": "object",
+  "required": [
+    "username",
+    "api_password"
+  ]
+}
