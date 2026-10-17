@@ -1,0 +1,539 @@
+openapi: 3.2.0
+info:
+  version: 1.0.0
+  title: Centaur Label Get Case Results API
+servers:
+- url: https://api.centaurlabs.com/
+  description: Centaur Label APIs Production
+tags:
+- name: Get Case Results
+paths:
+  /results/public/v1/get:
+    get:
+      tags:
+      - Get Case Results
+      description: Retrieves a labeling result for a single case.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/case_id_param'
+      - $ref: '#/components/parameters/verbose_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResultV1'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                message: Not Found
+        '426':
+          description: Unsupported API version
+          content:
+            application/json:
+              example: Task type not supported by this API version, please use /results/public/v2/get.
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+      summary: Get results public get
+      x-summary-source: derived
+      operationId: getResultsPublicV1Get
+      x-operation-id-source: derived
+  /results/public/v2/get:
+    get:
+      tags:
+      - Get Case Results
+      description: Retrieves a labeling result for a single case.
+      security:
+      - bearerAuth: []
+        ApiKeyAuth: []
+      parameters:
+      - $ref: '#/components/parameters/task_id_param'
+      - $ref: '#/components/parameters/case_id_param'
+      - $ref: '#/components/parameters/verbose_param'
+      responses:
+        '200':
+          description: Request was successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CaseResult'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              example:
+                message: Invalid parameter
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              example:
+                message: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              example:
+                message: Not Found
+        '500':
+          description: Internal server error
+          content:
+            text/plain:
+              example: Internal Server Error.
+      summary: Get results public get
+      x-summary-source: derived
+      operationId: getResultsPublicV2Get
+      x-operation-id-source: derived
+components:
+  schemas:
+    AnswerClassStats:
+      type: object
+      properties:
+        answer_class:
+          type: string
+          description: The answer class for the case.
+        n_qualified_opinions:
+          type: integer
+          description: The number of qualified opinions supporting the answer class (i.e. classification opinions including it, or segmentation/range opinions including a finding of the answer class).
+        sum_confidence_scores:
+          type: number
+          description: The sum of confidence scores (each between 0 and 1) of the supporting opinions for the answer class.
+        agreement:
+          type:
+          - number
+          - 'null'
+          description: The agreement between labeler opinions on the answer class.
+        difficulty:
+          type:
+          - number
+          - 'null'
+          description: The difficulty of the answer class on the content element being labeled.
+    ContentMetadata:
+      type: object
+      properties:
+        content_id:
+          type: integer
+          description: An identifier for the content.
+        origin:
+          type: string
+          description: An identifier for the file origin of the content.
+        created_at:
+          type: string
+          description: Timestamp that content was created.
+        series:
+          type:
+          - string
+          - 'null'
+          description: An identifier for the series that the content belongs to.
+        series_index:
+          type:
+          - integer
+          - 'null'
+          description: The index of the content within the series (if any) that it belongs to.
+        dicom_study_uid:
+          type:
+          - string
+          - 'null'
+          description: The DICOM study UID of the content.
+        dicom_series_uid:
+          type:
+          - string
+          - 'null'
+          description: The DICOM series UID of the content.
+        dicom_instance_uid:
+          type:
+          - string
+          - 'null'
+          description: The DICOM instance UID of the content.
+    CaseResult:
+      type: object
+      properties:
+        task_id:
+          type: integer
+          description: The task ID.
+        task_name:
+          type: string
+          description: The task name.
+        project_id:
+          type: integer
+          description: The project ID.
+        project_name:
+          type: string
+          description: The project name.
+        case_id:
+          type: integer
+          description: The case ID.
+        task_type:
+          type: string
+          description: The labeling task (e.g. choice, box, circle, etc.)
+        content_type:
+          type: string
+          description: The content type of the task (e.g. image, video, etc.)
+        labeling_state:
+          type: string
+          description: The labeling state of the case (e.g. Labeled, Gold Standard, etc.)
+        n_qualified_opinions:
+          type: integer
+          description: The number of qualified opinions collected for the case.
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              content_metadata:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContentMetadata'
+              prelabel:
+                type: array
+                description: The pre-label for the content element.  Included for non-classification tasks only.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              correct_annotation:
+                type: array
+                description: The correct annotation for the content element being labeled.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              combined_opinion:
+                type: array
+                description: The combined opinion for the content element based on labeler opinions.
+                items:
+                  $ref: '#/components/schemas/ClassAnswer'
+              correct_annotation_classes:
+                type:
+                - array
+                - 'null'
+                description: The correct answer classes for the content element being labeled.  Included for classification tasks only.
+                items:
+                  type: string
+              combined_opinion_classes:
+                type:
+                - array
+                - 'null'
+                description: The answer classes for the combined opinion for the content element.  Included for classification tasks only.
+                items:
+                  type: string
+              agreement:
+                type:
+                - number
+                - 'null'
+                description: The agreement between labeler opinions on the content element within the case.
+              difficulty:
+                type:
+                - number
+                - 'null'
+                description: The difficulty of the content element within the case.
+              answer_class_stats:
+                type: array
+                description: The opinion statistics for each answer class in the case.
+                items:
+                  $ref: '#/components/schemas/AnswerClassStats'
+        top_reads:
+          type: array
+          description: The list of top labeler opinions used to create the combined opinion for the case. Included for non-cuboid task types.
+          maxItems: 500
+          items:
+            type: object
+            properties:
+              read_id:
+                type: integer
+                description: An identifier for the labeler opinion.
+              user_id:
+                type: integer
+                description: The ID of the labeler who submitted the opinion.
+              qscore:
+                type: number
+                description: The confidence level of the user opinion.
+        patch:
+          type:
+          - string
+          - 'null'
+          description: An identifier for the patch within the image.
+        internal_notes:
+          type:
+          - string
+          - 'null'
+          description: Internal notes for the case.
+        explanation:
+          type:
+          - string
+          - 'null'
+          description: Explanation for the case.
+        pre_answer_explainer:
+          type:
+          - string
+          - 'null'
+          description: Pre-answer explainer for the case.
+        tags:
+          type: array
+          description: Tags associated with the case.
+          items:
+            type: string
+        comments:
+          type: array
+          description: Comments submitted by users on the case.
+          items:
+            type: string
+        flags:
+          type: array
+          description: Messages submitted by users who flagged the case.
+          items:
+            type: string
+        static_highlight_ranges:
+          type: array
+          description: Range and text for static highlighted ranges
+          items:
+            type: object
+            properties:
+              range:
+                type: array
+                description: The range for static highlights
+                items:
+                  type: array
+                  items:
+                    type: integer
+                  minItems: 2
+                  maxItems: 2
+              text:
+                type: string
+                description: The text for the static highlighted range
+    ClassAnswer:
+      type: object
+      properties:
+        answer_class:
+          type: string
+          description: The label class within the answer (correct annotation, combined opinion, or labeler opinion).
+        is_correct:
+          type: boolean
+          description: Whether the answer includes the class. Included for classification tasks only.
+        geometries:
+          type:
+          - array
+          - 'null'
+          description: The segmentation for the answer class in WKT format. Included for contour segmentation tasks only.
+          items:
+            type: string
+        mask:
+          type:
+          - string
+          - 'null'
+          description: A pre-signed URL to the segmentation for the answer class in mask (TIFF binary array) format. Included for mask segmentation tasks only.
+        ranges:
+          type:
+          - array
+          - 'null'
+          description: The integer ranges for the answer class. Included for range tasks only.
+          items:
+            type: array
+            items:
+              type: integer
+            minItems: 2
+            maxItems: 2
+        entities:
+          type:
+          - array
+          - 'null'
+          description: The entities for the answer class. Included for NER tasks only.
+          items:
+            type: string
+        freetexts:
+          type:
+          - array
+          - 'null'
+          description: An array of freetexts with one entry (array or null) per finding.
+          items:
+            type:
+            - array
+            - 'null'
+            description: An array of freetexts for one specific finding. May contain 0, 1, or multiple text entries.
+            items:
+              type: string
+    ResultV1:
+      type: object
+      properties:
+        task_id:
+          type: integer
+          description: The task ID.
+        task_name:
+          type: string
+          description: The task name.
+        project_id:
+          type: integer
+          description: The project ID.
+        project_name:
+          type: string
+          description: The project name.
+        case_id:
+          type: integer
+          description: The case ID.
+        task_type:
+          type: string
+          description: The labeling task (e.g. choice, box, circle, etc.)
+        patch:
+          type:
+          - string
+          - 'null'
+          description: An identifier for the patch within the image to be labeled.
+        labeling_state:
+          type: string
+          description: The labeling state of the case (e.g. Labeled, Gold Standard, etc.)
+        qualified_reads:
+          type: integer
+          description: The number of qualified reads collected for the case.
+        content_metadata:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContentMetadata'
+        portal_url:
+          type: string
+          description: URL to access view case in the Centaur portal.
+        internal_notes:
+          type:
+          - string
+          - 'null'
+          description: Internal notes for the case.
+        explanation:
+          type:
+          - string
+          - 'null'
+          description: Explanation for the case.
+        comments:
+          type: array
+          description: Comments submitted by users on the case.
+          items:
+            type: string
+        flags:
+          type: array
+          description: Messages submitted by users who flagged the case.
+          items:
+            type: string
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              content_id:
+                type: integer
+                description: An identifier for the content to which these results apply. If the case involves multiple content IDs, the lowest content ID is given.
+              correct_label:
+                type:
+                - array
+                - 'null'
+                description: The correct label for the case.  If the case is a segmentation task, then the contained strings will be in WKT format.
+                items:
+                  type: string
+              majority_label:
+                type:
+                - array
+                - 'null'
+                description: The majority label for the case based on user opinions.  If the case is a segmentation task, then the contained strings will be in WKT format.
+                items:
+                  type: string
+              agreement:
+                type:
+                - number
+                - 'null'
+                description: The agreement between user opinions on the case.
+              difficulty:
+                type:
+                - number
+                - 'null'
+                description: The difficulty of the case.
+              read_stats:
+                type: object
+                description: Read statistics for user opinions on the case.  Only included for classification tasks.
+                properties:
+                  counts:
+                    type: object
+                    description: Vote count breakdown by label category for user opinions on the case.
+                  weights:
+                    type: object
+                    description: Confidence level by label category for user opinions on the case.
+              top_reads:
+                type: array
+                description: The list of top user opinions used to create the majority label for the case.  Only included for segmentation tasks.
+                items:
+                  type: object
+                  properties:
+                    read_id:
+                      type: integer
+                      description: An identifier for the user opinion.
+                    user_id:
+                      type: integer
+                      description: The ID of the user who submitted the opinion.
+                    accuracy:
+                      type: number
+                      description: The confidence level of the user opinion.
+  parameters:
+    verbose_param:
+      name: verbose
+      in: query
+      description: Controls verbosity of the results returned.
+      required: false
+      schema:
+        type: boolean
+    case_id_param:
+      name: case_id
+      in: query
+      description: The case ID of the case labeling result.
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+    task_id_param:
+      name: task_id
+      in: query
+      description: The task ID for the case labeling result to be retrieved.
+      required: true
+      schema:
+        type: integer
+        minimum: 1
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/get_reads-public-v1-version.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-get.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-list.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-version.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-get.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-getresultsarchiveurl.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-list.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-version.md
+  - https://docs.centaurlabs.com/reference/post_reads-public-v1-lookup.md
+  merge:
+    pages: 9
+    deduped: 33
+    conflicts_kept_first: 0

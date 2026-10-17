@@ -1,0 +1,58 @@
+{
+  "provider": "centaur-labs",
+  "sources": [
+    "centaur-labs-label-apis-openapi.yml",
+    "centaur-labs-authorization-api-openapi.yml",
+    "centaur-labs-ingest-api-openapi.yml",
+    "centaur-labs-public-api-openapi.yml"
+  ],
+  "outputs": [
+    "centaur-labs-get-api-version-api-openapi.yml",
+    "centaur-labs-get-case-results-api-openapi.yml",
+    "centaur-labs-get-task-results-api-openapi.yml",
+    "centaur-labs-reads-opinions-lookup-api-openapi.yml",
+    "centaur-labs-login-api-openapi.yml",
+    "centaur-labs-logout-api-openapi.yml",
+    "centaur-labs-refresh-token-api-openapi.yml",
+    "centaur-labs-test-token-api-openapi.yml",
+    "centaur-labs-add-and-manage-labels-api-openapi.yml",
+    "centaur-labs-add-and-manage-projects-api-openapi.yml",
+    "centaur-labs-add-and-manage-tasks-api-openapi.yml",
+    "centaur-labs-create-and-manage-cases-api-openapi.yml",
+    "centaur-labs-import-and-manage-data-api-openapi.yml",
+    "centaur-labs-tags-api-openapi.yml",
+    "centaur-labs-version-api-openapi.yml",
+    "centaur-labs-masks-public-api-openapi.yml"
+  ],
+  "archived": [
+    "deleted 3 superseded output(s) from the previous generation",
+    "archived openapi/centaur-labs-label-apis-openapi.yml"
+  ],
+  "errors": [],
+  "warnings": [
+    "centaur-labs-authorization-api-openapi.yml: previously refined output kept for 5 operation(s) no archived document covers (e.g. /auth/public/v1/login post, /auth/public/v1/logout post, /auth/public/v1/refreshToken post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "centaur-labs-ingest-api-openapi.yml: previously refined output kept for 60 operation(s) no archived document covers (e.g. /answers/public/v1/add post, /answers/public/v1/delete delete, /answers/public/v1/update patch); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth.",
+    "centaur-labs-public-api-openapi.yml: previously refined output kept for 2 operation(s) no archived document covers (e.g. /masks/public/v1/commit post, /masks/public/v1/generate-presigned-urls post); its other 0 operation(s) came from the archive and were dropped from it. The archive is incomplete for this provider \u2014 re-harvest to restore _original/ as the full source of truth."
+  ],
+  "notes": [
+    "sourced from openapi/_original/ (0 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "centaur-labs-label-apis-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "centaur-labs-label-apis-openapi.yml: declared missing tag: Get API Version",
+    "centaur-labs-label-apis-openapi.yml: declared missing tag: Get Case Results",
+    "centaur-labs-label-apis-openapi.yml: declared missing tag: Get Task Results",
+    "centaur-labs-label-apis-openapi.yml: declared missing tag: Reads (Opinions) Lookup",
+    "centaur-labs-authorization-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "centaur-labs-authorization-api-openapi.yml: declared missing tag: Get API Version",
+    "centaur-labs-authorization-api-openapi.yml: declared missing tag: Login",
+    "centaur-labs-authorization-api-openapi.yml: declared missing tag: Logout",
+    "centaur-labs-authorization-api-openapi.yml: declared missing tag: Refresh Token",
+    "centaur-labs-authorization-api-openapi.yml: declared missing tag: Test Token",
+    "centaur-labs-ingest-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "centaur-labs-public-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "centaur-labs-public-api-openapi.yml: declared missing tag: masks-public",
+    "tag 'Get API Version' spans 2 source specs (centaur-labs-label-apis-openapi.yml, centaur-labs-authorization-api-openapi.yml): per-path servers applied",
+    "superseded outputs removed: centaur-labs-authorization-api-openapi.yml, centaur-labs-ingest-api-openapi.yml, centaur-labs-public-api-openapi.yml",
+    "apis.yml register: written (+16 apis, 17 total)"
+  ],
+  "skipped": []
+}

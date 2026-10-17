@@ -1,0 +1,2225 @@
+openapi: 3.2.0
+info:
+  title: Ingest Import and Manage Data API
+  description: Public API for importing data and managing labeling tasks, cases, projects, and assets.
+  version: 0.1.0
+servers:
+- url: https://api.centaurlabs.com
+tags:
+- name: Import and Manage Data
+  description: Import assets from cloud storage or URLs, and manage the resulting assets and file manifests.
+paths:
+  /assets/public/v1/add:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Shared Add Asset Override
+      description: Create text asset
+      operationId: shared_add_asset_override_assets_public_v1_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TextAssetRequestBase'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                anyOf:
+                - $ref: '#/components/schemas/AddAssetsResponse'
+                - $ref: '#/components/schemas/MessageResponse'
+                title: Response Shared Add Asset Override Assets Public V1 Add Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /assets/public/v1/get:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: Shared Get Asset
+      description: Get a specific asset from a project
+      operationId: shared_get_asset_assets_public_v1_get_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+      - name: content_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseAsset'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /assets/public/v1/list:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: Public List Assets
+      description: List the existing assets for a specific project
+      operationId: public_list_assets_assets_public_v1_list_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+      - name: last_sequence_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Last Sequence Id
+      - name: limit
+        in: query
+        required: false
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          default: 100
+          title: Limit
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAssetsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /assets/public/v1/listSeries:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Shared List Series
+      description: List series and study UUIDs for a specific project
+      operationId: shared_list_series_assets_public_v1_listSeries_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListAssetsFilters'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSeries'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /assets/public/v2/list:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Shared List Assets V2
+      description: List and filter the existing assets for a specific project
+      operationId: shared_list_assets_v2_assets_public_v2_list_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ListAssetsFiltersV2'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListAssetsResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /cases/public/v1/addImageFromFile:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Create Asset & Case From Image File
+      description: Uploads an image file directly, creating an asset and a case in the specified task in one step.
+      operationId: add_asset_and_case_from_file_cases_public_v1_addImageFromFile_post
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: Task Id
+      - name: callback_url
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Callback Url
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Body_add_asset_and_case_from_file_cases_public_v1_addImageFromFile_post'
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddAssetAndProblemCreationResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /imports/public/v1/add:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Initiate an import
+      description: Initiates a cloud storage import for a project by providing the source URI and target task IDs.
+      operationId: add_import_imports_public_v1_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddImportRequest'
+              examples:
+              - project_id: 123
+                source_type: s3
+                source_region: us-east-1
+                uri: s3://my-bucket/path/to/data/
+                name: Medical Images Import
+                target_task_ids:
+                - 456
+                - 789
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataImport'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /imports/public/v1/addAssetsFromURLs:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Initiate import from URLs
+      description: Initiates an import of assets from a list of HTTPS URLs into a Centaur-hosted project.
+      operationId: add_assets_from_urls_imports_public_v1_addAssetsFromURLs_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAssetsFromURLsRequest'
+              examples:
+              - project_id: 123
+                urls:
+                - https://example.com/image1.jpg
+                - https://example.com/image2.jpg
+                - https://example.com/image3.jpg
+                target_task_ids:
+                - 456
+                - 789
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataImport'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /imports/public/v1/delete:
+    delete:
+      tags:
+      - Import and Manage Data
+      summary: Delete an import, including its associated assets and cases
+      description: Soft-deletes an import and all its associated assets and cases from a project.
+      operationId: import_delete_imports_public_v1_delete_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: import_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          description: The import ID
+          title: Import Id
+        description: The import ID
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          description: The project ID
+          title: Project Id
+        description: The project ID
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Import Delete Imports Public V1 Delete Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /imports/public/v1/get:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: Fetch a specific import
+      description: Returns details of a specific import by its ID, including status and file counts.
+      operationId: get_import_public_imports_public_v1_get_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          description: Project ID
+          title: Project Id
+        description: Project ID
+      - name: import_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Import ID
+          title: Import Id
+        description: Import ID
+      - name: verbose
+        in: query
+        required: false
+        schema:
+          type: boolean
+          description: Verbose output
+          default: false
+          title: Verbose
+        description: Verbose output
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataImport'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /imports/public/v1/list:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: List imports
+      description: Returns a list of imports, optionally filtered by project, organization, or content type.
+      operationId: list_import_imports_public_v1_list_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: Project ID
+          title: Project Id
+        description: Project ID
+      - name: content_type
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: Content type
+          title: Content Type
+        description: Content type
+      - name: organization_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: Organization ID
+          title: Organization Id
+        description: Organization ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataImport'
+                title: Response List Import Imports Public V1 List Get
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /imports/public/v1/policy/get:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: Get Import Policy
+      description: Get the required policy for the Centaur Importer to access the source data
+      operationId: get_import_policy_imports_public_v1_policy_get_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: uri
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Uri
+      - name: source_type
+        in: query
+        required: true
+        schema:
+          enum:
+          - s3
+          - gcs
+          type: string
+          title: Source Type
+      - name: policy_format
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/PolicyFormat'
+          default: json
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Project Id
+      - name: organization_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Organization Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RootModel_Union_S3JsonPolicy__GCSJsonPolicy__UiLinkPolicy__CliCommandPolicy__CombinedPolicy__'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /imports/public/v1/validateAccess:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: Validate Access
+      description: Verifies that the requested data source is accessible to the Centaur Importer
+      operationId: validate_access_imports_public_v1_validateAccess_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: uri
+        in: query
+        required: true
+        schema:
+          type: string
+          title: Uri
+      - name: source_type
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/CloudStoragePlatform'
+      - name: source_region
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/AWSRegion'
+          - type: 'null'
+          default: us-east-1
+          title: Source Region
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Project Id
+      - name: organization_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Organization Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidateAccessResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /manifests/public/v1/add:
+    post:
+      tags:
+      - Import and Manage Data
+      summary: Add Files Manifest
+      description: Updates series metadata (series ID, series index, view, notes) for a list of assets in a project.
+      operationId: add_files_manifest_manifests_public_v1_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FilesManifestUpload'
+              examples:
+              - project_id: 123
+                files_manifest:
+                - content_id: 456
+                  series: CT_Scan_001
+                  series_index: 0
+                  notes: Baseline scan
+                  view: axial
+                - content_id: 457
+                  series: CT_Scan_001
+                  series_index: 1
+                  notes: Follow-up scan
+                  view: axial
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManifestObject'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /manifests/public/v1/get:
+    get:
+      tags:
+      - Import and Manage Data
+      summary: Get Manifest
+      description: Returns the files manifest (series metadata) for a project or import.
+      operationId: get_manifest_manifests_public_v1_get_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: Project ID
+          title: Project Id
+        description: Project ID
+      - name: import_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: Import ID
+          title: Import Id
+        description: Import ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManifestObject'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    FilesManifestObject:
+      properties:
+        content_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Origin
+        series:
+          type: string
+          minLength: 1
+          title: Series
+        series_index:
+          type: integer
+          title: Series Index
+        view:
+          anyOf:
+          - type: string
+            maxLength: 20
+            minLength: 1
+          - type: 'null'
+          title: View
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      type: object
+      required:
+      - series
+      - series_index
+      title: FilesManifestObject
+    GCSBinding:
+      properties:
+        role:
+          type: string
+          title: Role
+        members:
+          items:
+            type: string
+          type: array
+          title: Members
+        condition:
+          anyOf:
+          - $ref: '#/components/schemas/GCSCondition'
+          - type: 'null'
+      type: object
+      required:
+      - role
+      - members
+      title: GCSBinding
+    CombinedPolicy:
+      properties:
+        account:
+          type: string
+          title: Account
+        link:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Link
+        command:
+          type: string
+          title: Command
+        json:
+          anyOf:
+          - $ref: '#/components/schemas/S3JsonPolicy'
+          - $ref: '#/components/schemas/GCSJsonPolicy'
+          title: Json
+      type: object
+      required:
+      - account
+      - link
+      - command
+      - json
+      title: CombinedPolicy
+    S3JsonPolicy:
+      properties:
+        Version:
+          type: string
+          title: Version
+        Statement:
+          items:
+            $ref: '#/components/schemas/S3StatementItem'
+          type: array
+          title: Statement
+      type: object
+      required:
+      - Version
+      - Statement
+      title: S3JsonPolicy
+      example:
+        Statement:
+        - Action:
+          - s3:ListBucket
+          - s3:GetObject
+          - s3:GetObjectTagging
+          Effect: Allow
+          Principal:
+            AWS: arn:aws:iam::111122223333:role/example-role
+          Resource: arn:aws:s3:::example-bucket/*
+        Version: '2012-10-17'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ResponseAssetDICOM:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        created_at:
+          type: string
+          title: Created At
+        file_size:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: File Size
+        import_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Import Id
+        imported_at:
+          type: string
+          title: Imported At
+        related_tasks:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Tasks
+        related_cases:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Cases
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        image_width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Width
+        image_height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Height
+        series:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Series
+        series_index:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Series Index
+        study_uid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Study Uid
+        series_uid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Series Uid
+      type: object
+      required:
+      - project_id
+      - content_id
+      - origin
+      - created_at
+      - file_size
+      - import_id
+      - imported_at
+      - related_tasks
+      - related_cases
+      - tags
+      title: ResponseAssetDICOM
+    Tag:
+      properties:
+        organization_id:
+          type: integer
+          title: Organization Id
+        tag_id:
+          type: integer
+          title: Tag Id
+        tag:
+          type: string
+          title: Tag
+      type: object
+      required:
+      - organization_id
+      - tag_id
+      - tag
+      title: Tag
+    ResponseAssetText:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        created_at:
+          type: string
+          title: Created At
+        file_size:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: File Size
+        import_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Import Id
+        imported_at:
+          type: string
+          title: Imported At
+        related_tasks:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Tasks
+        related_cases:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Cases
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        content:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Content
+        char_count:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Char Count
+      type: object
+      required:
+      - project_id
+      - content_id
+      - origin
+      - created_at
+      - file_size
+      - import_id
+      - imported_at
+      - related_tasks
+      - related_cases
+      - tags
+      title: ResponseAssetText
+    MessageResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: MessageResponse
+    ListAssetsFiltersV2:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        last_sequence_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Last Sequence Id
+        limit:
+          type: integer
+          exclusiveMinimum: 0
+          title: Limit
+          default: 100
+        upload_id:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        imported_at:
+          anyOf:
+          - $ref: '#/components/schemas/DatetimeFilter'
+          - type: 'null'
+        content_id:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        origin:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        study_uid:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        series_uid:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        series:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        series_index:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        char_count:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        customer_data_tag_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Customer Data Tag Id
+        tag_text:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tag Text
+      type: object
+      required:
+      - project_id
+      title: ListAssetsFiltersV2
+      description: 'Tag filters live here, not on the shared AssetFilters/ListAssetsFilters, so
+
+        /v1/listSeries and the private /v1/createCases body (which use those shared
+
+        models directly) don''t also advertise and silently no-op on them -- only
+
+        /v2/list''s get_paginated_assets path actually applies get_tag_filter_sql.'
+    ManifestObject:
+      items:
+        $ref: '#/components/schemas/ManifestInfo'
+      type: array
+      title: ManifestObject
+      description: Array of manifest objects
+    ValidateAccessResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+        details:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ResponseDetails'
+            type: array
+          - type: 'null'
+          title: Details
+        status:
+          type: string
+          enum:
+          - success
+          - warning
+          - error
+          title: Status
+      additionalProperties: false
+      type: object
+      required:
+      - message
+      - status
+      title: ValidateAccessResponse
+    ResponseSeries:
+      anyOf:
+      - $ref: '#/components/schemas/ResponseSeriesImage'
+      - $ref: '#/components/schemas/ResponseSeriesDICOM'
+    GCSJsonPolicy:
+      properties:
+        bindings:
+          items:
+            $ref: '#/components/schemas/GCSBinding'
+          type: array
+          title: Bindings
+      type: object
+      required:
+      - bindings
+      title: GCSJsonPolicy
+      example:
+        bindings:
+        - condition:
+            description: Allows read-only access only to objects under foo
+            expression: resource.name.startsWith('projects/buckets/foo')
+            title: Access limited to specific path
+          members:
+          - serviceAccount:example-service-account@project.iam.gserviceaccount.com
+          role: roles/storage.objectViewer
+    StrFilter:
+      properties:
+        eq:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Eq
+        ne:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Ne
+        any_of:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: Any Of
+        none_of:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: 'null'
+          title: None Of
+        contains:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Contains
+        icontains:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Icontains
+      additionalProperties: false
+      type: object
+      title: StrFilter
+    IntFilter:
+      properties:
+        lt:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Lt
+        le:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Le
+        gt:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Gt
+        ge:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ge
+        eq:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Eq
+        ne:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Ne
+        any_of:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: Any Of
+        none_of:
+          anyOf:
+          - items:
+              type: integer
+            type: array
+          - type: 'null'
+          title: None Of
+      additionalProperties: false
+      type: object
+      title: IntFilter
+    AssetTextResponse:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        content:
+          type: string
+          title: Content
+      type: object
+      required:
+      - project_id
+      - content_id
+      - origin
+      - content
+      title: AssetTextResponse
+    PolicyFormat:
+      type: string
+      enum:
+      - json
+      - cli
+      - ui
+      - all
+      title: PolicyFormat
+    Body_add_asset_and_case_from_file_cases_public_v1_addImageFromFile_post:
+      properties:
+        file:
+          type: string
+          contentMediaType: application/octet-stream
+          title: File
+      type: object
+      required:
+      - file
+      title: Body_add_asset_and_case_from_file_cases_public_v1_addImageFromFile_post
+    ResponseDetails:
+      properties:
+        messages:
+          items:
+            type: string
+          type: array
+          title: Messages
+        path:
+          anyOf:
+          - items:
+              anyOf:
+              - type: integer
+              - type: string
+            type: array
+          - type: 'null'
+          title: Path
+        data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: string
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - messages
+      title: ResponseDetails
+    RootModel_Union_S3JsonPolicy__GCSJsonPolicy__UiLinkPolicy__CliCommandPolicy__CombinedPolicy__:
+      anyOf:
+      - $ref: '#/components/schemas/S3JsonPolicy'
+      - $ref: '#/components/schemas/GCSJsonPolicy'
+      - $ref: '#/components/schemas/UiLinkPolicy'
+      - $ref: '#/components/schemas/CliCommandPolicy'
+      - $ref: '#/components/schemas/CombinedPolicy'
+      title: RootModel[Union[S3JsonPolicy, GCSJsonPolicy, UiLinkPolicy, CliCommandPolicy, CombinedPolicy]]
+    AddAssetAndProblemCreationResponse:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        task_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        case_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Case Id
+        callback_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Callback Uuid
+      type: object
+      required:
+      - project_id
+      - task_id
+      - content_id
+      - case_id
+      title: AddAssetAndProblemCreationResponse
+    ResponseSeriesImage:
+      properties:
+        series:
+          items:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: array
+          title: Series
+      type: object
+      required:
+      - series
+      title: ResponseSeriesImage
+    AddImportRequest:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+        source_type:
+          type: string
+          enum:
+          - s3
+          - azure
+          - gcs
+          title: Source Type
+        source_region:
+          anyOf:
+          - $ref: '#/components/schemas/AWSRegion'
+          - $ref: '#/components/schemas/AzureRegion'
+          - type: 'null'
+          title: Source Region
+        s3_uri:
+          type: string
+          title: S3 Uri
+        target_task_ids:
+          items:
+            type: integer
+          type: array
+          title: Target Task Ids
+          unique_items: true
+        source_files:
+          anyOf:
+          - items:
+              type: string
+            type: array
+            minLength: 1
+            unique_items: true
+          - type: 'null'
+          title: Source Files
+      additionalProperties: false
+      type: object
+      required:
+      - project_id
+      - source_type
+      - s3_uri
+      title: AddImportRequest
+    ManifestInfo:
+      properties:
+        content_id:
+          type: integer
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        series:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Series
+        series_index:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Series Index
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+        view:
+          type: string
+          title: View
+      type: object
+      required:
+      - content_id
+      - origin
+      - series
+      - series_index
+      - notes
+      - view
+      title: ManifestInfo
+    ResponseAssetPDF:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        created_at:
+          type: string
+          title: Created At
+        file_size:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: File Size
+        import_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Import Id
+        imported_at:
+          type: string
+          title: Imported At
+        related_tasks:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Tasks
+        related_cases:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Cases
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        image_width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Width
+        image_height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Height
+        series:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Series
+        series_index:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Series Index
+        page_number:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Page Number
+        media_box:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Media Box
+        crop_box:
+          anyOf:
+          - items:
+              type: number
+            type: array
+          - type: 'null'
+          title: Crop Box
+        contains_native_text:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Contains Native Text
+        rotation:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Rotation
+      type: object
+      required:
+      - project_id
+      - content_id
+      - origin
+      - created_at
+      - file_size
+      - import_id
+      - imported_at
+      - related_tasks
+      - related_cases
+      - tags
+      title: ResponseAssetPDF
+    TextAssetRequestBase:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        text_assets:
+          items:
+            $ref: '#/components/schemas/TextAsset'
+          type: array
+          title: Text Assets
+        dry_run:
+          type: boolean
+          title: Dry Run
+          default: false
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      additionalProperties: false
+      type: object
+      required:
+      - project_id
+      - text_assets
+      title: TextAssetRequestBase
+    AddAssetsResponse:
+      items:
+        $ref: '#/components/schemas/AssetTextResponse'
+      type: array
+      title: AddAssetsResponse
+    ResponseSeriesDICOM:
+      properties:
+        series:
+          items:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: array
+          title: Series
+        series_uids:
+          items:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: array
+          title: Series Uids
+        study_uids:
+          items:
+            anyOf:
+            - type: string
+            - type: 'null'
+          type: array
+          title: Study Uids
+      type: object
+      required:
+      - series
+      - series_uids
+      - study_uids
+      title: ResponseSeriesDICOM
+    ResponseAsset:
+      anyOf:
+      - $ref: '#/components/schemas/ResponseAssetText'
+      - $ref: '#/components/schemas/ResponseAssetVideoAudio'
+      - $ref: '#/components/schemas/ResponseAssetImage'
+      - $ref: '#/components/schemas/ResponseAssetDICOM'
+      - $ref: '#/components/schemas/ResponseAssetPDF'
+    TextAsset:
+      properties:
+        origin:
+          type: string
+          title: Origin
+        content:
+          type: string
+          title: Content
+      additionalProperties: false
+      type: object
+      required:
+      - origin
+      - content
+      title: TextAsset
+    AzureRegion:
+      type: string
+      enum:
+      - eastus
+      - eastus2
+      - southcentralus
+      - westus2
+      - westus3
+      - australiaeast
+      - southeastasia
+      - northeurope
+      - swedencentral
+      - uksouth
+      - westeurope
+      - centralus
+      - southafricanorth
+      - centralindia
+      - eastasia
+      - japaneast
+      - koreacentral
+      - canadacentral
+      - francecentral
+      - germanywestcentral
+      - italynorth
+      - norwayeast
+      - polandcentral
+      - switzerlandnorth
+      - uaenorth
+      - brazilsouth
+      - centraluseuap
+      - israelcentral
+      - qatarcentral
+      - centralusstage
+      - eastusstage
+      - eastus2stage
+      - northcentralusstage
+      - southcentralusstage
+      - westusstage
+      - westus2stage
+      - asia
+      - asiapacific
+      - australia
+      - brazil
+      - canada
+      - europe
+      - france
+      - germany
+      - global
+      - india
+      - japan
+      - korea
+      - norway
+      - singapore
+      - southafrica
+      - switzerland
+      - uae
+      - uk
+      - unitedstates
+      - unitedstateseuap
+      - eastasiastage
+      - southeastasiastage
+      - brazilus
+      - eastusstg
+      - northcentralus
+      - westus
+      - jioindiawest
+      - eastus2euap
+      - southcentralusstg
+      - westcentralus
+      - southafricawest
+      - australiacentral
+      - australiacentral2
+      - australiasoutheast
+      - japanwest
+      - jioindiacentral
+      - koreasouth
+      - southindia
+      - westindia
+      - canadaeast
+      - francesouth
+      - germanynorth
+      - norwaywest
+      - switzerlandwest
+      - ukwest
+      - uaecentral
+      - brazilsoutheast
+      title: AzureRegion
+    S3StatementItem:
+      properties:
+        Effect:
+          type: string
+          title: Effect
+        Principal:
+          additionalProperties: true
+          type: object
+          title: Principal
+        Action:
+          anyOf:
+          - items:
+              type: string
+            type: array
+          - type: string
+          title: Action
+        Resource:
+          type: string
+          title: Resource
+        Condition:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - type: 'null'
+          title: Condition
+      type: object
+      required:
+      - Effect
+      - Principal
+      - Action
+      - Resource
+      title: S3StatementItem
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    ResponseAssetImage:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        created_at:
+          type: string
+          title: Created At
+        file_size:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: File Size
+        import_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Import Id
+        imported_at:
+          type: string
+          title: Imported At
+        related_tasks:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Tasks
+        related_cases:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Cases
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        image_width:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Width
+        image_height:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Image Height
+        series:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Series
+        series_index:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Series Index
+      type: object
+      required:
+      - project_id
+      - content_id
+      - origin
+      - created_at
+      - file_size
+      - import_id
+      - imported_at
+      - related_tasks
+      - related_cases
+      - tags
+      title: ResponseAssetImage
+    ResponseAssetVideoAudio:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        content_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Content Id
+        origin:
+          type: string
+          title: Origin
+        created_at:
+          type: string
+          title: Created At
+        file_size:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: File Size
+        import_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Import Id
+        imported_at:
+          type: string
+          title: Imported At
+        related_tasks:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Tasks
+        related_cases:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          title: Related Cases
+        tags:
+          items:
+            $ref: '#/components/schemas/Tag'
+          type: array
+          title: Tags
+        length_seconds:
+          anyOf:
+          - type: number
+          - type: 'null'
+          title: Length Seconds
+      type: object
+      required:
+      - project_id
+      - content_id
+      - origin
+      - created_at
+      - file_size
+      - import_id
+      - imported_at
+      - related_tasks
+      - related_cases
+      - tags
+      title: ResponseAssetVideoAudio
+    ListAssetsFilters:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        last_sequence_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Last Sequence Id
+        limit:
+          type: integer
+          exclusiveMinimum: 0
+          title: Limit
+          default: 100
+        upload_id:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        imported_at:
+          anyOf:
+          - $ref: '#/components/schemas/DatetimeFilter'
+          - type: 'null'
+        content_id:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        origin:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        study_uid:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        series_uid:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        series:
+          anyOf:
+          - $ref: '#/components/schemas/StrFilter'
+          - type: 'null'
+        series_index:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+        char_count:
+          anyOf:
+          - $ref: '#/components/schemas/IntFilter'
+          - type: 'null'
+      type: object
+      required:
+      - project_id
+      title: ListAssetsFilters
+    GCSCondition:
+      properties:
+        title:
+          type: string
+          title: Title
+        description:
+          type: string
+          title: Description
+        expression:
+          type: string
+          title: Expression
+      type: object
+      required:
+      - title
+      - description
+      - expression
+      title: GCSCondition
+    ListAssetsResponse:
+      properties:
+        payload:
+          items:
+            $ref: '#/components/schemas/ResponseAsset'
+          type: array
+          title: Payload
+        limit:
+          type: integer
+          title: Limit
+        has_next:
+          type: boolean
+          title: Has Next
+        last_sequence_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Last Sequence Id
+      type: object
+      required:
+      - payload
+      - limit
+      - has_next
+      title: ListAssetsResponse
+    CliCommandPolicy:
+      properties:
+        command:
+          type: string
+          title: Command
+      type: object
+      required:
+      - command
+      title: CliCommandPolicy
+    FilesManifestUpload:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        files_manifest:
+          items:
+            $ref: '#/components/schemas/FilesManifestObject'
+          type: array
+          title: Files Manifest
+      type: object
+      required:
+      - project_id
+      - files_manifest
+      title: FilesManifestUpload
+    UiLinkPolicy:
+      properties:
+        account:
+          type: string
+          title: Account
+        link:
+          type: string
+          maxLength: 2083
+          minLength: 1
+          format: uri
+          title: Link
+      type: object
+      required:
+      - account
+      - link
+      title: UiLinkPolicy
+    DatetimeFilter:
+      properties:
+        before:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Before
+        after:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: After
+      additionalProperties: false
+      type: object
+      title: DatetimeFilter
+    DataImport:
+      properties:
+        import_id:
+          type: integer
+          title: Import Id
+        project_id:
+          type: integer
+          title: Project Id
+        source_type:
+          type: string
+          title: Source Type
+        source:
+          type: string
+          title: Source
+        status:
+          type: string
+          title: Status
+        copy_failure_report:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Copy Failure Report
+        validation_report:
+          anyOf:
+          - items: {}
+            type: array
+          - type: 'null'
+          title: Validation Report
+        created_at:
+          type: string
+          title: Created At
+        updated_at:
+          type: string
+          title: Updated At
+        target_task_ids:
+          items:
+            type: integer
+          type: array
+          title: Target Task Ids
+        name:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Name
+      type: object
+      required:
+      - import_id
+      - project_id
+      - source_type
+      - source
+      - status
+      - created_at
+      - updated_at
+      title: DataImport
+    AddAssetsFromURLsRequest:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        urls:
+          items:
+            type: string
+            minLength: 1
+            format: uri
+          type: array
+          maxItems: 1000
+          minItems: 1
+          title: Urls
+        target_task_ids:
+          items:
+            type: integer
+          type: array
+          title: Target Task Ids
+      additionalProperties: false
+      type: object
+      required:
+      - project_id
+      - urls
+      title: AddAssetsFromURLsRequest
+    CloudStoragePlatform:
+      type: string
+      enum:
+      - s3
+      - azure
+      - https
+      - gcs
+      title: CloudStoragePlatform
+    AWSRegion:
+      type: string
+      enum:
+      - us-east-2
+      - us-east-1
+      - us-west-1
+      - us-west-2
+      - af-south-1
+      - ap-east-1
+      - ap-southeast-3
+      - ap-south-1
+      - ap-northeast-3
+      - ap-northeast-2
+      - ap-southeast-1
+      - ap-southeast-2
+      - ap-northeast-1
+      - ca-central-1
+      - cn-north-1
+      - cn-northwest-1
+      - eu-central-1
+      - eu-west-1
+      - eu-west-2
+      - eu-south-1
+      - eu-west-3
+      - eu-north-1
+      - me-south-1
+      - sa-east-1
+      title: AWSRegion
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      description: Your Centaur API key
+      in: header
+      name: X-API-KEY
+    BearerToken:
+      type: http
+      description: Bearer token obtained from authentication endpoint
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/add_asset_and_case_from_file_cases_public_v1_addimagefromfile_post.md
+  - https://docs.centaurlabs.com/reference/add_asset_to_task_tasks_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_assets_from_urls_imports_public_v1_addassetsfromurls_post.md
+  - https://docs.centaurlabs.com/reference/add_files_manifest_manifests_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_import_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_imports_to_task_public_tasks_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/create_project_public_projects_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/delete_case_cases_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/delete_project_projects_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/get_import_policy_imports_public_v1_policy_get_get.md
+  - https://docs.centaurlabs.com/reference/get_import_public_imports_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_manifest_manifests_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_project_projects_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_version_imports_public_api_v1_version_get.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_labelclasses_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_legacy_answers_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_existing_answers_to_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_label_class_group_labelclasses_public_v1_groups_post.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_labelclasses_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_legacy_answers_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answers_from_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_label_class_group_labelclasses_public_v1_groups__label_class_group_id__delete.md
+  - https://docs.centaurlabs.com/reference/handler_duplicate_case_cases_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/handler_get_label_class_group_labelclasses_public_v1_groups__label_class_group_id__get.md
+  - https://docs.centaurlabs.com/reference/handler_list_label_class_groups_labelclasses_public_v1_groups_get.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_answers_labelclasses_public_v1_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_label_class_groups_labelclasses_public_v1_groups_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_set_prelabels_override_cases_prelabels_public_v1_set_put.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_update_label_class_group_labelclasses_public_v1_groups__label_class_group_id__patch.md
+  - https://docs.centaurlabs.com/reference/import_delete_imports_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/list_import_imports_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/list_projects_projects_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_add_asset_tag_tags_public_v1_asset_add_post.md
+  - https://docs.centaurlabs.com/reference/public_add_tag_tags_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/public_list_asset_tags_tags_public_v1_asset_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_assets_assets_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_tags_tags_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_remove_asset_tag_tags_public_v1_asset_delete_delete.md
+  - https://docs.centaurlabs.com/reference/public_remove_tag_tags_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/set_gold_standards_override_cases_goldstandards_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/shared_add_asset_override_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/shared_get_asset_assets_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/shared_list_assets_v2_assets_public_v2_list_post.md
+  - https://docs.centaurlabs.com/reference/shared_list_series_assets_public_v1_listseries_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v2_add_post.md
+  - https://docs.centaurlabs.com/reference/task_duplicate_tasks_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/task_get_tasks_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/task_list_tasks_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/task_set_instructions_tasks_public_v1_instructions_post.md
+  - https://docs.centaurlabs.com/reference/task_update_public_tasks_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_problems_cases_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_task_tasks_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_answers_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_labelclasses_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_problem_cases_custom_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_project_public_projects_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/validate_access_imports_public_v1_validateaccess_get.md
+  merge:
+    pages: 60
+    deduped: 323
+    conflicts_kept_first: 0

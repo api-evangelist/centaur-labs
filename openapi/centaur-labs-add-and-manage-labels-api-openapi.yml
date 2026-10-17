@@ -1,0 +1,872 @@
+openapi: 3.2.0
+info:
+  title: Ingest Add and Manage Labels API
+  description: Public API for importing data and managing labeling tasks, cases, projects, and assets.
+  version: 0.1.0
+servers:
+- url: https://api.centaurlabs.com
+tags:
+- name: Add and Manage Labels
+  description: Set and remove gold standard answers and prelabels on the cases in a task.
+paths:
+  /cases/goldStandards/public/v1/set:
+    patch:
+      tags:
+      - Add and Manage Labels
+      summary: Set gold standard answers for a specific topic
+      description: Sets gold standard answers for one or more cases in a task.
+      operationId: set_gold_standards_override_cases_goldStandards_public_v1_set_patch
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+      - name: opinion_component_source
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/OpinionComponentSource'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetGoldStandardRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetGoldStandardResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /cases/goldStandards/public/v1/unset:
+    delete:
+      tags:
+      - Add and Manage Labels
+      summary: Unset gold standards in a set of cases
+      description: Removes gold standard answers from specified cases in a task, optionally preserving opinions.
+      operationId: unset_gs_from_problems_cases_goldStandards_public_v1_unset_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+      - name: reads_action
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ReadsAction'
+          - type: 'null'
+          title: Reads Action
+      - name: labeling_state
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/ProblemLabelingState'
+          default: ready
+      - name: case_ids
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          minItems: 1
+          unique_items: true
+          title: Case Ids
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Unset Gs From Problems Cases Goldstandards Public V1 Unset Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /cases/prelabels/public/v1/set:
+    put:
+      tags:
+      - Add and Manage Labels
+      summary: Set prelabels for a specific topic
+      description: Sets prelabel annotations for one or more cases in a task for segmentation and range task types.
+      operationId: handler_set_prelabels_override_cases_prelabels_public_v1_set_put
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+      - name: opinion_component_source
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/OpinionComponentSource'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetPreLabelRequest'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseSummary'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /cases/prelabels/public/v1/unset:
+    delete:
+      tags:
+      - Add and Manage Labels
+      summary: Unset prelabels in a set of cases
+      description: Removes prelabel annotations from a specified set of cases in a task.
+      operationId: handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+      - name: case_ids
+        in: query
+        required: true
+        schema:
+          type: array
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          minItems: 1
+          unique_items: true
+          title: Case Ids
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Handler Unset Prelabels From Problems Cases Prelabels Public V1 Unset Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tasks/goldStandards/public/v1/unset:
+    delete:
+      tags:
+      - Add and Manage Labels
+      summary: Unset all gold standards from a task
+      description: Removes all gold standard answers from every case in a task, optionally preserving opinions.
+      operationId: unset_gs_from_task_tasks_goldStandards_public_v1_unset_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+      - name: reads_action
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - $ref: '#/components/schemas/ReadsAction'
+          - type: 'null'
+          title: Reads Action
+      - name: labeling_state
+        in: query
+        required: false
+        schema:
+          $ref: '#/components/schemas/ProblemLabelingState'
+          default: ready
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Unset Gs From Task Tasks Goldstandards Public V1 Unset Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /tasks/prelabels/public/v1/unset:
+    delete:
+      tags:
+      - Add and Manage Labels
+      summary: Unset all prelabels from a task
+      description: Removes all prelabel annotations from every case in a task.
+      operationId: handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Handler Unset Prelabels From Task Tasks Prelabels Public V1 Unset Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ReadsAction:
+      type: string
+      enum:
+      - wipe
+      - preserve
+      title: ReadsAction
+    ProblemLabelingState:
+      type: string
+      enum:
+      - canceled
+      - user_flagged
+      - active
+      - qa
+      - silver_standard
+      - unresolved
+      - ignore
+      - ready
+      - done
+      - on_deck
+      - ready_gold_standard
+      - gold_standard
+      title: ProblemLabelingState
+      description: 'The labeling states a problem can be in.
+
+
+        games.labeling_states also carries a `tutorial` row, which is retired and deliberately
+
+        not modelled here. The sync test asserts it is the only such state, so a genuinely new
+
+        one fails CI rather than going unnoticed.'
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UUIDAnswer:
+      properties:
+        answer_class:
+          type: string
+          title: Answer Class
+        mask_uuid:
+          type: string
+          format: uuid
+          title: Mask Uuid
+      type: object
+      required:
+      - answer_class
+      - mask_uuid
+      title: UUIDAnswer
+    OpinionComponentSource:
+      type: string
+      enum:
+      - mi
+      - ma
+      - wp
+      - wo
+      - ir
+      - pri
+      - pub
+      - sql
+      - un
+      title: OpinionComponentSource
+    LabelRange:
+      properties:
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            $ref: '#/components/schemas/RangeAnswer'
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: LabelRange
+    RangeAnswer:
+      properties:
+        answer_class:
+          type: string
+          title: Answer Class
+        ranges:
+          items:
+            items:
+              type: integer
+              minimum: 0
+            type: array
+            maxItems: 2
+            minItems: 2
+          type: array
+          minItems: 1
+          title: Ranges
+        freetexts:
+          anyOf:
+          - items:
+              anyOf:
+              - items:
+                  type: string
+                type: array
+                unique_items: true
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Freetexts
+      type: object
+      required:
+      - answer_class
+      - ranges
+      title: RangeAnswer
+    GoldStandardUUID:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Notes
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            $ref: '#/components/schemas/UUIDAnswer'
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: GoldStandardUUID
+    ResponseDetails:
+      properties:
+        messages:
+          items:
+            type: string
+          type: array
+          title: Messages
+        path:
+          anyOf:
+          - items:
+              anyOf:
+              - type: integer
+              - type: string
+            type: array
+          - type: 'null'
+          title: Path
+        data:
+          anyOf:
+          - additionalProperties: true
+            type: object
+          - items: {}
+            type: array
+          - type: string
+          - type: 'null'
+          title: Data
+      type: object
+      required:
+      - messages
+      title: ResponseDetails
+    GoldStandardRange:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Notes
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            $ref: '#/components/schemas/RangeAnswer'
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: GoldStandardRange
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    SetGoldStandardRequest:
+      properties:
+        gold_standards:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/GoldStandardRange'
+            - $ref: '#/components/schemas/GoldStandardUUID'
+            - $ref: '#/components/schemas/GoldStandardSegmentation'
+            - $ref: '#/components/schemas/GoldStandardClassification'
+          type: array
+          minItems: 1
+          title: Gold Standards
+      type: object
+      required:
+      - gold_standards
+      title: SetGoldStandardRequest
+    LabelUUID:
+      properties:
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            $ref: '#/components/schemas/UUIDAnswer'
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: LabelUUID
+    LabelSegmentation:
+      properties:
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            $ref: '#/components/schemas/SegmentationAnswer'
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: LabelSegmentation
+    SetGoldStandardResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+      type: object
+      required:
+      - message
+      title: SetGoldStandardResponse
+    GoldStandardSegmentation:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Notes
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            $ref: '#/components/schemas/SegmentationAnswer'
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: GoldStandardSegmentation
+    GoldStandardClassification:
+      properties:
+        notes:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Notes
+        case_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Case Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+            maxLength: 250
+            minLength: 1
+          - type: 'null'
+          title: Origin
+        answer:
+          items:
+            type: string
+            maxLength: 60
+            minLength: 1
+          type: array
+          title: Answer
+          unique_items: true
+      type: object
+      required:
+      - answer
+      title: GoldStandardClassification
+    SetPreLabelRequest:
+      properties:
+        labels:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/LabelRange'
+            - $ref: '#/components/schemas/LabelUUID'
+            - $ref: '#/components/schemas/LabelSegmentation'
+          type: array
+          minItems: 1
+          title: Labels
+      type: object
+      required:
+      - labels
+      title: SetPreLabelRequest
+    ResponseSummary:
+      properties:
+        message:
+          type: string
+          title: Message
+        details:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ResponseDetails'
+            type: array
+          - type: 'null'
+          title: Details
+      additionalProperties: false
+      type: object
+      required:
+      - message
+      title: ResponseSummary
+    SegmentationAnswer:
+      properties:
+        answer_class:
+          type: string
+          title: Answer Class
+        geometries:
+          items:
+            type: string
+            minLength: 1
+          type: array
+          minItems: 1
+          title: Geometries
+          unique_items: true
+        freetexts:
+          anyOf:
+          - items:
+              anyOf:
+              - items:
+                  type: string
+                type: array
+                unique_items: true
+              - type: 'null'
+            type: array
+          - type: 'null'
+          title: Freetexts
+      type: object
+      required:
+      - answer_class
+      - geometries
+      title: SegmentationAnswer
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      description: Your Centaur API key
+      in: header
+      name: X-API-KEY
+    BearerToken:
+      type: http
+      description: Bearer token obtained from authentication endpoint
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/add_asset_and_case_from_file_cases_public_v1_addimagefromfile_post.md
+  - https://docs.centaurlabs.com/reference/add_asset_to_task_tasks_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_assets_from_urls_imports_public_v1_addassetsfromurls_post.md
+  - https://docs.centaurlabs.com/reference/add_files_manifest_manifests_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_import_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_imports_to_task_public_tasks_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/create_project_public_projects_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/delete_case_cases_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/delete_project_projects_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/get_import_policy_imports_public_v1_policy_get_get.md
+  - https://docs.centaurlabs.com/reference/get_import_public_imports_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_manifest_manifests_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_project_projects_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_version_imports_public_api_v1_version_get.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_labelclasses_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_legacy_answers_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_existing_answers_to_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_label_class_group_labelclasses_public_v1_groups_post.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_labelclasses_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_legacy_answers_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answers_from_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_label_class_group_labelclasses_public_v1_groups__label_class_group_id__delete.md
+  - https://docs.centaurlabs.com/reference/handler_duplicate_case_cases_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/handler_get_label_class_group_labelclasses_public_v1_groups__label_class_group_id__get.md
+  - https://docs.centaurlabs.com/reference/handler_list_label_class_groups_labelclasses_public_v1_groups_get.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_answers_labelclasses_public_v1_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_label_class_groups_labelclasses_public_v1_groups_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_set_prelabels_override_cases_prelabels_public_v1_set_put.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_update_label_class_group_labelclasses_public_v1_groups__label_class_group_id__patch.md
+  - https://docs.centaurlabs.com/reference/import_delete_imports_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/list_import_imports_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/list_projects_projects_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_add_asset_tag_tags_public_v1_asset_add_post.md
+  - https://docs.centaurlabs.com/reference/public_add_tag_tags_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/public_list_asset_tags_tags_public_v1_asset_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_assets_assets_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_tags_tags_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_remove_asset_tag_tags_public_v1_asset_delete_delete.md
+  - https://docs.centaurlabs.com/reference/public_remove_tag_tags_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/set_gold_standards_override_cases_goldstandards_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/shared_add_asset_override_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/shared_get_asset_assets_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/shared_list_assets_v2_assets_public_v2_list_post.md
+  - https://docs.centaurlabs.com/reference/shared_list_series_assets_public_v1_listseries_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v2_add_post.md
+  - https://docs.centaurlabs.com/reference/task_duplicate_tasks_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/task_get_tasks_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/task_list_tasks_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/task_set_instructions_tasks_public_v1_instructions_post.md
+  - https://docs.centaurlabs.com/reference/task_update_public_tasks_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_problems_cases_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_task_tasks_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_answers_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_labelclasses_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_problem_cases_custom_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_project_public_projects_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/validate_access_imports_public_v1_validateaccess_get.md
+  merge:
+    pages: 60
+    deduped: 323
+    conflicts_kept_first: 0

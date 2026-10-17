@@ -1,0 +1,153 @@
+openapi: 3.2.0
+info:
+  title: Centaur Labs Get API Version API
+  version: 1.0.0
+  description: 'Operations tagged Get API Version across 2 of this provider''s published API definitions: centaur-labs-label-apis-openapi.yml, centaur-labs-authorization-api-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.centaurlabs.com/
+  description: Centaur Label APIs Production
+- url: https://api.centaurlabs.com
+  description: Public API
+tags:
+- name: Get API Version
+paths:
+  /reads/public/v1/version:
+    get:
+      tags:
+      - Get API Version
+      description: Returns release version of the public reads API app
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Internal Server Error
+      summary: Get reads public version
+      x-summary-source: derived
+      operationId: getReadsPublicV1Version
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.centaurlabs.com/
+      description: Centaur Label APIs Production
+  /results/public/v1/version:
+    get:
+      tags:
+      - Get API Version
+      description: Returns release version of the public results API app
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Internal Server Error
+      summary: Get results public version
+      x-summary-source: derived
+      operationId: getResultsPublicV1Version
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.centaurlabs.com/
+      description: Centaur Label APIs Production
+  /results/public/v2/version:
+    get:
+      tags:
+      - Get API Version
+      description: Returns release version of the public results API app
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+        '500':
+          description: Internal Server Error
+          content:
+            text/plain:
+              example: Internal Server Error
+      summary: Get results public version
+      x-summary-source: derived
+      operationId: getResultsPublicV2Version
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.centaurlabs.com/
+      description: Centaur Label APIs Production
+  /auth/public/v1/version:
+    get:
+      tags:
+      - Get API Version
+      summary: Return the release version of the authorizer app
+      description: Return the release version of the authorizer app.
+      operationId: version_auth_public_v1_version_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse_2'
+      security: []
+    servers:
+    - url: https://api.centaurlabs.com
+      description: Public API
+components:
+  schemas:
+    VersionResponse:
+      type: object
+      properties:
+        version:
+          type: string
+          example: 12345
+    VersionResponse_2:
+      properties:
+        version:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Version
+          examples:
+          - '12345'
+      type: object
+      title: VersionResponse
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+x-refined-from:
+- centaur-labs-label-apis-openapi.yml
+- centaur-labs-authorization-api-openapi.yml
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/get_reads-public-v1-version.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-get.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-list.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v1-version.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-get.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-getresultsarchiveurl.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-list.md
+  - https://docs.centaurlabs.com/reference/get_results-public-v2-version.md
+  - https://docs.centaurlabs.com/reference/post_reads-public-v1-lookup.md
+  merge:
+    pages: 9
+    deduped: 33
+    conflicts_kept_first: 0

@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Centaur Authorization API
+  title: Centaur Authorization Login API
   version: 1.0.0
 servers:
 - url: https://api.centaurlabs.com
@@ -8,6 +8,8 @@ servers:
 security:
 - bearerAuth: []
   ApiKeyAuth: []
+tags:
+- name: Login
 paths:
   /auth/public/v1/login:
     post:
@@ -49,124 +51,8 @@ paths:
                 $ref: '#/components/schemas/GeoRestrictedResponse'
       security:
       - ApiKeyAuth: []
-  /auth/public/v1/logout:
-    post:
-      tags:
-      - Logout
-      summary: Invalidate the current API session
-      description: Invalidate the API session of the token in the request.
-      operationId: logout_auth_public_v1_logout_post
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MessageResponse'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MessageResponse'
-  /auth/public/v1/refreshToken:
-    post:
-      tags:
-      - Refresh Token
-      summary: Invalidate the current token and return a new one
-      description: Invalidate the active token, then create and return a new one.
-      operationId: refresh_token_auth_public_v1_refreshToken_post
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/RefreshTokenResponse'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MessageResponse'
-        '403':
-          description: Country not served
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GeoRestrictedResponse'
-  /auth/public/v1/testToken:
-    post:
-      tags:
-      - Test Token
-      summary: Check that the current token is valid
-      description: Verify the active token.
-      operationId: test_token_auth_public_v1_testToken_post
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MessageResponse'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MessageResponse'
-  /auth/public/v1/version:
-    get:
-      tags:
-      - Get API Version
-      summary: Return the release version of the authorizer app
-      description: Return the release version of the authorizer app.
-      operationId: version_auth_public_v1_version_get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/VersionResponse'
-      security: []
 components:
   schemas:
-    GeoRestrictedResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          examples:
-          - Centaur isn't available in your country. Based on your location, we're unable to provide access. Questions about eligibility? Email support@centaurlabs.com
-        code:
-          type: string
-          title: Code
-          examples:
-          - restricted_country
-      type: object
-      required:
-      - message
-      - code
-      title: GeoRestrictedResponse
-      description: 'The refusal a caller gets from a country the service does not serve.
-
-
-        The `code` is a stable marker, so a client tells this apart from any other refusal
-
-        without a match on prose.'
-    MessageResponse:
-      properties:
-        message:
-          type: string
-          title: Message
-          examples:
-          - Hello!
-      type: object
-      required:
-      - message
-      title: MessageResponse
-      description: 'A one-line answer: a refusal, a greeting, or a closed session.'
     PublicLoginRequest:
       properties:
         username:
@@ -242,28 +128,41 @@ components:
       - role
       title: PublicLoginResponse
       description: The customer row a successful login returns, plus the new API token.
-    RefreshTokenResponse:
+    GeoRestrictedResponse:
       properties:
-        token:
+        message:
           type: string
-          title: Token
+          title: Message
           examples:
-          - 344545656gffgfgfgfg
+          - Centaur isn't available in your country. Based on your location, we're unable to provide access. Questions about eligibility? Email support@centaurlabs.com
+        code:
+          type: string
+          title: Code
+          examples:
+          - restricted_country
       type: object
       required:
-      - token
-      title: RefreshTokenResponse
-    VersionResponse:
+      - message
+      - code
+      title: GeoRestrictedResponse
+      description: 'The refusal a caller gets from a country the service does not serve.
+
+
+        The `code` is a stable marker, so a client tells this apart from any other refusal
+
+        without a match on prose.'
+    MessageResponse:
       properties:
-        version:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Version
+        message:
+          type: string
+          title: Message
           examples:
-          - '12345'
+          - Hello!
       type: object
-      title: VersionResponse
+      required:
+      - message
+      title: MessageResponse
+      description: 'A one-line answer: a refusal, a greeting, or a closed session.'
   securitySchemes:
     bearerAuth:
       type: http

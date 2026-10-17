@@ -1,0 +1,120 @@
+openapi: 3.2.0
+info:
+  title: Ingest Version API
+  description: Public API for importing data and managing labeling tasks, cases, projects, and assets.
+  version: 0.1.0
+servers:
+- url: https://api.centaurlabs.com
+tags:
+- name: Version
+  description: Report the running version of the Ingest API.
+paths:
+  /imports/public/api/v1/version:
+    get:
+      tags:
+      - Version
+      summary: Get Version
+      description: Returns the current version of the Ingest API.
+      operationId: get_version_imports_public_api_v1_version_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionResponse'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+components:
+  schemas:
+    VersionResponse:
+      properties:
+        version:
+          type: string
+          title: Version
+      type: object
+      required:
+      - version
+      title: VersionResponse
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      description: Your Centaur API key
+      in: header
+      name: X-API-KEY
+    BearerToken:
+      type: http
+      description: Bearer token obtained from authentication endpoint
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/add_asset_and_case_from_file_cases_public_v1_addimagefromfile_post.md
+  - https://docs.centaurlabs.com/reference/add_asset_to_task_tasks_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_assets_from_urls_imports_public_v1_addassetsfromurls_post.md
+  - https://docs.centaurlabs.com/reference/add_files_manifest_manifests_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_import_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_imports_to_task_public_tasks_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/create_project_public_projects_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/delete_case_cases_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/delete_project_projects_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/get_import_policy_imports_public_v1_policy_get_get.md
+  - https://docs.centaurlabs.com/reference/get_import_public_imports_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_manifest_manifests_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_project_projects_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_version_imports_public_api_v1_version_get.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_labelclasses_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_legacy_answers_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_existing_answers_to_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_label_class_group_labelclasses_public_v1_groups_post.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_labelclasses_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_legacy_answers_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answers_from_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_label_class_group_labelclasses_public_v1_groups__label_class_group_id__delete.md
+  - https://docs.centaurlabs.com/reference/handler_duplicate_case_cases_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/handler_get_label_class_group_labelclasses_public_v1_groups__label_class_group_id__get.md
+  - https://docs.centaurlabs.com/reference/handler_list_label_class_groups_labelclasses_public_v1_groups_get.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_answers_labelclasses_public_v1_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_label_class_groups_labelclasses_public_v1_groups_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_set_prelabels_override_cases_prelabels_public_v1_set_put.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_update_label_class_group_labelclasses_public_v1_groups__label_class_group_id__patch.md
+  - https://docs.centaurlabs.com/reference/import_delete_imports_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/list_import_imports_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/list_projects_projects_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_add_asset_tag_tags_public_v1_asset_add_post.md
+  - https://docs.centaurlabs.com/reference/public_add_tag_tags_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/public_list_asset_tags_tags_public_v1_asset_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_assets_assets_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_tags_tags_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_remove_asset_tag_tags_public_v1_asset_delete_delete.md
+  - https://docs.centaurlabs.com/reference/public_remove_tag_tags_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/set_gold_standards_override_cases_goldstandards_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/shared_add_asset_override_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/shared_get_asset_assets_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/shared_list_assets_v2_assets_public_v2_list_post.md
+  - https://docs.centaurlabs.com/reference/shared_list_series_assets_public_v1_listseries_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v2_add_post.md
+  - https://docs.centaurlabs.com/reference/task_duplicate_tasks_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/task_get_tasks_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/task_list_tasks_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/task_set_instructions_tasks_public_v1_instructions_post.md
+  - https://docs.centaurlabs.com/reference/task_update_public_tasks_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_problems_cases_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_task_tasks_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_answers_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_labelclasses_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_problem_cases_custom_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_project_public_projects_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/validate_access_imports_public_v1_validateaccess_get.md
+  merge:
+    pages: 60
+    deduped: 323
+    conflicts_kept_first: 0

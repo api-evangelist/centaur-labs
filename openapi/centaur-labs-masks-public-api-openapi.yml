@@ -1,6 +1,6 @@
-openapi: 3.1.0
+openapi: 3.2.0
 info:
-  title: Centaur Public API
+  title: Centaur Public Masks Public API
   version: 1.0.0
 servers:
 - url: https://api.centaurlabs.com
@@ -8,6 +8,8 @@ servers:
 security:
 - bearerAuth: []
   ApiKeyAuth: []
+tags:
+- name: masks-public
 paths:
   /masks/public/v1/commit:
     post:
@@ -71,58 +73,34 @@ paths:
                 $ref: '#/components/schemas/HTTPValidationError'
 components:
   schemas:
-    GeneratePresignedURLsRequest:
+    PixelMaskTiffInfo:
       properties:
-        project_id:
+        problem_id:
           type: integer
-          title: Project Id
-        task_id:
+          title: Problem Id
+        label_class_ids:
+          items:
+            type: integer
+          type: array
+          minItems: 1
+          title: Label Class Ids
+        category:
+          $ref: '#/components/schemas/MaskCategory'
+        mask_type:
+          type: string
+          const: tiff
+          title: Mask Type
+          default: tiff
+        frame_id:
           type: integer
-          title: Task Id
-        masks:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/PixelMaskTiffInfo'
-            type: array
-          - items:
-              $ref: '#/components/schemas/PixelMaskDicomSegInfo'
-            type: array
-          minLength: 1
-          title: Masks
+          title: Frame Id
       type: object
       required:
-      - project_id
-      - task_id
-      - masks
-      title: GeneratePresignedURLsRequest
-    GeneratePresignedURLsResponse:
-      properties:
-        project_id:
-          type: integer
-          title: Project Id
-        task_id:
-          type: integer
-          title: Task Id
-        masks:
-          items:
-            $ref: '#/components/schemas/PixelMaskResponseInfo'
-          type: array
-          title: Masks
-      type: object
-      required:
-      - project_id
-      - task_id
-      - masks
-      title: GeneratePresignedURLsResponse
-    HTTPValidationError:
-      properties:
-        detail:
-          items:
-            $ref: '#/components/schemas/ValidationError'
-          type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
+      - problem_id
+      - label_class_ids
+      - category
+      - frame_id
+      title: PixelMaskTiffInfo
     MaskCategory:
       type: string
       enum:
@@ -131,6 +109,63 @@ components:
       - majority_opinions
       - pre_labels
       title: MaskCategory
+    CommitMaskResponseSuccess:
+      properties:
+        mask_request_info:
+          $ref: '#/components/schemas/CommitMaskRequestMask'
+        success:
+          type: boolean
+          const: true
+          title: Success
+        frame_data:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/FrameInfo'
+            type: array
+          - type: 'null'
+          title: Frame Data
+        tiff_url:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Tiff Url
+        mask_uuid:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Mask Uuid
+      type: object
+      required:
+      - mask_request_info
+      - success
+      - frame_data
+      title: CommitMaskResponseSuccess
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
     PixelMaskDicomSegInfo:
       properties:
         problem_id:
@@ -163,125 +198,40 @@ components:
       - study_uuid
       - series_uuid
       title: PixelMaskDicomSegInfo
-    PixelMaskResponseInfo:
+    CommitMasksResponse:
       properties:
-        uuid:
-          type: string
-          title: Uuid
-        presigned_urls:
+        masks:
           items:
             anyOf:
-            - $ref: '#/components/schemas/PresignedURLsTIFFInfo'
-            - $ref: '#/components/schemas/PresignedURLsDicomSegInfo'
+            - $ref: '#/components/schemas/CommitMaskResponseSuccess'
+            - $ref: '#/components/schemas/CommitMaskResponseError'
           type: array
-          title: Presigned Urls
+          title: Masks
+        all_masks_success:
+          type: boolean
+          title: All Masks Success
       type: object
       required:
-      - uuid
-      - presigned_urls
-      title: PixelMaskResponseInfo
-    PixelMaskTiffInfo:
+      - masks
+      - all_masks_success
+      title: CommitMasksResponse
+    CommitMaskResponseError:
       properties:
-        problem_id:
-          type: integer
-          title: Problem Id
-        label_class_ids:
-          items:
-            type: integer
-          type: array
-          minItems: 1
-          title: Label Class Ids
-        category:
-          $ref: '#/components/schemas/MaskCategory'
-        mask_type:
+        mask_request_info:
+          $ref: '#/components/schemas/CommitMaskRequestMask'
+        success:
+          type: boolean
+          const: false
+          title: Success
+        error_message:
           type: string
-          const: tiff
-          title: Mask Type
-          default: tiff
-        frame_id:
-          type: integer
-          title: Frame Id
+          title: Error Message
       type: object
       required:
-      - problem_id
-      - label_class_ids
-      - category
-      - frame_id
-      title: PixelMaskTiffInfo
-    PresignedURLsDicomSegInfo:
-      properties:
-        file_url:
-          type: string
-          title: File Url
-        label_class_id:
-          type: integer
-          title: Label Class Id
-        mask_type:
-          type: string
-          const: dicom_seg
-          title: Mask Type
-        study_uuid:
-          type: string
-          title: Study Uuid
-        series_uuid:
-          type: string
-          title: Series Uuid
-      type: object
-      required:
-      - file_url
-      - label_class_id
-      - mask_type
-      - study_uuid
-      - series_uuid
-      title: PresignedURLsDicomSegInfo
-    PresignedURLsTIFFInfo:
-      properties:
-        file_url:
-          type: string
-          title: File Url
-        label_class_id:
-          type: integer
-          title: Label Class Id
-        mask_type:
-          type: string
-          const: tiff
-          title: Mask Type
-        frame_id:
-          type: integer
-          title: Frame Id
-      type: object
-      required:
-      - file_url
-      - label_class_id
-      - mask_type
-      - frame_id
-      title: PresignedURLsTIFFInfo
-    ValidationError:
-      properties:
-        loc:
-          items:
-            anyOf:
-            - type: string
-            - type: integer
-          type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-        input:
-          title: Input
-        ctx:
-          type: object
-          title: Context
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+      - mask_request_info
+      - success
+      - error_message
+      title: CommitMaskResponseError
     CommitMaskRequestMask:
       properties:
         presigned_url:
@@ -324,87 +274,15 @@ components:
       - label_class_id
       - category
       title: CommitMaskRequestMask
-    CommitMaskResponseError:
+    HTTPValidationError:
       properties:
-        mask_request_info:
-          $ref: '#/components/schemas/CommitMaskRequestMask'
-        success:
-          type: boolean
-          const: false
-          title: Success
-        error_message:
-          type: string
-          title: Error Message
-      type: object
-      required:
-      - mask_request_info
-      - success
-      - error_message
-      title: CommitMaskResponseError
-    CommitMaskResponseSuccess:
-      properties:
-        mask_request_info:
-          $ref: '#/components/schemas/CommitMaskRequestMask'
-        success:
-          type: boolean
-          const: true
-          title: Success
-        frame_data:
-          anyOf:
-          - items:
-              $ref: '#/components/schemas/FrameInfo'
-            type: array
-          - type: 'null'
-          title: Frame Data
-        tiff_url:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Tiff Url
-        mask_uuid:
-          anyOf:
-          - type: string
-          - type: 'null'
-          title: Mask Uuid
-      type: object
-      required:
-      - mask_request_info
-      - success
-      - frame_data
-      title: CommitMaskResponseSuccess
-    CommitMasksRequestPublicApi:
-      properties:
-        task_id:
-          type: integer
-          title: Task Id
-        masks:
+        detail:
           items:
-            $ref: '#/components/schemas/CommitMaskRequestMask'
+            $ref: '#/components/schemas/ValidationError'
           type: array
-          maxItems: 20
-          title: Masks
+          title: Detail
       type: object
-      required:
-      - task_id
-      - masks
-      title: CommitMasksRequestPublicApi
-    CommitMasksResponse:
-      properties:
-        masks:
-          items:
-            anyOf:
-            - $ref: '#/components/schemas/CommitMaskResponseSuccess'
-            - $ref: '#/components/schemas/CommitMaskResponseError'
-          type: array
-          title: Masks
-        all_masks_success:
-          type: boolean
-          title: All Masks Success
-      type: object
-      required:
-      - masks
-      - all_masks_success
-      title: CommitMasksResponse
+      title: HTTPValidationError
     FrameInfo:
       properties:
         tiff_url:
@@ -422,6 +300,130 @@ components:
       - tiff_url
       - mask_uuid
       title: FrameInfo
+    CommitMasksRequestPublicApi:
+      properties:
+        task_id:
+          type: integer
+          title: Task Id
+        masks:
+          items:
+            $ref: '#/components/schemas/CommitMaskRequestMask'
+          type: array
+          maxItems: 20
+          title: Masks
+      type: object
+      required:
+      - task_id
+      - masks
+      title: CommitMasksRequestPublicApi
+    PixelMaskResponseInfo:
+      properties:
+        uuid:
+          type: string
+          title: Uuid
+        presigned_urls:
+          items:
+            anyOf:
+            - $ref: '#/components/schemas/PresignedURLsTIFFInfo'
+            - $ref: '#/components/schemas/PresignedURLsDicomSegInfo'
+          type: array
+          title: Presigned Urls
+      type: object
+      required:
+      - uuid
+      - presigned_urls
+      title: PixelMaskResponseInfo
+    GeneratePresignedURLsResponse:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        task_id:
+          type: integer
+          title: Task Id
+        masks:
+          items:
+            $ref: '#/components/schemas/PixelMaskResponseInfo'
+          type: array
+          title: Masks
+      type: object
+      required:
+      - project_id
+      - task_id
+      - masks
+      title: GeneratePresignedURLsResponse
+    GeneratePresignedURLsRequest:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        task_id:
+          type: integer
+          title: Task Id
+        masks:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/PixelMaskTiffInfo'
+            type: array
+          - items:
+              $ref: '#/components/schemas/PixelMaskDicomSegInfo'
+            type: array
+          minLength: 1
+          title: Masks
+      type: object
+      required:
+      - project_id
+      - task_id
+      - masks
+      title: GeneratePresignedURLsRequest
+    PresignedURLsTIFFInfo:
+      properties:
+        file_url:
+          type: string
+          title: File Url
+        label_class_id:
+          type: integer
+          title: Label Class Id
+        mask_type:
+          type: string
+          const: tiff
+          title: Mask Type
+        frame_id:
+          type: integer
+          title: Frame Id
+      type: object
+      required:
+      - file_url
+      - label_class_id
+      - mask_type
+      - frame_id
+      title: PresignedURLsTIFFInfo
+    PresignedURLsDicomSegInfo:
+      properties:
+        file_url:
+          type: string
+          title: File Url
+        label_class_id:
+          type: integer
+          title: Label Class Id
+        mask_type:
+          type: string
+          const: dicom_seg
+          title: Mask Type
+        study_uuid:
+          type: string
+          title: Study Uuid
+        series_uuid:
+          type: string
+          title: Series Uuid
+      type: object
+      required:
+      - file_url
+      - label_class_id
+      - mask_type
+      - study_uuid
+      - series_uuid
+      title: PresignedURLsDicomSegInfo
   securitySchemes:
     bearerAuth:
       type: http

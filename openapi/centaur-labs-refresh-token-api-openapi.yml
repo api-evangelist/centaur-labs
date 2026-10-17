@@ -1,0 +1,111 @@
+openapi: 3.2.0
+info:
+  title: Centaur Authorization Refresh Token API
+  version: 1.0.0
+servers:
+- url: https://api.centaurlabs.com
+  description: Public API
+security:
+- bearerAuth: []
+  ApiKeyAuth: []
+tags:
+- name: Refresh Token
+paths:
+  /auth/public/v1/refreshToken:
+    post:
+      tags:
+      - Refresh Token
+      summary: Invalidate the current token and return a new one
+      description: Invalidate the active token, then create and return a new one.
+      operationId: refresh_token_auth_public_v1_refreshToken_post
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshTokenResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+        '403':
+          description: Country not served
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeoRestrictedResponse'
+components:
+  schemas:
+    GeoRestrictedResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          examples:
+          - Centaur isn't available in your country. Based on your location, we're unable to provide access. Questions about eligibility? Email support@centaurlabs.com
+        code:
+          type: string
+          title: Code
+          examples:
+          - restricted_country
+      type: object
+      required:
+      - message
+      - code
+      title: GeoRestrictedResponse
+      description: 'The refusal a caller gets from a country the service does not serve.
+
+
+        The `code` is a stable marker, so a client tells this apart from any other refusal
+
+        without a match on prose.'
+    RefreshTokenResponse:
+      properties:
+        token:
+          type: string
+          title: Token
+          examples:
+          - 344545656gffgfgfgfg
+      type: object
+      required:
+      - token
+      title: RefreshTokenResponse
+    MessageResponse:
+      properties:
+        message:
+          type: string
+          title: Message
+          examples:
+          - Hello!
+      type: object
+      required:
+      - message
+      title: MessageResponse
+      description: 'A one-line answer: a refusal, a greeting, or a closed session.'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/login_auth_public_v1_login_post.md
+  - https://docs.centaurlabs.com/reference/logout_auth_public_v1_logout_post.md
+  - https://docs.centaurlabs.com/reference/refresh_token_auth_public_v1_refreshtoken_post.md
+  - https://docs.centaurlabs.com/reference/test_token_auth_public_v1_testtoken_post.md
+  - https://docs.centaurlabs.com/reference/version_auth_public_v1_version_get.md
+  merge:
+    pages: 5
+    deduped: 12
+    conflicts_kept_first: 0

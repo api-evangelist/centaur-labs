@@ -1,0 +1,746 @@
+openapi: 3.2.0
+info:
+  title: Ingest Create and Manage Cases API
+  description: Public API for importing data and managing labeling tasks, cases, projects, and assets.
+  version: 0.1.0
+servers:
+- url: https://api.centaurlabs.com
+tags:
+- name: Create and Manage Cases
+  description: Create, duplicate, update, and delete the individual cases that labelers work on.
+paths:
+  /cases/custom/v1/update:
+    patch:
+      tags:
+      - Create and Manage Cases
+      summary: Update Case
+      description: Updates properties of an existing case, including answers, notes, explanations, and frame assets.
+      operationId: update_problem_cases_custom_v1_update_patch
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: query_params
+        in: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/UpdateProblemRequest'
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          title: Task Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DatabaseExistingProblem'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      requestBody:
+        content:
+          application/json:
+            examples:
+              problem_update_example:
+                summary: Problem Update Example
+                value:
+                  problem_id: 123
+                  problem_properties:
+                    pre_answer_explainer: Updated explainer text
+                    internal_notes: Updated internal notes
+                    problem_explanation: Updated explanation
+                  answers:
+                  - new_option1
+                  - new_option2
+                  - new_option3
+                  frames:
+                  - frame_id: 1
+                    frame_asset:
+                    - view_order: 0
+                      text_highlight:
+                      - - 0
+                        - 15
+                      - - 25
+                        - 40
+  /cases/public/v1/delete:
+    delete:
+      tags:
+      - Create and Manage Cases
+      summary: Delete a case from a task
+      description: Deletes a specific case from a task by task ID and case ID.
+      operationId: delete_case_cases_public_v1_delete_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: task_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Task ID
+          title: Task Id
+        description: Task ID
+      - name: case_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Case ID
+          title: Case Id
+        description: Case ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /cases/public/v1/duplicate:
+    post:
+      tags:
+      - Create and Manage Cases
+      summary: Duplicate one or more cases from a task
+      description: Duplicates cases from a source task into a target task, optionally copying gold standards and labels.
+      operationId: handler_duplicate_case_cases_public_v1_duplicate_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateCaseFields'
+              examples:
+              - project_id: 123
+                source_task_id: 789
+                target_task_id: 101
+                case_ids:
+                - 201
+                - 202
+                copy_pre_answer_explainers: true
+                copy_patches: true
+                copy_gold_standards: true
+                copy_internal_notes: true
+                copy_explanations: true
+                copy_tags: true
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Handler Duplicate Case Cases Public V1 Duplicate Post
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /tasks/assets/public/v1/add:
+    post:
+      tags:
+      - Create and Manage Cases
+      summary: Add a single asset to a task
+      description: Creates a case for a single asset in a task, identified by content ID or origin.
+      operationId: add_asset_to_task_tasks_assets_public_v1_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddAssetToTaskBody'
+              examples:
+              - task_id: 123
+                content_id: 456
+              - task_id: 789
+                origin: scan_001.dcm
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddAssetToTaskResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /tasks/imports/public/v1/add:
+    post:
+      tags:
+      - Create and Manage Cases
+      summary: Add imports to a task
+      description: Adds one or more imports to a task, creating cases for all assets in those imports.
+      operationId: add_imports_to_task_public_tasks_imports_public_v1_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddImportsToTaskBody'
+              examples:
+              - task_id: 123
+                import_ids:
+                - 456
+                - 789
+        required: true
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+components:
+  schemas:
+    ProblemExplanation:
+      properties:
+        explanation:
+          type: string
+          title: Explanation
+        created_by_customer_id:
+          type: integer
+          title: Created By Customer Id
+      additionalProperties: false
+      type: object
+      required:
+      - explanation
+      - created_by_customer_id
+      title: ProblemExplanation
+    ProblemLabelingState:
+      type: string
+      enum:
+      - canceled
+      - user_flagged
+      - active
+      - qa
+      - silver_standard
+      - unresolved
+      - ignore
+      - ready
+      - done
+      - on_deck
+      - ready_gold_standard
+      - gold_standard
+      title: ProblemLabelingState
+      description: 'The labeling states a problem can be in.
+
+
+        games.labeling_states also carries a `tutorial` row, which is retired and deliberately
+
+        not modelled here. The sync test asserts it is the only such state, so a genuinely new
+
+        one fails CI rather than going unnoticed.'
+    AddAssetToTaskResponse:
+      properties:
+        case_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Case Id
+      type: object
+      required:
+      - case_id
+      title: AddAssetToTaskResponse
+    DatabaseProblemAsset:
+      properties:
+        project_id:
+          type: integer
+          title: Project Id
+        asset_id:
+          type: integer
+          title: Asset Id
+        text_highlight:
+          anyOf:
+          - items:
+              prefixItems:
+              - type: integer
+                minimum: 0
+              - type: integer
+                minimum: 0
+              type: array
+              maxItems: 2
+              minItems: 2
+            type: array
+            unique_items: true
+          - type: 'null'
+          title: Text Highlight
+        slice:
+          anyOf:
+          - $ref: '#/components/schemas/DatabaseAssetSlice'
+          - type: 'null'
+        asset_tags:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/AssetTags'
+            type: array
+            minLength: 1
+            unique_items: true
+          - type: 'null'
+          title: Asset Tags
+        view_order:
+          type: integer
+          title: View Order
+      type: object
+      required:
+      - project_id
+      - asset_id
+      - view_order
+      title: DatabaseProblemAsset
+    DatabaseFrame:
+      properties:
+        is_target:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Is Target
+        frame_asset:
+          items:
+            $ref: '#/components/schemas/DatabaseProblemAsset'
+          type: array
+          minItems: 1
+          title: Frame Asset
+          unique_items: true
+        frame_id:
+          type: integer
+          title: Frame Id
+        answers:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/AnswerClass'
+            type: array
+            maxLength: 20
+            unique_items: true
+          - type: 'null'
+          title: Answers
+      type: object
+      required:
+      - frame_asset
+      - frame_id
+      title: DatabaseFrame
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    AddAssetToTaskBody:
+      properties:
+        task_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+        content_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Content Id
+        origin:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Origin
+      type: object
+      required:
+      - task_id
+      title: AddAssetToTaskBody
+    DatabaseAssetSlice:
+      properties:
+        slicing_recipe_id:
+          type: integer
+          title: Slicing Recipe Id
+        slice_boundaries:
+          prefixItems:
+          - type: integer
+            minimum: 0
+          - type: integer
+            minimum: 0
+          type: array
+          maxItems: 2
+          minItems: 2
+          title: Slice Boundaries
+        slice_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Slice Id
+      additionalProperties: false
+      type: object
+      required:
+      - slicing_recipe_id
+      - slice_boundaries
+      title: DatabaseAssetSlice
+    ProblemParent:
+      properties:
+        parent_topic_id:
+          type: integer
+          title: Parent Topic Id
+        parent_problem_id:
+          type: integer
+          title: Parent Problem Id
+        notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Notes
+      additionalProperties: false
+      type: object
+      required:
+      - parent_topic_id
+      - parent_problem_id
+      title: ProblemParent
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    DatabaseProblemProperties:
+      properties:
+        pre_answer_explainer:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Pre Answer Explainer
+        internal_notes:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Internal Notes
+        patch:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Patch
+        problem_explanation:
+          anyOf:
+          - $ref: '#/components/schemas/ProblemExplanation'
+          - type: 'null'
+        labeling_state:
+          $ref: '#/components/schemas/ProblemLabelingState'
+          default: on_deck
+      type: object
+      title: DatabaseProblemProperties
+    DuplicateCaseFields:
+      properties:
+        project_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Project Id
+        source_task_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Source Task Id
+        target_task_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Target Task Id
+        case_ids:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          maxItems: 20000
+          minItems: 0
+          title: Case Ids
+          unique_items: true
+        copy_pre_answer_explainers:
+          type: boolean
+          title: Copy Pre Answer Explainers
+          default: false
+        copy_patches:
+          type: boolean
+          title: Copy Patches
+          default: true
+        copy_gold_standards:
+          type: boolean
+          title: Copy Gold Standards
+          default: false
+        copy_internal_notes:
+          type: boolean
+          title: Copy Internal Notes
+          default: false
+        copy_explanations:
+          type: boolean
+          title: Copy Explanations
+          default: false
+        copy_tags:
+          type: boolean
+          title: Copy Tags
+          default: false
+        copy_slicing_recipes:
+          type: boolean
+          title: Copy Slicing Recipes
+          default: true
+      type: object
+      required:
+      - project_id
+      - source_task_id
+      - target_task_id
+      - case_ids
+      title: DuplicateCaseFields
+    AnswerClass:
+      additionalProperties: true
+      type: object
+    ProblemTags:
+      properties:
+        tag_text:
+          type: string
+          title: Tag Text
+        customer_data_tag_id:
+          type: integer
+          title: Customer Data Tag Id
+        organization_id:
+          type: integer
+          title: Organization Id
+        problem_tag_created_by_customer_id:
+          type: integer
+          title: Problem Tag Created By Customer Id
+        tag_created_by_customer_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tag Created By Customer Id
+      additionalProperties: false
+      type: object
+      required:
+      - tag_text
+      - customer_data_tag_id
+      - organization_id
+      - problem_tag_created_by_customer_id
+      title: ProblemTags
+    DatabaseExistingProblem:
+      properties:
+        problem_parent:
+          anyOf:
+          - $ref: '#/components/schemas/ProblemParent'
+          - type: 'null'
+        problem_properties:
+          $ref: '#/components/schemas/DatabaseProblemProperties'
+        frames:
+          items:
+            $ref: '#/components/schemas/DatabaseFrame'
+          type: array
+          minItems: 1
+          title: Frames
+          unique_items: true
+        problem_tags:
+          anyOf:
+          - items:
+              $ref: '#/components/schemas/ProblemTags'
+            type: array
+            minLength: 1
+            unique_items: true
+          - type: 'null'
+          title: Problem Tags
+        topic_id:
+          type: integer
+          title: Topic Id
+        problem_id:
+          type: integer
+          title: Problem Id
+      type: object
+      required:
+      - frames
+      - topic_id
+      - problem_id
+      title: DatabaseExistingProblem
+    AssetTags:
+      properties:
+        tag_text:
+          type: string
+          title: Tag Text
+        customer_data_tag_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Customer Data Tag Id
+        organization_id:
+          type: integer
+          title: Organization Id
+        asset_tag_created_by_customer_id:
+          type: integer
+          title: Asset Tag Created By Customer Id
+        tag_created_by_customer_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Tag Created By Customer Id
+      additionalProperties: false
+      type: object
+      required:
+      - tag_text
+      - organization_id
+      - asset_tag_created_by_customer_id
+      title: AssetTags
+    AddImportsToTaskBody:
+      properties:
+        task_id:
+          type: integer
+          exclusiveMinimum: 0
+          title: Task Id
+        import_ids:
+          items:
+            type: integer
+            exclusiveMinimum: 0
+          type: array
+          minItems: 1
+          title: Import Ids
+          unique_items: true
+        ignore_gaps:
+          type: boolean
+          title: Ignore Gaps
+          default: false
+      type: object
+      required:
+      - task_id
+      - import_ids
+      title: AddImportsToTaskBody
+    UpdateProblemRequest:
+      properties:
+        task_id:
+          type: integer
+          title: Task Id
+        force_action:
+          anyOf:
+          - type: string
+            enum:
+            - wipe
+            - preserve
+          - type: 'null'
+          title: Force Action
+      type: object
+      required:
+      - task_id
+      title: UpdateProblemRequest
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      description: Your Centaur API key
+      in: header
+      name: X-API-KEY
+    BearerToken:
+      type: http
+      description: Bearer token obtained from authentication endpoint
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/add_asset_and_case_from_file_cases_public_v1_addimagefromfile_post.md
+  - https://docs.centaurlabs.com/reference/add_asset_to_task_tasks_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_assets_from_urls_imports_public_v1_addassetsfromurls_post.md
+  - https://docs.centaurlabs.com/reference/add_files_manifest_manifests_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_import_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_imports_to_task_public_tasks_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/create_project_public_projects_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/delete_case_cases_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/delete_project_projects_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/get_import_policy_imports_public_v1_policy_get_get.md
+  - https://docs.centaurlabs.com/reference/get_import_public_imports_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_manifest_manifests_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_project_projects_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_version_imports_public_api_v1_version_get.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_labelclasses_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_legacy_answers_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_existing_answers_to_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_label_class_group_labelclasses_public_v1_groups_post.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_labelclasses_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_legacy_answers_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answers_from_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_label_class_group_labelclasses_public_v1_groups__label_class_group_id__delete.md
+  - https://docs.centaurlabs.com/reference/handler_duplicate_case_cases_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/handler_get_label_class_group_labelclasses_public_v1_groups__label_class_group_id__get.md
+  - https://docs.centaurlabs.com/reference/handler_list_label_class_groups_labelclasses_public_v1_groups_get.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_answers_labelclasses_public_v1_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_label_class_groups_labelclasses_public_v1_groups_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_set_prelabels_override_cases_prelabels_public_v1_set_put.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_update_label_class_group_labelclasses_public_v1_groups__label_class_group_id__patch.md
+  - https://docs.centaurlabs.com/reference/import_delete_imports_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/list_import_imports_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/list_projects_projects_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_add_asset_tag_tags_public_v1_asset_add_post.md
+  - https://docs.centaurlabs.com/reference/public_add_tag_tags_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/public_list_asset_tags_tags_public_v1_asset_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_assets_assets_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_tags_tags_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_remove_asset_tag_tags_public_v1_asset_delete_delete.md
+  - https://docs.centaurlabs.com/reference/public_remove_tag_tags_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/set_gold_standards_override_cases_goldstandards_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/shared_add_asset_override_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/shared_get_asset_assets_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/shared_list_assets_v2_assets_public_v2_list_post.md
+  - https://docs.centaurlabs.com/reference/shared_list_series_assets_public_v1_listseries_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v2_add_post.md
+  - https://docs.centaurlabs.com/reference/task_duplicate_tasks_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/task_get_tasks_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/task_list_tasks_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/task_set_instructions_tasks_public_v1_instructions_post.md
+  - https://docs.centaurlabs.com/reference/task_update_public_tasks_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_problems_cases_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_task_tasks_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_answers_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_labelclasses_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_problem_cases_custom_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_project_public_projects_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/validate_access_imports_public_v1_validateaccess_get.md
+  merge:
+    pages: 60
+    deduped: 323
+    conflicts_kept_first: 0

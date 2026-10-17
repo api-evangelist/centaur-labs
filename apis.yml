@@ -146,9 +146,11 @@ common:
 
 apis:
 - name: Centaur Public API
-  description: Public REST API for importing data and managing labeling projects, tasks, cases, assets, gold standards, prelabels, tags and for
-    downloading aggregated labeling results. Split across several versioned apps (auth, imports, tasks, labelClasses, cases, reads, results, tags,
-    projects, manifests, masks) served under a single host.
+  description: >-
+    Public REST API for importing data and managing labeling projects, tasks, cases, assets, gold standards,
+    prelabels, tags and for downloading aggregated labeling results. Split across several versioned apps
+    (auth, imports, tasks, labelClasses, cases, reads, results, tags, projects, manifests, masks) served
+    under a single host.
   humanURL: https://docs.centaurlabs.com/reference
   baseURL: https://api.centaurlabs.com
   properties:
@@ -174,22 +176,24 @@ apis:
     url: data-model/centaur-labs-data-model.yml
   - type: X-MCPServerCandidate
     url: mcp/centaur-labs-mcp.yml
-    note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published
-      API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting
-      the artifact-type surfaces with a server that does not exist.'
+    note: >-
+      Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+      — a tool list derived from the published API contracts, not an existing server. The scorer already
+      read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+      surfaces with a server that does not exist.
   - type: AgentSkill
     url: skills/_index.yml
   aid: centaur-labs:centaur-public-api
-- aid: centaur-labs:centaur-labs-authorization-api
-  name: Centaur Labs Labs Authorization API
-  description: The Labs Authorization API from Centaur Labs — 5 operation(s) for labs authorization.
+- aid: centaur-labs:centaur-labs-add-and-manage-labels-api
+  name: Centaur Labs Add and Manage Labels API
+  description: Set and remove gold standard answers and prelabels on the cases in a task.
   humanURL: https://docs.centaurlabs.com/reference
   baseURL: https://api.centaurlabs.com
   tags:
-  - Labs Authorization
+  - Add and Manage Labels
   properties:
   - type: OpenAPI
-    url: openapi/centaur-labs-authorization-api-openapi.yml
+    url: openapi/centaur-labs-add-and-manage-labels-api-openapi.yml
   - type: JSONSchema
     url: json-schema/centaur-labs-public-login-response-schema.json
   - type: JSONSchema
@@ -200,16 +204,6 @@ apis:
     url: json-schema/centaur-labs-refresh-token-response-schema.json
   - type: JSONSchema
     url: json-schema/centaur-labs-version-response-schema.json
-- aid: centaur-labs:centaur-labs-ingest-api
-  name: Centaur Labs Add and Manage Labels API
-  description: Set and remove gold standard answers and prelabels on the cases in a task.
-  humanURL: https://docs.centaurlabs.com/reference
-  baseURL: https://api.centaurlabs.com
-  tags:
-  - Add and Manage Labels
-  properties:
-  - type: OpenAPI
-    url: openapi/centaur-labs-ingest-api-openapi.yml
   - type: JSONSchema
     url: json-schema/centaur-labs-task-range-v2-schema.json
   - type: JSONSchema
@@ -222,16 +216,6 @@ apis:
     url: json-schema/centaur-labs-existing-task-range-schema.json
   - type: JSONSchema
     url: json-schema/centaur-labs-existing-task-classification-schema.json
-- aid: centaur-labs:centaur-labs-label-apis
-  name: Centaur Labs Labs Label Apis Openapi.Yml API
-  description: The Labs Label Apis Openapi.Yml API from Centaur Labs — 9 operation(s) for labs label apis openapi.yml.
-  humanURL: https://docs.centaurlabs.com/reference
-  baseURL: https://api.centaurlabs.com
-  tags:
-  - Labs Label Apis Openapi.Yml
-  properties:
-  - type: OpenAPI
-    url: openapi/centaur-labs-label-apis-openapi.yml
   - type: JSONSchema
     url: json-schema/centaur-labs-case-result-schema.json
   - type: JSONSchema
@@ -244,16 +228,6 @@ apis:
     url: json-schema/centaur-labs-reads-lookup-schema.json
   - type: JSONSchema
     url: json-schema/centaur-labs-reads-lookup-request-schema.json
-- aid: centaur-labs:centaur-labs-public-api
-  name: Centaur Labs Labs Public API
-  description: The Labs Public API from Centaur Labs — 2 operation(s) for labs public.
-  humanURL: https://docs.centaurlabs.com/reference
-  baseURL: https://api.centaurlabs.com
-  tags:
-  - Labs Public
-  properties:
-  - type: OpenAPI
-    url: openapi/centaur-labs-public-api-openapi.yml
   - type: JSONSchema
     url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
   - type: JSONSchema
@@ -262,7 +236,789 @@ apis:
     url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
   - type: JSONSchema
     url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
-
+- aid: centaur-labs:centaur-labs-add-and-manage-projects-api
+  name: Centaur Labs Add and Manage Projects API
+  description: Create, update, list, and delete projects.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Add and Manage Projects
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-add-and-manage-projects-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-add-and-manage-tasks-api
+  name: Centaur Labs Add and Manage Tasks API
+  description: >-
+    Create and configure labeling tasks, including their answer classes, label class groups, and instructions.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Add and Manage Tasks
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-add-and-manage-tasks-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-create-and-manage-cases-api
+  name: Centaur Labs Create and Manage Cases API
+  description: Create, duplicate, update, and delete the individual cases that labelers work on.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Create and Manage Cases
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-create-and-manage-cases-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-get-api-version-api
+  name: Centaur Labs Get API Version API
+  description: The Get API Version API from Centaur Labs — 4 operation(s) for get api version.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Get API Version
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-get-api-version-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-get-case-results-api
+  name: Centaur Labs Get Case Results API
+  description: The Get Case Results API from Centaur Labs — 2 operation(s) for get case results.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Get Case Results
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-get-case-results-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-get-task-results-api
+  name: Centaur Labs Get Task Results API
+  description: The Get Task Results API from Centaur Labs — 3 operation(s) for get task results.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Get Task Results
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-get-task-results-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-import-and-manage-data-api
+  name: Centaur Labs Import and Manage Data API
+  description: >-
+    Import assets from cloud storage or URLs, and manage the resulting assets and file manifests.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Import and Manage Data
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-import-and-manage-data-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-login-api
+  name: Centaur Labs Login API
+  description: The Login API from Centaur Labs — 1 operation(s) for login.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Login
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-login-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-logout-api
+  name: Centaur Labs Logout API
+  description: The Logout API from Centaur Labs — 1 operation(s) for logout.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Logout
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-logout-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-masks-public-api
+  name: Centaur Labs Masks Public API
+  description: The masks-public API from Centaur Labs — 2 operation(s) for masks-public.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - masks-public
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-masks-public-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-reads-opinions-lookup-api
+  name: Centaur Labs Reads (Opinions) Lookup API
+  description: >-
+    The Reads (Opinions) Lookup API from Centaur Labs — 1 operation(s) for reads (opinions) lookup.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Reads (Opinions) Lookup
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-reads-opinions-lookup-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-refresh-token-api
+  name: Centaur Labs Refresh Token API
+  description: The Refresh Token API from Centaur Labs — 1 operation(s) for refresh token.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Refresh Token
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-refresh-token-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-tags-api
+  name: Centaur Labs Tags API
+  description: Organize cases and assets by applying, removing, and listing tags.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-tags-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-test-token-api
+  name: Centaur Labs Test Token API
+  description: The Test Token API from Centaur Labs — 1 operation(s) for test token.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Test Token
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-test-token-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
+- aid: centaur-labs:centaur-labs-version-api
+  name: Centaur Labs Version API
+  description: Report the running version of the Ingest API.
+  humanURL: https://docs.centaurlabs.com/reference
+  baseURL: https://api.centaurlabs.com
+  tags:
+  - Version
+  properties:
+  - type: OpenAPI
+    url: openapi/centaur-labs-version-api-openapi.yml
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-public-login-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-message-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-refresh-token-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-version-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-range-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-v2-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-segmentation-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-range-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-existing-task-classification-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-result-list-v1-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-case-result-list-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-reads-lookup-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-request-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-generate-presigned-urls-response-schema.json
+  - type: JSONSchema
+    url: json-schema/centaur-labs-commit-masks-request-public-api-schema.json
 x-enrichment:
   date: '2026-07-19'
   status: backfilled

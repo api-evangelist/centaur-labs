@@ -1,0 +1,579 @@
+openapi: 3.2.0
+info:
+  title: Ingest Add and Manage Projects API
+  description: Public API for importing data and managing labeling tasks, cases, projects, and assets.
+  version: 0.1.0
+servers:
+- url: https://api.centaurlabs.com
+tags:
+- name: Add and Manage Projects
+  description: Create, update, list, and delete projects.
+paths:
+  /projects/public/v1/add:
+    post:
+      tags:
+      - Add and Manage Projects
+      summary: Create new project
+      description: Creates a new project in the specified organization
+      operationId: create_project_public_projects_public_v1_add_post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectParams'
+              examples:
+              - name: My Image Project
+                description: A project for labeling medical images
+                content_type: image
+                contains_image_series: false
+                copy_files: true
+                views:
+                - view: axial
+                  index: 0
+                - view: coronal
+                  index: 1
+              - name: Text Classification Project
+                description: Classify customer feedback
+                content_type: text
+                copy_files: false
+              - name: DICOM Series Project
+                description: Medical imaging with series
+                content_type: dicom
+                contains_image_series: true
+                copy_files: true
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+  /projects/public/v1/delete:
+    delete:
+      tags:
+      - Add and Manage Projects
+      summary: Delete project
+      description: Deletes a project by its ID
+      operationId: delete_project_projects_public_v1_delete_delete
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Project ID
+          title: Project Id
+        description: Project ID
+      responses:
+        '202':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: string
+                title: Response Delete Project Projects Public V1 Delete Delete
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /projects/public/v1/get:
+    get:
+      tags:
+      - Add and Manage Projects
+      summary: Get project information
+      description: Returns detailed information about a project by its ID
+      operationId: get_project_projects_public_v1_get_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Project ID
+          title: Project Id
+        description: Project ID
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /projects/public/v1/list:
+    get:
+      tags:
+      - Add and Manage Projects
+      summary: List your available projects
+      description: Returns a paginated list of projects, optionally filtered by organization or search term.
+      operationId: list_projects_projects_public_v1_list_get
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: search_term
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: string
+          - type: 'null'
+          description: An optional search term to filter on
+          title: Search Term
+        description: An optional search term to filter on
+      - name: last_sequence_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: The paging token containing the last sequence ID from the previous page
+          title: Last Sequence Id
+        description: The paging token containing the last sequence ID from the previous page
+      - name: limit
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            maximum: 1000
+            minimum: 1
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: The maximum number of results per page
+          default: 100
+          title: Limit
+        description: The maximum number of results per page
+      - name: organization_id
+        in: query
+        required: false
+        schema:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          description: Organization ID for filtering
+          title: Organization Id
+        description: Organization ID for filtering
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectListResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /projects/public/v1/set:
+    patch:
+      tags:
+      - Add and Manage Projects
+      summary: Update project
+      description: Updates project information
+      operationId: update_project_public_projects_public_v1_set_patch
+      security:
+      - APIKeyHeader: []
+      - BearerToken: []
+      parameters:
+      - name: project_id
+        in: query
+        required: true
+        schema:
+          type: integer
+          description: Project ID
+          title: Project Id
+        description: Project ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectParams'
+              examples:
+              - name: Updated Project Name
+                description: Updated project description
+              - content_type: image
+                copy_files: true
+                views:
+                - view: axial
+                  index: 0
+                - view: sagittal
+                  index: 1
+              - name: New Project Title
+                description: Completely new description
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProjectResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError
+    CreateProjectParams:
+      properties:
+        organization_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Organization Id
+          description: Organization ID
+          default: 1
+        name:
+          type: string
+          maxLength: 60
+          minLength: 1
+          title: Name
+          description: The project's title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The project's description
+        copy_files:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Copy Files
+          description: Whether to copy files from the source bucket into Centaur's AWS bucket
+        content_type:
+          $ref: '#/components/schemas/ContentType'
+          description: The content type of the project
+          default: image
+        contains_image_series:
+          type: boolean
+          title: Contains Image Series
+          description: Whether the project contains image data belonging to discrete ordered groupings
+          default: false
+        views:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 20
+              minLength: 1
+            type: array
+            maxLength: 10
+            minLength: 1
+            unique_items: true
+          - type: 'null'
+          title: Views
+          description: All view names that should be associated with the project
+      type: object
+      required:
+      - name
+      title: CreateProjectParams
+    UpdateProjectParams:
+      properties:
+        name:
+          anyOf:
+          - type: string
+            maxLength: 60
+            minLength: 1
+          - type: 'null'
+          title: Name
+          description: The project's title
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+          description: The project's description
+        content_type:
+          anyOf:
+          - $ref: '#/components/schemas/ContentType'
+          - type: 'null'
+          description: The content type of the project
+        copy_files:
+          anyOf:
+          - type: boolean
+          - type: 'null'
+          title: Copy Files
+          description: Whether to copy files from the source bucket into Centaur's AWS bucket
+        views:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 20
+              minLength: 1
+            type: array
+            maxItems: 10
+            minItems: 1
+          - type: 'null'
+          title: Views
+          description: All view names that should be associated with the project. All existing views will be overwritten unless explicitly provided here
+      type: object
+      title: UpdateProjectParams
+    ProjectListResponse:
+      properties:
+        payload:
+          items:
+            $ref: '#/components/schemas/ProjectResponse'
+          type: array
+          title: Payload
+          description: The list of projects
+        has_next:
+          type: boolean
+          title: Has Next
+          description: Whether or not the list of assets has reached the end
+        last_sequence_id:
+          anyOf:
+          - type: integer
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Last Sequence Id
+          description: If has_next is true, the last_sequence_id is the token that should accompany the next request to get the following page of results
+        limit:
+          anyOf:
+          - type: integer
+            maximum: 1000
+            minimum: 1
+            exclusiveMinimum: 0
+          - type: 'null'
+          title: Limit
+          description: The maximum number of labeling results to retrieve per page
+          default: 100
+      type: object
+      required:
+      - payload
+      - has_next
+      title: ProjectListResponse
+    ProjectResponse:
+      properties:
+        org_id:
+          anyOf:
+          - type: integer
+          - type: 'null'
+          title: Org Id
+          default: 1
+        name:
+          type: string
+          maxLength: 60
+          minLength: 1
+          title: Name
+        content_type:
+          $ref: '#/components/schemas/ContentType'
+        description:
+          anyOf:
+          - type: string
+          - type: 'null'
+          title: Description
+        contains_image_series:
+          type: boolean
+          title: Contains Image Series
+          default: false
+        copy_files:
+          type: boolean
+          title: Copy Files
+        views:
+          anyOf:
+          - items:
+              type: string
+              maxLength: 20
+              minLength: 1
+            type: array
+            maxLength: 10
+            minLength: 1
+            unique_items: true
+          - type: 'null'
+          title: Views
+        project_id:
+          type: integer
+          title: Project Id
+        task_types:
+          items:
+            type: string
+          type: array
+          title: Task Types
+          description: Distinct task types used in this project
+        dataset_type:
+          anyOf:
+          - $ref: '#/components/schemas/DatasetTypes'
+          - type: 'null'
+          description: The dataset type of the project
+        created_at:
+          anyOf:
+          - type: string
+            format: date-time
+          - type: 'null'
+          title: Created At
+          description: When the project was created
+      type: object
+      required:
+      - name
+      - content_type
+      - copy_files
+      - project_id
+      title: ProjectResponse
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ContentType:
+      type: string
+      enum:
+      - image
+      - video
+      - audio
+      - text
+      - html
+      - dicom
+      - pdf
+      title: ContentType
+    DatasetTypes:
+      type: string
+      enum:
+      - study_break
+      - research
+      - sample
+      - inactive_customer
+      - test
+      - customer
+      title: DatasetTypes
+  securitySchemes:
+    APIKeyHeader:
+      type: apiKey
+      description: Your Centaur API key
+      in: header
+      name: X-API-KEY
+    BearerToken:
+      type: http
+      description: Bearer token obtained from authentication endpoint
+      scheme: bearer
+x-provenance:
+  method: searched
+  source: https://docs.centaurlabs.com/reference
+  harvested: '2026-10-14'
+  tool: harvest-readme-openapi.py
+  note: Assembled verbatim from the OpenAPI definition ReadMe embeds in each operation page of the provider's developer portal; paths and components merged by API title, nothing authored.
+  assembled_from:
+  - https://docs.centaurlabs.com/reference/add_asset_and_case_from_file_cases_public_v1_addimagefromfile_post.md
+  - https://docs.centaurlabs.com/reference/add_asset_to_task_tasks_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_assets_from_urls_imports_public_v1_addassetsfromurls_post.md
+  - https://docs.centaurlabs.com/reference/add_files_manifest_manifests_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_import_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/add_imports_to_task_public_tasks_imports_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/create_project_public_projects_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/delete_case_cases_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/delete_project_projects_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/get_import_policy_imports_public_v1_policy_get_get.md
+  - https://docs.centaurlabs.com/reference/get_import_public_imports_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_manifest_manifests_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_project_projects_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/get_version_imports_public_api_v1_version_get.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_labelclasses_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_answer_legacy_answers_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_existing_answers_to_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_post.md
+  - https://docs.centaurlabs.com/reference/handler_add_label_class_group_labelclasses_public_v1_groups_post.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_labelclasses_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answer_legacy_answers_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_answers_from_label_class_group_labelclasses_public_v1_groups__label_class_group_id__answers_delete.md
+  - https://docs.centaurlabs.com/reference/handler_delete_label_class_group_labelclasses_public_v1_groups__label_class_group_id__delete.md
+  - https://docs.centaurlabs.com/reference/handler_duplicate_case_cases_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/handler_get_label_class_group_labelclasses_public_v1_groups__label_class_group_id__get.md
+  - https://docs.centaurlabs.com/reference/handler_list_label_class_groups_labelclasses_public_v1_groups_get.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_answers_labelclasses_public_v1_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_reorder_label_class_groups_labelclasses_public_v1_groups_reorder_put.md
+  - https://docs.centaurlabs.com/reference/handler_set_prelabels_override_cases_prelabels_public_v1_set_put.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_problems_cases_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_unset_prelabels_from_task_tasks_prelabels_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/handler_update_label_class_group_labelclasses_public_v1_groups__label_class_group_id__patch.md
+  - https://docs.centaurlabs.com/reference/import_delete_imports_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/list_import_imports_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/list_projects_projects_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_add_asset_tag_tags_public_v1_asset_add_post.md
+  - https://docs.centaurlabs.com/reference/public_add_tag_tags_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/public_list_asset_tags_tags_public_v1_asset_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_assets_assets_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_list_tags_tags_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/public_remove_asset_tag_tags_public_v1_asset_delete_delete.md
+  - https://docs.centaurlabs.com/reference/public_remove_tag_tags_public_v1_delete_delete.md
+  - https://docs.centaurlabs.com/reference/set_gold_standards_override_cases_goldstandards_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/shared_add_asset_override_assets_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/shared_get_asset_assets_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/shared_list_assets_v2_assets_public_v2_list_post.md
+  - https://docs.centaurlabs.com/reference/shared_list_series_assets_public_v1_listseries_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v1_add_post.md
+  - https://docs.centaurlabs.com/reference/task_add_public_tasks_public_v2_add_post.md
+  - https://docs.centaurlabs.com/reference/task_duplicate_tasks_public_v1_duplicate_post.md
+  - https://docs.centaurlabs.com/reference/task_get_tasks_public_v1_get_get.md
+  - https://docs.centaurlabs.com/reference/task_list_tasks_public_v1_list_get.md
+  - https://docs.centaurlabs.com/reference/task_set_instructions_tasks_public_v1_instructions_post.md
+  - https://docs.centaurlabs.com/reference/task_update_public_tasks_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_problems_cases_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/unset_gs_from_task_tasks_goldstandards_public_v1_unset_delete.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_answers_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_label_classes_labelclasses_public_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_problem_cases_custom_v1_update_patch.md
+  - https://docs.centaurlabs.com/reference/update_project_public_projects_public_v1_set_patch.md
+  - https://docs.centaurlabs.com/reference/validate_access_imports_public_v1_validateaccess_get.md
+  merge:
+    pages: 60
+    deduped: 323
+    conflicts_kept_first: 0
