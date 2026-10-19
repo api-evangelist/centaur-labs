@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.centaurlabs.com/openapi/centaur-label-apis.json",
+ "requested_url": "https://docs.centaurlabs.com/openapi/centaur-label-apis.json",
+ "status": 200,
+ "content_type": "application/json; charset=utf-8",
+ "bytes": 23635,
+ "sha256": "8936f836947839033f2ff1dca564da20c9f84994521c1d1959de996efe9ed8b3",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
